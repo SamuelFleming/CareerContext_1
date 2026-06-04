@@ -80,11 +80,6 @@ careercontext/
       models/
       routes/
       services/
-        ai/
-        auth/
-        documents/
-        experiences/
-        opportunities/
       prompts/
       utils/
     uploads/
