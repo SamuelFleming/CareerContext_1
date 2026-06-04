@@ -10,8 +10,7 @@ The initial focus is local development, rapid implementation, and strong portfol
 
 ### Frontend
 
-- React
-- Vite
+- React (and appropriate libaries)
 - React Router
 - CSS Modules, SCSS, Tailwind, or custom CSS system
 - Optional UI support:
