@@ -52,11 +52,11 @@ The database remains the source of truth. AI acts as an assistant layer over the
 
 ## Key Concepts
 
-## User
+### User
 
 A person using the app to manage career context and job applications.
 
-## Core Context
+### Core Context
 
 A user-written unstructured profile summary describing:
 
@@ -75,7 +75,7 @@ Example:
 
 Core Context is intentionally user-authored. AI may help polish or summarise it later, but the MVP should preserve the user's own voice and intent.
 
-## Experience
+### Experience
 
 A major container of professional or academic experience.
 
@@ -87,7 +87,7 @@ Examples:
 - Spotify SongMap
 - University course or certification
 
-## Activity
+### Activity
 
 A structured piece of evidence belonging to an experience.
 
@@ -101,17 +101,17 @@ Examples:
 - project documentation
 - frontend component development
 
-## Journal Entry
+### Journal Entry
 
 A rough, timestamped note that may contain unstructured content, technical details, code snippets, progress notes, or reflections.
 
 Journal entries can later be linked to activities or transformed into polished activity summaries.
 
-## Opportunity
+### Opportunity
 
 A job, internship, contract, or other professional opportunity the user is considering.
 
-## Document
+### Document
 
 A stored piece of written content such as:
 
@@ -123,7 +123,7 @@ A stored piece of written content such as:
 
 ---
 
-# Core Flows
+# Core Application Flows
 
 ## Flow 1 — Profile Setup Happy Path
 
@@ -280,57 +280,6 @@ Can manage their own:
 
 ---
 
-# Critical State Changes
-
-## User
-
-```text
-Unauthenticated → Registered → Authenticated
-```
-
-## Profile
-
-```text
-Incomplete → Basic Profile Created → Core Context Added → Resume Added
-```
-
-## Experience
-
-```text
-Draft → AI Polished → User Approved → Active
-```
-
-## Activity
-
-```text
-Raw → AI Structured → User Approved → Linked to Experience
-```
-
-## Journal Entry
-
-```text
-Captured → Reviewed → Linked to Activity OR Converted to Activity
-```
-
-## Opportunity
-
-```text
-Saved → Extracted → Evaluated → Applied / Archived
-```
-
-## Document
-
-```text
-Generated Draft → Edited → Final / Archived
-```
-
-## AI Output
-
-```text
-Requested → Generated → Reviewed → Accepted / Rejected / Regenerated
-```
-
----
 
 # The Role of AI
 
@@ -340,26 +289,94 @@ The database stores the user's approved career data. AI helps transform and reas
 
 ## AI Responsibilities
 
-1. **Extract**
-   - Turn raw job descriptions into structured opportunity data.
+### 1. Extraction
+> Take messy user text and turn it into structured fields.
 
-2. **Polish**
-   - Turn rough notes into clearer experience and activity summaries.
+#### Example:
 
-3. **Structure**
-   - Identify skills, technologies, outcomes, responsibilities, and role signals.
+* Input: “I did backend lead stuff on the BEDA project, used Node, MySQL, helped design the architecture…”
+* AI turns that into:
 
-4. **Retrieve**
-   - Help identify which experiences and activities are relevant to an opportunity.
+```
+{
+  "summary": "Served as backend and technical lead for a university-industry project...",
+  "skills": [
+      "backend architecture", "Node.js", "MySQL", "technical leadership"],
+  "technologies": [
+      "Next.js", "Node.js", "Express", "MySQL"
+   ]
+}
+```
 
-5. **Evaluate**
-   - Compare the user's profile against job requirements.
+Structured Outputs are useful here because they can enforce schema-shaped responses rather than freeform text.
 
-6. **Generate**
-   - Draft cover letters, resume summaries, and application notes.
+### 2. Normalisation
 
-7. **Explain**
-   - Show why certain experiences were selected.
+> Convert rough user notes into consistent reusable “experience cards.”
+
+This is where you build a persistent library of polished content.
+
+### 3. Retrieval
+
+> When a job description is added, the app should find the most relevant experiences and activities.
+
+This can be done with embeddings/vector search. OpenAI describes embeddings as vector representations that preserve aspects of content meaning and are useful for search, clustering, recommendations, classification, and similar tasks.
+
+### 4. Evaluation
+> User's suitability towards opportunities by retrieval and comparison of experiences (and activities) to opportunity requirements
+
+GPT compares:
+
+```
+Opportunity requirements
+vs
+User experiences
+vs
+Activities/evidence
+vs
+Core resume
+```
+
+Output (may include):
+- match score
+- strengths
+- gaps
+- suggested positioning
+- application strategy
+
+### 5. Generation
+> Creation of exportable real-world functional documents
+
+GPT creates:
+
+- cover letter (MVP)
+ - resume summary
+
+- Future iterations (not in MVP)
+   - tailored resume bullets
+   - interview talking points
+   - recruiter message 
+
+But the generated content should be grounded in stored experiences. This matters because OpenAI itself notes that model output may not always be accurate and should be reviewed for accuracy and appropriateness before use.
+
+## AI - The main design principle
+
+The app should be built around this loop:
+
+```
+Raw experience input
+→ AI cleans and structures it
+→ User approves it
+→ App stores it
+→ Opportunity is added
+→ AI retrieves relevant evidence
+→ AI evaluates fit
+→ AI generates application material
+→ User edits/approves
+→ Document is stored/versioned
+```
+
+That gives you a proper product, not just a prompt box.
 
 ## AI Guardrails
 
