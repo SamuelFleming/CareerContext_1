@@ -2,28 +2,24 @@
 
 ## Developer Context
 
-CareerContext comes from a real job-market problem faced by the developer.
-
-The developer is building a career profile across:
+CareerContext comes from a real job-market problem faced by the developer. The developer is building a career profile across:
 
 - full-stack development experience
-- public sector software work
-- university software projects
-- technical leadership experience
-- MERN stack development
-- .NET, Angular, SQL, and API development
+    - legacy tech: - .NET, Angular, SQL, and API development
+    - public sector, Grad level
+- some university software projects
+- tertiary technical leadership experience
 - emerging AI-first development practices
-- personal software projects and portfolio work
+- evolving personal software projects and portfolio work
+    - only recent MERN stack development
 
 The developer already uses AI tools to evaluate jobs and draft cover letters. However, the repeated difficulty is maintaining a reliable body of personal career context that can be reused across different applications.
 
 ## The Problem Behind the Project
 
-AI can write strong application material when it has good context.
+AI can write strong application material when it has good context. The paint points of applying for jobs now rests in:
 
-The pain point is not simply writing the cover letter. The pain point is:
-
-- remembering the right experiences
+- recalling the right experiences
 - retrieving the strongest examples
 - keeping project details organised
 - turning rough notes into polished summaries
@@ -33,9 +29,9 @@ The pain point is not simply writing the cover letter. The pain point is:
 
 CareerContext is designed to solve that context-management problem.
 
-## Portfolio Story
+## Portfolio Story - For the Developer
 
-CareerContext is an AI-first MERN stack application that demonstrates how large language models can be integrated into a practical, domain-specific workflow.
+CareerContext is an AI-first MERN stack application that demonstrates how large language models can be integrated into a practical, domain-specific workflow. It also displays strategic thinking and the ability to transfer a real-world problem into a usable solution. 
 
 The project shows the developer's ability to:
 
@@ -62,14 +58,14 @@ It is a job-market portfolio project that directly helps the developer apply for
 The project can demonstrate:
 
 - MERN stack application development
-- React component design
-- Express API design
-- MongoDB document modelling
+    - React component design
+    - Express API design
+    - MongoDB document modelling
 - authentication and protected routes
 - CRUD workflows
 - AI integration
-- prompt orchestration
-- structured AI outputs
+    - prompt orchestration
+    - structured AI outputs
 - document ingestion and management
 - UX design thinking
 - application state design
