@@ -75,7 +75,8 @@ Raw notes are the user's least structured input. They may include:
 - project observations
 - etc
 
-Raw notes are valuable because they capture detail close to when the work happened. For the purpose of the app, raw notes can further be abstracted as '**Journal Entries**' which are essentially timestamped captures of raw professional context.
+Raw notes are valuable because they capture detail close to when the work happened. For the purpose of the app, the idea is for raw notes to be abstracted as '**Journal Entries**' which are essentially timestamped captures of raw professional context.
+> The ratioale for 'Journal' Entries are primarily a UI feature to encourage consistent usage of the app as a workspace for career (activity/experience) evidence - the relational concept for these is intended to be fairly basic (for instance, no dumping of journal enties and the ML/AI calssification/extraction into existsing vs new activities => that would be an out of scope concpet)
 
 They exist because users should not need to perfectly structure their experience upfront. A user should be able to dump messy notes and organise them later. A Journal Entry can be:
 
