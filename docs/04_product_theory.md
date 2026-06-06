@@ -106,7 +106,7 @@ Activities should be specific enough to use in a cover letter, resume bullet, in
 
 ## Experiences
 
-Experiences are larger containers that group Activities.
+Experiences are larger containers that group Activities. Thought as being what captures the scope of what would be a list itme on a resume under 'experience'.
 
 Examples:
 
@@ -140,21 +140,15 @@ It should explain:
 - what role direction they are pursuing
 - what constraints or preferences matter
 
-Core Context is not the same as a resume. It is more personal, strategic, and directional.
+Core Context is not the same as a resume. It is more personal, strategic, and directional description. It is for the purpose to gives AI the user's current positioning. A short example:
 
-It gives AI the user's current positioning.
-
-Example:
-
-> I am dual bachelor qualified in Computer Science and Business Management, currently completing a master's degree and working in a full-stack .NET public sector role. I am interested in modern web technologies, AI-first development, and roles with more autonomy, ownership, and technical growth.
+> I am dual bachelor qualified in Computer Science and Business Management, currently completing a master's degree and working in a full-stack .NET public sector graduate role. I am interested in modern web technologies, AI-first development, and roles with more autonomy, ownership, and technical growth.
 
 ---
 
 # The Opportunity Model
 
-An Opportunity is an external target.
-
-It may be:
+An Opportunity is an external target. It may be:
 
 - a job advertisement
 - an internship
@@ -164,9 +158,7 @@ It may be:
 - an internal role
 - a speculative company target
 
-The Opportunity contains the external language of the market.
-
-This includes:
+The Opportunity is expected to contain the external language of the market suitable for evaluation against collective content of activites and the user's core context. Such language includes:
 
 - required skills
 - desired skills
@@ -186,18 +178,16 @@ CareerContext should translate this external opportunity into structured require
 
 An Evaluation compares the user's stored evidence against an Opportunity.
 
-Evaluation should not simply ask: "Is this user good?"
+Evaluation should not simply ask: "*Is this user good?*" It should ask:
 
-It should ask:
-
-- What evidence supports this application?
-- Which Activities best match the opportunity?
-- Which Experiences are most relevant?
-- What parts of the user's Core Context align with this role?
-- What gaps or weak areas exist?
-- What positioning strategy would make sense?
-- Is this role worth applying for?
-- What should the user emphasise?
+- *"What evidence supports this application?"*
+- *"Which Activities best match the opportunity?"*
+- *"Which Experiences are most relevant?"*
+- *"What parts of the user's Core Context align with this role?"*
+- *"What gaps or weak areas exist?"*
+- *"What positioning strategy would make sense?"*
+- *"Is this role worth applying for?"*
+- *"What should the user emphasise?"*
 
 An Evaluation is therefore a reasoning artefact.
 
@@ -223,8 +213,8 @@ Documents may include:
 - uploaded core resume
 - generated cover letter
 - targeted resume summary
-- resume bullet suggestions
-- opportunity evaluation report
+- **evaluation** reports, of types such as:
+   - Opportunity fit, resume bullets, etc
 - application notes
 
 The key theory is:
@@ -234,14 +224,15 @@ The key theory is:
 For example, a cover letter should be generated from:
 
 ```text
-Core Context
-+ selected Experiences
-+ selected Activities
-+ relevant Journal-derived evidence
-+ Opportunity requirements
+   Core Context
++  selected Experiences 
++  selected Activities (and relevant Journal-derived evidence)
++  Opportunity requirements
+
+=> COVER LETTER
 ```
 
-The generated document should not invent unsupported claims.
+The generated document **should not invent unsupported claims**.
 
 ---
 
@@ -288,11 +279,9 @@ Reviewed to Stored
 
 CareerContext should keep the user in control.
 
-AI can suggest, polish, retrieve, evaluate, and generate. However, the user should approve meaningful changes before they become part of the persistent profile.
+> AI can suggest, polish, retrieve, evaluate, and generate. However, the user should approve meaningful changes before they become part of the persistent profile.
 
-This matters because career evidence is personal and reputational.
-
-The app should preserve:
+This matters because career evidence is personal and reputational. The app should preserve:
 
 - raw input
 - AI suggestions
@@ -332,7 +321,9 @@ User captures more work
 → User is encouraged to keep capturing work
 ```
 
-This is why the Journal feature matters. It lowers the friction of capturing experience before the user knows how that experience will be useful.
+This is why the Journal feature matters. It lowers the friction of capturing experience before the user knows how that experience will be useful. 
+
+With this, emphasis on a structure/limit for a higher level representation on parent entities can be benficial to manage the size of information presentaiton and retrieval. For instance, with long-term consistent usage of the App, there is potential for an Experience to amass a large number of activities and quantity of content (if Activities have alot of Journal Entries), so maintaining an accurate higher-level abstraction at each level is essential.
 
 ---
 
