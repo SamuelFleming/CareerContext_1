@@ -567,7 +567,7 @@ Components:
 
 ---
 
-# Component Hierarchy Example
+# Component Hierarchy Examples
 
 ## 4. Dashboard
 

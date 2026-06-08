@@ -41,6 +41,7 @@ The app should preserve rough user input as well as AI-polished content. This su
 ### 4. Journal Entries Should Lower Capture Friction
 
 Journal Entries should allow users to capture messy notes without needing to decide immediately how they fit into the broader career profile. This implies a mechanism of being able to allocate entries to particular Experience and/or Activities. Note:
+- However, Journal entries not tied to an experience/activity do not contribute to evaluations and/or document generation, they must fit in the evidence model as being attached to an activity
 
 
 ### 5. Generated Documents Should Link Back to Evidence
@@ -93,16 +94,12 @@ Represents an authenticated person using the app.
 
 ```js
 {
-  _id,
+  _id, 
   email,
   passwordHash,
   name,
   headline,
   coreContext,
-  currentRole,
-  targetRole,
-  targetTechnologies,
-  careerInterests,
   coreResumeDocumentId,
   createdAt,
   updatedAt
@@ -113,7 +110,7 @@ Represents an authenticated person using the app.
 
 `coreContext` should remain flexible and user-authored. It may be a long text field in the MVP.
 
-The fields `currentRole`, `targetRole`, `targetTechnologies`, and `careerInterests` can support UI widgets and filtering, but the main narrative should live in `coreContext`.
+I think `coreContext` should have it's own updatedAt (or 'last updated'). This is because it allows visibility to how up to date the core context is.
 
 ---
 
@@ -127,33 +124,27 @@ Represents a major block of career, project, academic, or professional context.
 {
   _id,
   userId,
-  type,
+  type,             // Enum
   title,
-  organisation,
-  role,
+  organisation,     // Optional 
+  role,             
   dateStart,
-  dateEnd,
+  dateEnd,          // Optional, could be ongoing
   isCurrent,
   overviewRaw,
-  overviewPolished,
-  technologies,
-  skills,
+  overviewPolished, // .md
+  technologies,     // List / Subset
+  skills,           // List / Subset
   sourceDocumentIds,
   createdAt,
   updatedAt
 }
 ```
 
-### Type Options
+### `type` Options
 
 ```text
-job
-project
-course
-certification
-volunteering
-personal_project
-other
+job, project, course, certification, personal_project, other
 ```
 
 ### Notes
@@ -161,8 +152,6 @@ other
 An Experience should provide context for Activities.
 
 For MVP simplicity, different kinds of experience can share one schema and be distinguished by `type`.
-
-Later, specific subtypes can be added if required.
 
 ---
 
@@ -178,13 +167,11 @@ Represents a specific reusable piece of career evidence inside an Experience.
   userId,
   experienceId,
   title,
-  rawDescription,
-  polishedSummary,
-  bulletPoints,
-  technologies,
-  skills,
+  rawDescription,   
+  polishedSummary,  // .md
+  technologies,     // List / Subset
+  skills,           // List / Subset
   outcomes,
-  senioritySignals,
   evidenceStrength,
   linkedJournalEntryIds,
   createdAt,
@@ -198,12 +185,10 @@ Activities are the main evidence units used by AI when evaluating opportunities 
 
 `evidenceStrength` can be a simple enum or numeric value later. In the MVP, it may be omitted or manually assigned.
 
-### Evidence Strength Options
+### `evidenceStrength` Options
 
 ```text
-low
-medium
-high
+low, medium, high
 ```
 
 ---
@@ -218,28 +203,22 @@ Represents rough timestamped notes that may later become structured evidence.
 {
   _id,
   userId,
-  experienceId,
-  activityId,
+  experienceId,           // (For linking)
+  activityId,             // (For linking)
   title,
   content,
   tags,
-  codeSnippets,
-  sourceDate,
-  convertedToActivityId,
+  sourceDate,             // Optional, defaults to createdAt when empty
   status,
   createdAt,
   updatedAt
 }
 ```
 
-### Status Options
-
+### `status` Options
+Captures the usage for the Journal in that instance, and as a minimum needs to denote whether it is archived or linked.
 ```text
-raw
-reviewed
-linked
-converted
-archived
+raw, reviewed, linked, converted, archived
 ```
 
 ### Notes
@@ -247,9 +226,8 @@ archived
 A JournalEntry may link to:
 
 - no Experience yet
-- one Experience
+- one Experience (whereas the entry would be converted into an activity)
 - one Activity
-- a future converted Activity
 
 This flexibility allows low-friction capture.
 
@@ -267,52 +245,33 @@ Represents a job or professional opportunity being considered by the user.
   userId,
   title,
   company,
-  role,
   url,
   origin,
   rawDescription,
-  extractedRequirements,
-  extractedSkills,
-  extractedResponsibilities,
-  seniorityLevel,
-  workMode,
-  location,
+  extractedSkills, extractedTechnologies, //List // Subset
+  workMode, seniorityLevel, extractedRequirements, extractedResponsibilities, // future usage (not MVP?)
   status,
   createdAt,
   updatedAt
 }
 ```
 
-### Status Options
+### `status` Options
 
 ```text
-saved
-extracted
-evaluated
-applied
-interviewing
-rejected
-archived
+saved, extracted, evaluated, applied, expired
 ```
 
-### Seniority Options
+### `seniorityLevel` Options
 
 ```text
-graduate
-junior
-mid
-senior
-lead
-unknown
+graduate, junior, mid, senior, lead, unknown
 ```
 
-### Work Mode Options
+### `workMode` Options
 
 ```text
-onsite
-hybrid
-remote
-unknown
+onsite, hybrid, remote, unknown
 ```
 
 ### Notes
@@ -325,7 +284,7 @@ Extracted fields are AI-assisted and should be reviewable/editable.
 
 ## Evaluation
 
-Represents an AI-supported assessment of the user's fit for an Opportunity.
+Represents an AI-supported assessment. 
 
 ### Fields
 
@@ -333,20 +292,30 @@ Represents an AI-supported assessment of the user's fit for an Opportunity.
 {
   _id,
   userId,
-  opportunityId,
+  type,
   summary,
-  fitScore,
-  strengths,
-  gaps,
-  recommendedPositioning,
-  relevantExperienceIds,
-  relevantActivityIds,
+  fitScore, strengths, gaps, recommendedPositioning, confidence, //future usage (not MVP?)
+  relevantExperienceIds,  // Maybe omitted
+  relevantActivityIds,    // Maybe omitted
   evidenceNotes,
-  confidence,
+  opportunityIds,
   aiRunId,
   createdAt,
   updatedAt
 }
+```
+
+
+### `type` Evaluation
+Although the obvious case for an evaluation is to compare the user's context toward an opportunity, it would be counter-productive to pigeon-hole the evaluation entity to just this case See [04-Product Theory: Evlauation Model](./04_product_theory.md/#the-evaluation-model). Hence, a type will be used to track what type of evaluation. Here are some examples of types of evaluations.
+
+```js
+opportunity_fit,            // how the user fits the opportunity
+oportunity_best-activities, // what are the user's best activites for a given opportunity
+opportunities_fit,          // compare more than on opportunity
+experiences_summary,        // summarise the user's experiences
+activities_summary-rank,    // rank the user most prolific activites
+[..etc..]
 ```
 
 ### Notes
@@ -354,6 +323,8 @@ Represents an AI-supported assessment of the user's fit for an Opportunity.
 The MVP may store only the latest evaluation on the Opportunity, but a separate Evaluation entity is cleaner because it supports versioning and comparison later.
 
 `fitScore` should be treated as directional, not mathematically objective.
+
+> For MVP, evalutaion output may not be structured into `fitscore`, `strengths`, `gaps`, `recommendedPositioning`, `confidence`, `evidenceNotes` instead will be a sinlge summary.md which encapsulates this info in an unstructured way.
 
 ---
 
@@ -372,12 +343,8 @@ Represents uploaded, generated, or edited written artefacts.
   title,
   content,
   filePath,
-  mimeType,
-  version,
   status,
-  sourceExperienceIds,
-  sourceActivityIds,
-  sourceJournalEntryIds,
+  sourceExperienceIds, sourceActivityIds, sourceJournalEntryIds, // future (not MVP?)
   sourceEvaluationId,
   aiRunId,
   createdAt,
@@ -385,20 +352,18 @@ Represents uploaded, generated, or edited written artefacts.
 }
 ```
 
-### Type Options
+### `type` Options
 
 ```text
 core_resume
 cover_letter
-targeted_resume
-resume_summary
 resume_bullets
 application_notes
 evaluation_report
-other
+other...
 ```
 
-### Status Options
+### `status` Options
 
 ```text
 draft
@@ -408,9 +373,7 @@ archived
 
 ### Notes
 
-For MVP, generated documents can be stored as plain text or Markdown.
-
-PDF/DOCX export can be deferred.
+For MVP, generated documents can be stored as plain text or Markdown. PDF/DOCX export can be deferred, but these types for document uploads will be persisted.
 
 ---
 
@@ -438,8 +401,8 @@ Represents one AI interaction.
 }
 ```
 
-### Type Options
-
+### `type` Options/Examples
+- This will be an evolutionary list (as new usages of AI are found and injected into the solution) and can be persisted with pointers to the prompts stored in the source code
 ```text
 experience_polish
 activity_polish
@@ -452,19 +415,15 @@ resume_summary_generation
 other
 ```
 
-### Status Options
+### `status` Options
 
 ```text
-requested
-completed
-failed
-rejected
-accepted
+requested, completed, failed, rejected, accepted
 ```
 
 ### Notes
 
-The app does not need to store every full prompt in MVP, but it should at least store:
+The entity does not need to store every full prompt in MVP, but it should at least store:
 
 - AI run type
 - target entity
@@ -473,7 +432,7 @@ The app does not need to store every full prompt in MVP, but it should at least 
 - status
 - created date
 
-This helps debugging and demonstrates AI workflow design.
+This helps debugging and demonstrates AI workflow design. For now we will plan prompts to persisted in the source code (with a register mechanism), not as their own entities - minimise complexity.
 
 ---
 
@@ -573,7 +532,7 @@ This keeps the implementation fast.
 
 Core Context should initially live directly on the User/Profile model.
 
-It can be extracted into a separate Profile model later if profile complexity grows.
+It can be extracted into a separate Profile model later if profile complexity grows (which there is no intentio for it to)
 
 ## Keep Journal Entries Separate
 
@@ -581,8 +540,9 @@ Journal Entries should not be collapsed into Activities.
 
 The distinction is useful:
 
-- JournalEntry = raw capture
-- Activity = structured reusable evidence
+- **JournalEntry** = raw capture
+  - *JournalEntry inputs into Activity*
+- **Activity** = structured reusable evidence
 
 ## Use Separate Evaluation Entity
 
@@ -592,6 +552,8 @@ Even though Evaluation could be embedded on Opportunity, a separate entity bette
 - regeneration
 - comparison
 - traceability
+- variation / product evolution
+  - [AI evaluations might evolve into cases where opporunities are not invloved]
 
 ## Use Document for Both Uploaded and Generated Content
 
@@ -660,7 +622,7 @@ This keeps document handling consistent.
 
 # Future Data Model Enhancements
 
-Future versions may add:
+Apart from those that have already been noted in the data model (as being potentially non-MVP), future versions may add:
 
 - Skill taxonomy
 - Technology taxonomy
@@ -681,13 +643,13 @@ Future versions may add:
 
 These should be resolved during solution design:
 
-1. ~~Should `CoreContext` eventually become its own collection?~~
-2. ~~Should Journal Entries support multiple Activity links?~~
+1. ~~Should `CoreContext` eventually become its own collection?~~ - NO
+2. ~~Should Journal Entries support multiple Activity links?~~ - NO, Journal links to one, or becomes one activity
 3. ~~Should Activities support direct links to Documents?~~
-4. ~~Should generated Documents store full source snapshots or only IDs?~~
-5. ~~Should evaluations be regenerated each time an Opportunity changes?~~
-6. Should AI outputs be stored before or only after user approval?
-7. Should job application status live on Opportunity or a separate Application entity?
-8. How much resume parsing is needed for MVP?
-9. Should code snippets be stored as plain embedded objects or separate entities?
-10. Should the MVP include embeddings/vector search or simple keyword/context selection first?
+4. ~~Should generated Documents store full source snapshots or only IDs?~~ 
+5. ~~Should evaluations be regenerated each time an Opportunity changes?~~ - NO
+6. Should AI outputs be stored before or only after user approval? - YES
+7. ~~Should job application status live on Opportunity or a separate Application entity?~~ - NO, is beyond scope 
+8. ~~How much resume parsing is needed for MVP?~~ - Input into AIRuns
+9. ~~Should code snippets be stored as plain embedded objects or separate entities?~~ - Neither, just as part of RAW text
+10. Should the MVP include embeddings/vector search or simple keyword/context selection first? - IDK Yet
