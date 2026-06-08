@@ -31,6 +31,7 @@ The database remains the source of truth. AI acts as an assistant layer over the
 - Opportunity CRUD
 - AI-assisted opportunity extraction
 - AI-assisted experience/activity polishing
+   - With new infomation and/or Journal Entries
 - AI fit evaluation
 - AI cover letter generation
 - Saved generated documents
@@ -105,7 +106,7 @@ Examples:
 
 A rough, timestamped note that may contain unstructured content, technical details, code snippets, progress notes, or reflections.
 
-Journal entries can later be linked to activities or transformed into polished activity summaries.
+Journal entries can later be linked to existing activities, or transformed into new activities (when linked to an experience) triggering the updates or creation of AI-polished activity summaries.
 
 ### Opportunity
 
@@ -160,14 +161,12 @@ The user begins building a reusable career evidence base.
 
 1. User creates a rough Journal Entry.
 2. Journal Entry may include messy notes, task details, code snippets, links, or reflections.
-3. User selects "Convert to Activity" or "Attach to Existing Activity".
+3. User selects "Convert to Activity/Add to Experience" or "Attach to Existing Activity".
 4. AI suggests:
-   - activity title
    - polished summary
    - skills
    - technologies
    - outcomes
-   - possible resume bullets
 5. User reviews and saves.
 
 ### Value Delivered
@@ -182,8 +181,7 @@ The app supports professional journaling without forcing the user to structure e
 2. User pastes a job description.
 3. User optionally adds company, role title, URL, and origin/source.
 4. AI extracts:
-   - required skills
-   - desired skills
+   - required/desired skills
    - responsibilities
    - seniority level
    - keywords
@@ -350,7 +348,7 @@ Output (may include):
 GPT creates:
 
 - cover letter (MVP)
- - resume summary
+- resume summary
 
 - Future iterations (not in MVP)
    - tailored resume bullets

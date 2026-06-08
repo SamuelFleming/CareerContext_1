@@ -331,7 +331,7 @@ The project should feel more like a career workspace than a form-heavy admin sys
 
 ## Public Screens
 
-### Landing Page
+### 1. Landing Page
 
 Purpose:
 - Explain the product.
@@ -350,7 +350,7 @@ Components:
 
 ## Auth Screens
 
-### Login
+### 2. Login
 
 Data:
 - email
@@ -360,7 +360,7 @@ Actions:
 - login
 - redirect to dashboard
 
-### Register
+### 3. Register
 
 Data:
 - name
@@ -375,7 +375,7 @@ Actions:
 
 ## App Screens
 
-### Dashboard
+### 4. Dashboard
 
 Purpose:
 - User's home base.
@@ -397,7 +397,7 @@ Components:
 
 ---
 
-### Profile / Core Context
+### 5. Profile / Core Context
 
 Purpose:
 - Manage user profile, career state, career direction, and core resume.
@@ -415,7 +415,7 @@ Components:
 
 ---
 
-### Experiences Index
+### 6. Experiences Index
 
 Purpose:
 - Browse all experiences.
@@ -431,7 +431,7 @@ Components:
 
 ---
 
-### Experience Detail
+### 7. Experience Detail
 
 Purpose:
 - View and manage one experience.
@@ -451,7 +451,7 @@ Components:
 
 ---
 
-### Activity Detail
+### 8. Activity Detail
 
 Purpose:
 - View and edit an activity.
@@ -473,7 +473,8 @@ Components:
 
 ---
 
-### Journal
+
+### 9. Journal
 
 Purpose:
 - Capture rough professional notes.
@@ -490,7 +491,7 @@ Components:
 
 ---
 
-### Opportunities Index
+### 10. Opportunities Index
 
 Purpose:
 - Browse saved opportunities.
@@ -507,7 +508,7 @@ Components:
 
 ---
 
-### Opportunity Detail
+### 11. Opportunity Detail
 
 Purpose:
 - Review a job and generate AI outputs.
@@ -528,7 +529,7 @@ Components:
 
 ---
 
-### Document Detail
+### 12. Document Detail
 
 Purpose:
 - View and edit generated documents.
@@ -547,7 +548,7 @@ Components:
 
 ---
 
-### Opportunity Compare
+### 13. Opportunity Compare
 
 Purpose:
 - Compare selected opportunities.
@@ -568,7 +569,7 @@ Components:
 
 # Component Hierarchy Example
 
-## Dashboard
+## 4. Dashboard
 
 ```text
 DashboardPage
@@ -586,7 +587,7 @@ DashboardPage
         DocumentMiniCard
 ```
 
-## Opportunity Detail
+## 11. Opportunity Detail
 
 ```text
 OpportunityDetailPage
@@ -600,7 +601,7 @@ OpportunityDetailPage
       DocumentGenerationPanel
 ```
 
-## Experience Detail
+## 7. Experience Detail
 
 ```text
 ExperienceDetailPage
@@ -618,7 +619,7 @@ ExperienceDetailPage
 
 # State and Data Binding
 
-## Dashboard
+## 4. Dashboard
 
 Fetches:
 
@@ -629,7 +630,7 @@ GET /api/opportunities?limit=5
 GET /api/documents?limit=5
 ```
 
-## Profile Screen
+## 5. Profile Screen
 
 Fetches:
 
@@ -644,7 +645,7 @@ PUT /api/profile
 PUT /api/profile/core-context
 ```
 
-## Experiences Index
+## 6. Experiences Index
 
 Fetches:
 
@@ -652,7 +653,7 @@ Fetches:
 GET /api/experiences
 ```
 
-## Experience Detail
+## 7. Experience Detail
 
 Fetches:
 
@@ -662,7 +663,7 @@ GET /api/experiences/:id/activities
 GET /api/journal?experienceId=:id
 ```
 
-## Opportunity Detail
+## 11. Opportunity Detail
 
 Fetches:
 
@@ -679,7 +680,7 @@ POST /api/opportunities/:id/evaluate
 POST /api/opportunities/:id/generate-cover-letter
 ```
 
-## Document Detail
+## 12. Document Detail
 
 Fetches:
 
