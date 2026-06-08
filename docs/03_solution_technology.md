@@ -123,7 +123,9 @@ services/ai/
 
 ---
 
-# Initial Data Model
+# Initial (Simplified) Data Model
+The simpler MVP model could be
+
 
 ## User
 
@@ -132,11 +134,8 @@ services/ai/
   email,
   passwordHash,
   name,
-  headline,
-  coreContext,
-  coreResumeDocumentId,
-  createdAt,
-  updatedAt
+  coreContextMd,
+  coreResumeMd
 }
 ```
 
@@ -151,13 +150,8 @@ services/ai/
   role,
   dateStart,
   dateEnd,
-  overviewRaw,
-  overviewPolished,
-  technologies,
-  skills,
-  sourceDocumentIds,
-  createdAt,
-  updatedAt
+  rawOverviewMd,
+  polishedOverviewMd
 }
 ```
 
@@ -168,16 +162,8 @@ services/ai/
   userId,
   experienceId,
   title,
-  rawDescription,
-  polishedSummary,
-  bulletPoints,
-  technologies,
-  skills,
-  outcomes,
-  senioritySignals,
-  linkedJournalEntryIds,
-  createdAt,
-  updatedAt
+  rawContentMd,
+  polishedContentMd
 }
 ```
 
@@ -189,11 +175,7 @@ services/ai/
   experienceId,
   activityId,
   title,
-  content,
-  tags,
-  codeSnippets,
-  createdAt,
-  updatedAt
+  contentMd
 }
 ```
 
@@ -204,16 +186,11 @@ services/ai/
   userId,
   title,
   company,
-  role,
   url,
-  origin,
-  rawDescription,
-  extractedRequirements,
-  extractedSkills,
-  seniorityLevel,
-  status,
-  createdAt,
-  updatedAt
+  rawDescriptionMd,
+  extractedSummaryMd,
+  evaluationMd,
+  status
 }
 ```
 
@@ -225,13 +202,8 @@ services/ai/
   opportunityId,
   type,
   title,
-  content,
-  version,
-  status,
-  sourceExperienceIds,
-  sourceActivityIds,
-  createdAt,
-  updatedAt
+  contentMd,
+  status
 }
 ```
 
