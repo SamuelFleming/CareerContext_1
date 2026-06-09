@@ -1,0 +1,32 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Express API for the CareerContext project",
+  "keywords": [
+    "portfolio",
+    "career",
+    "evidence",
+    "system",
+    "AI"
+  ],
+  "homepage": "https://github.com/SamuelFleming/CareerContext_1#readme",
+  "bugs": {
+    "url": "https://github.com/SamuelFleming/CareerContext_1/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SamuelFleming/CareerContext_1.git"
+  },
+  "license": "ISC",
+  "author": "Samuel Fleming",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
+  }
+}
