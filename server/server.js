@@ -1,13 +1,24 @@
 // server/server.js
 
 const express = require("express");
+const dotenv = require("dotenv");
+
+const apiRouter = require("./src/routes/index");
+
+
+
+const cors = require("cors"); //Cross-origin (allow frontend)
+
+dotenv.config();// read the .env file
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const port = 3006;
+const port = process.env.PORT || 3006;
+
+app.use('/api', apiRouter);
 
 app.get('/', (req, res) =>{
     res.json("Next, /api/");
