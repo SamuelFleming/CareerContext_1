@@ -1,25 +1,44 @@
 // client/src/components/navigation/TopNav.jsx
 import { Link } from "react-router-dom";
+import Button from "../ui/Button";
 
 export default function TopNav({ variant = "public" }) {
   return (
-    <header className="top-nav">
-      <Link to="/" className="top-nav__brand">
+    <header className="sticky top-0 z-30 flex min-h-[68px] items-center justify-between border-b border-[var(--neutral-200)] bg-[var(--neutral-000)]/85 px-6 backdrop-blur-md lg:px-10">
+      <Link
+        to="/"
+        className="font-[var(--font-heading)] text-xl font-bold tracking-tight text-[var(--primary-900)]"
+      >
         CareerContext
       </Link>
 
-      <nav className="top-nav__links">
+      <nav className="flex items-center gap-2 sm:gap-4">
         {variant === "public" ? (
           <>
-            <Link to="/login">Login</Link>
-            <Link to="/register" className="nav-cta">
-              Register
+            <Link
+              to="/login"
+              className="px-2 text-sm font-medium text-[var(--primary-700)] transition-colors hover:text-[var(--accent-600)]"
+            >
+              Login
+            </Link>
+            <Link to="/register">
+              <Button size="sm">Register</Button>
             </Link>
           </>
         ) : (
           <>
-            <Link to="/dashboard">Dashboard</Link>
-            <Link to="/profile">Profile</Link>
+            <Link
+              to="/dashboard"
+              className="px-2 text-sm font-medium text-[var(--primary-700)] transition-colors hover:text-[var(--accent-600)]"
+            >
+              Dashboard
+            </Link>
+            <Link
+              to="/profile"
+              className="px-2 text-sm font-medium text-[var(--primary-700)] transition-colors hover:text-[var(--accent-600)]"
+            >
+              Profile
+            </Link>
           </>
         )}
       </nav>

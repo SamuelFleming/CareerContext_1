@@ -77,14 +77,15 @@ Use this as the main frontend/API integration checklist.
 
 ---
 
-# MVP Development Slice Suggestions
+# MVP Development Phase Suggestions
 
-## Slice 1 — Auth and Profile
+## Phase 1 — Auth and Profile
 
 Screens:
 
 - 2. Login
 - 3. Register
+- 4. Dahsboard (evolutionary through phases)
 - 5. Profile / Core Context
 
 Endpoints:
@@ -97,7 +98,7 @@ Endpoints:
 - `PUT /api/profile/core-context`
 - `PUT /api/profile/core-resume`
 
-## Slice 2 — Experience Evidence
+## Phase 2 — Experience Evidence
 
 Screens:
 
@@ -118,7 +119,7 @@ Endpoints:
 - `PUT /api/activities/:activityId`
 - `DELETE /api/activities/:activityId`
 
-## Slice 3 — Opportunities and Documents
+## Phase 3 — Opportunities and Documents
 
 Screens:
 
@@ -139,7 +140,7 @@ Endpoints:
 - `PUT /api/documents/:documentId`
 - `DELETE /api/documents/:documentId`
 
-## Slice 4 — AI Workflows
+## Phase 4 — AI Workflows
 
 Screens:
 
@@ -157,7 +158,7 @@ Endpoints:
 - `POST /api/opportunities/:opportunityId/generate-cover-letter`
 - `POST /api/opportunities/compare`
 
-## Slice 5 — Journal
+## Phase 5 — Journal
 
 Screens:
 
