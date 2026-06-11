@@ -7,8 +7,8 @@ import ProtectedLayout from "../components/layout/ProtectedLayout";
 import LandingPage from "../features/landing/LandingPage";
 import LoginPage from "../features/auth/LoginPage";
 import RegisterPage from "../features/auth/RegisterPage";
-// import DashboardPage from "../features/dashboard/DashboardPage";
-// import ProfilePage from "../features/profile/ProfilePage";
+import DashboardPage from "../features/dashboard/DashboardPage";
+import ProfilePage from "../features/profile/ProfilePage";
 
 const isAuthenticated = true;
 
@@ -46,15 +46,15 @@ export const router = createBrowserRouter([
         <ProtectedLayout />
       </ProtectedRoute>
     ),
-    // children: [
-    //   {
-    //     path: "/dashboard",
-    //     element: <DashboardPage />,
-    //   },
-    //   {
-    //     path: "/profile",
-    //     element: <ProfilePage />,
-    //   },
-    // ],
+    children: [
+      {
+        path: "/dashboard",
+        element: <DashboardPage />,
+      },
+      {
+        path: "/profile",
+        element: <ProfilePage />,
+      },
+    ],
   },
 ]);
