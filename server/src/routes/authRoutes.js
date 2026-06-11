@@ -1,12 +1,21 @@
 // server/src/routes/authRoutes.js
 
-const express = require('express');
-const authController = require('../controllers/authController');
-
+const express = require("express");
 const router = express.Router();
 
-router.post('/register', authController.register);
-router.post('/login', authController.login);
-router.get('/me', authController.getMe);
+const controller = require("../controllers/authController");
+
+const mediaTypeValidator = require("../middleware/mediaTypeValidator");
+const authenticateWithJwt = require("../middleware/auth/authenticateWithJwt");
+const {
+    registerValidation,
+    loginValidation,
+} = require("../middleware/auth/authValidators");
+const authMiddleware = require('../middleware/authMiddleware')
+
+router.post("/register", mediaTypeValidator, registerValidation, controller.register);
+router.post("/login", mediaTypeValidator, loginValidation, controller.login);
+router.get("/me", authenticateWithJwt, controller.getMe);
+//router.post("/logout", authenticateWithJwt, controller.logout);
 
 module.exports = router;

@@ -1,21 +1,44 @@
 // server/src/controllers/authController.js
 
-const { notImplemented } = require('../utils/notImplemented');
+const authService = require('../services/authService');
 
-const register = notImplemented(
-  'POST /api/auth/register',
-  'Register a new user account'
-);
+const handleAuthError = (res, error) => {
+  const statusCode = error.statusCode || 500;
 
-const login = notImplemented(
-  'POST /api/auth/login',
-  'Authenticate an existing user and return a JWT/user payload'
-);
+  return res.status(statusCode).json({
+    message: error.message || 'Authentication error',
+  });
+};
 
-const getMe = notImplemented(
-  'GET /api/auth/me',
-  'Return the currently authenticated user'
-);
+const register = async (req, res) => {
+  try {
+    const result = await authService.register(req.body);
+
+    return res.status(201).json(result);
+  } catch (error) {
+    return handleAuthError(res, error);
+  }
+};
+
+const login = async (req, res) => {
+  try {
+    const result = await authService.login(req.body);
+
+    return res.status(200).json(result);
+  } catch (error) {
+    return handleAuthError(res, error);
+  }
+};
+
+const getMe = async (req, res) => {
+  try {
+    const result = await authService.getCurrentUser(req.user._id);
+
+    return res.status(200).json(result);
+  } catch (error) {
+    return handleAuthError(res, error);
+  }
+};
 
 module.exports = {
   register,
