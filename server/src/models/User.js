@@ -2,21 +2,49 @@
 
 const mongoose = require('mongoose');
 
-const connectDb = async () => {
-  const mongoUri = process.env.MONGO_URI;
-
-  if (!mongoUri) {
-    throw new Error('MONGO_URI is not defined in environment variables');
+const UserSchema = new mongoose.Schema(
+  {
+    email: {
+      type: String,
+      required: [true, 'Email is required'],
+      unique: true,
+      trim: true,
+      lowercase: true,
+    },
+    passwordHash: {
+      type: String,
+      required: [true, 'Password hash is required'],
+      select: false,
+    },
+    name: {
+      type: String,
+      required: [true, 'Name is required'],
+      trim: true,
+    },
+    coreContextMd: {
+      type: String,
+      default: '',
+    },
+    coreResumeMd: {
+      type: String,
+      default: '',
+    },
+  },
+  {
+    timestamps: true,
   }
+);
 
-  try {
-    const connection = await mongoose.connect(mongoUri);
+UserSchema.index({ email: 1 }, { unique: true });
 
-    console.log(`MongoDB connected: ${connection.connection.host}`);
-  } catch (error) {
-    console.error('MongoDB connection failed:', error.message);
-    process.exit(1);
-  }
-};
+UserSchema.set('toJSON', {
+  transform: (doc, ret) => {
+    ret.id = ret._id.toString();
+    delete ret._id;
+    delete ret.__v;
+    delete ret.passwordHash;
+    return ret;
+  },
+});
 
-module.exports = connectDb;
+module.exports = mongoose.model('User', UserSchema);
