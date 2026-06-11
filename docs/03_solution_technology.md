@@ -325,6 +325,133 @@ The project should feel more like a career workspace than a form-heavy admin sys
 - Use custom widgets to make the app feel distinctive.
 - Prioritise speed and usefulness over perfect design.
 
+
+## UX Key Ideas and Concepts
+We have (from [01 - The Idea](./01_idea_high_level_why.md))
+> career evidence system that helps users capture, organise, retrieve, and reuse their professional, academic, and project experience to evaluate job opportunities and generate tailored application documents.
+
+But, to build from a UI/UX perspective:
+> CareerContext as an interactive career evidence workspace, where the dashboard feels like a living CV connected to a personal evidence filesystem
+
+With this, we can shape the early UI around three metaphors:
+
+### 1. The Interactive CV Dashboard
+
+The dashboard should look partly like a polished CV/resume, but behave like an app.
+
+Instead of generic cards like:
+
+```
+Experiences
+Activities
+Documents
+Opportunities
+```
+
+the dashboard could visually resemble:
+
+```
+Samuel Example
+[Profile details are placed here]
+
+Profile Summary
+[Clickable]
+
+Core Skills
+[Clickable skill chips]
+
+Experience Evidence
+[Recent projects, work, study, leadership]
+
+Reusable Activity Evidence
+[STAR examples, achievements, responsibilities]
+
+Target Opportunities
+[Jobs being evaluated]
+
+Generated Documents
+[Resume variants, cover letters, selection criteria]
+```
+
+Each CV section becomes a navigation surface. Clicking “Projects” takes the user to experiences. Clicking a skill could show the experiences and activities that prove that skill.
+
+This is portfolio-worthy because it makes the dashboard itself communicate the purpose of the product.
+
+### 2. The Evidence Filesystem
+
+Google Drive idea fits well for the index/detail screens.
+
+A possible mental model:
+
+```
+Dashboard
+  Core Context
+  Experiences
+    [A Job]
+      Activities
+      Journal Entries
+      Evidence Files
+    [A Home Project]
+      Activities
+      Journal Entries
+      Evidence Files
+    [Another Home Project]
+      Activities
+      Journal Entries
+      Evidence Files
+    [A Unit Course with a project]
+      Activities
+      Journal Entries
+      Evidence Files
+  Opportunities
+    Junior Software Developer
+      Matched Evidence
+      Generated Documents
+  Documents
+```
+
+This makes the product feel like a structured professional knowledge base.
+
+
+### 3. The Journal Drawer
+
+There is a drawer shaped like a Journal - a literal binder spine that when clicked extends across the screen for Raw user INput (the Journal Concept):
+- This is a native Markdown entry textbox 
+- Also a file upload tool
+
+The journal drawer is a very good differentiator and could make it globally available inside the protected app shell:
+
+```
+[+ Capture Evidence]
+```
+
+or alternatively as a floating button:
+
+```
+Journal
+```
+
+When opened, it behaves like a side drawer or literal notebook/binder panel:
+
+```
+Quick Journal Entry
+
+Title
+[________________]
+
+Markdown Notes
+[________________________]
+
+Suggested Destination
+Experience: BEDA Events Calendar
+Activity: API route scaffold
+Tags: backend, leadership, debugging
+
+[Save Draft] [Save to Evidence]
+```
+
+Early version can be simple, but design would aim to be a literal animated journal book.
+
 ---
 
 # Screen Index
@@ -618,81 +745,9 @@ ExperienceDetailPage
 ---
 
 # State and Data Binding
+Ref to [06 - Screen Catalogue and Data Requirments](./06_screen_catalogue_and_data_requirements.md)  for more clarity
 
-## 4. Dashboard
 
-Fetches:
-
-```text
-GET /api/profile
-GET /api/experiences?limit=5
-GET /api/opportunities?limit=5
-GET /api/documents?limit=5
-```
-
-## 5. Profile Screen
-
-Fetches:
-
-```text
-GET /api/profile
-```
-
-Updates:
-
-```text
-PUT /api/profile
-PUT /api/profile/core-context
-```
-
-## 6. Experiences Index
-
-Fetches:
-
-```text
-GET /api/experiences
-```
-
-## 7. Experience Detail
-
-Fetches:
-
-```text
-GET /api/experiences/:id
-GET /api/experiences/:id/activities
-GET /api/journal?experienceId=:id
-```
-
-## 11. Opportunity Detail
-
-Fetches:
-
-```text
-GET /api/opportunities/:id
-GET /api/documents?opportunityId=:id
-```
-
-Actions:
-
-```text
-POST /api/opportunities/:id/extract
-POST /api/opportunities/:id/evaluate
-POST /api/opportunities/:id/generate-cover-letter
-```
-
-## 12. Document Detail
-
-Fetches:
-
-```text
-GET /api/documents/:id
-```
-
-Updates:
-
-```text
-PUT /api/documents/:id
-```
 
 ---
 

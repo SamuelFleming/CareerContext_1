@@ -1,0 +1,9 @@
+// client/src/components/ui/Input.jsx
+export default function Input({ label, id, ...props }) {
+  return (
+    <label className="field" htmlFor={id}>
+      <span>{label}</span>
+      <input id={id} {...props} />
+    </label>
+  );
+}
