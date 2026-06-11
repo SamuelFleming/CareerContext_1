@@ -11,7 +11,6 @@ const {
     registerValidation,
     loginValidation,
 } = require("../middleware/auth/authValidators");
-const authMiddleware = require('../middleware/authMiddleware')
 
 router.post("/register", mediaTypeValidator, registerValidation, controller.register);
 router.post("/login", mediaTypeValidator, loginValidation, controller.login);

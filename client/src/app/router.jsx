@@ -1,5 +1,5 @@
 // client/src/app/router.jsx
-import { createBrowserRouter, Navigate } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 
 import PublicLayout from "../components/layout/PublicLayout";
 import ProtectedLayout from "../components/layout/ProtectedLayout";
@@ -7,20 +7,9 @@ import ProtectedLayout from "../components/layout/ProtectedLayout";
 import LandingPage from "../features/landing/LandingPage";
 import LoginPage from "../features/auth/LoginPage";
 import RegisterPage from "../features/auth/RegisterPage";
-// import DashboardPage from "../features/dashboard/DashboardPage";
-// import ProfilePage from "../features/profile/ProfilePage";
-
-const isAuthenticated = true;
-
-// Placeholder auth wrapper.
-// Replace this later with real auth context/session logic.
-function ProtectedRoute({ children }) {
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
-
-  return children;
-}
+import ProtectedRoute from "../features/auth/ProtectedRoute";
+import DashboardPage from "../features/dashboard/DashboardPage";
+import ProfilePage from "../features/profile/ProfilePage";
 
 export const router = createBrowserRouter([
   {
@@ -46,15 +35,15 @@ export const router = createBrowserRouter([
         <ProtectedLayout />
       </ProtectedRoute>
     ),
-    // children: [
-    //   {
-    //     path: "/dashboard",
-    //     element: <DashboardPage />,
-    //   },
-    //   {
-    //     path: "/profile",
-    //     element: <ProfilePage />,
-    //   },
-    // ],
+    children: [
+      {
+        path: "/dashboard",
+        element: <DashboardPage />,
+      },
+      {
+        path: "/profile",
+        element: <ProfilePage />,
+      },
+    ],
   },
 ]);

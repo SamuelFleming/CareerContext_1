@@ -32,7 +32,7 @@ const login = async (req, res) => {
 
 const getMe = async (req, res) => {
   try {
-    const result = await authService.getCurrentUser(req.user._id);
+    const result = await authService.getCurrentUser(req.user.userId);
 
     return res.status(200).json(result);
   } catch (error) {
