@@ -40,14 +40,14 @@ export default function DashboardPage() {
           <div className="flex flex-col gap-3">
             <EvidenceCard
               icon={Briefcase}
-              title="Full-Stack Developer Intern"
+              title="[Dummy] Full-Stack Developer Intern"
               meta="TechCorp · Jun 2025 – Present"
               description="Led an internal dashboard rebuild used by 40+ staff."
               tags={["React", "Node.js", "Leadership"]}
             />
             <EvidenceCard
               icon={GraduationCap}
-              title="Capstone Project"
+              title="[Dummy] Capstone Project"
               meta="University · 2025"
               description="Built a MERN application for structuring career evidence."
               tags={["MongoDB", "AI"]}
