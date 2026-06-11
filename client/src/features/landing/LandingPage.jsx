@@ -3,13 +3,21 @@ import { Link } from "react-router-dom";
 import Button from "../../components/ui/Button";
 import HeroSection from "./components/HeroSection";
 import ProductThesisCard from "./components/ProductThesisCard";
+import InteractiveCvPreview from "./components/InteractiveCvPreview";
 import FeatureGrid from "./components/FeatureGrid";
 
 export default function LandingPage() {
   return (
     <div className="flex flex-col gap-12">
-      <HeroSection />
-      <ProductThesisCard />
+      <section className="grid items-start gap-8 py-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-10 lg:py-8">
+        <div className="flex flex-col gap-6">
+          <HeroSection />
+          <ProductThesisCard />
+        </div>
+
+        <InteractiveCvPreview />
+      </section>
+
       <FeatureGrid />
 
       <section className="rounded-xl bg-[var(--primary-900)] p-8 text-white lg:p-12">
