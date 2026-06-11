@@ -9,9 +9,6 @@ const { connect } = require("mongoose");
 const cors = require("cors"); //Cross-origin (allow frontend)
 
 
-
-const cors = require("cors"); //Cross-origin (allow frontend)
-
 dotenv.config();// read the .env file
 connectDB(); // instantitate db connecter at the app level
 
