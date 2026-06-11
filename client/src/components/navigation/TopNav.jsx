@@ -1,8 +1,16 @@
 // client/src/components/navigation/TopNav.jsx
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../ui/Button";
+import { useAuth } from "../../features/auth/authContext";
 
 export default function TopNav({ variant = "public" }) {
+  const navigate = useNavigate();
+  const { logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login", { replace: true });
+  };
   return (
     <header className="sticky top-0 z-30 flex min-h-[68px] items-center justify-between border-b border-[var(--neutral-200)] bg-[var(--neutral-000)]/85 px-6 backdrop-blur-md lg:px-10">
       <Link
@@ -39,6 +47,9 @@ export default function TopNav({ variant = "public" }) {
             >
               Profile
             </Link>
+            <Button variant="secondary" size="sm" onClick={handleLogout}>
+              Log out
+            </Button>
           </>
         )}
       </nav>
