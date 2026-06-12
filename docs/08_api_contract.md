@@ -254,25 +254,70 @@ GET /api/dashboard
 ```json
 {
   "data": {
-    "profile": {
+    "identity": {
       "fullName": "Sam Fleming",
       "headline": "Full-stack developer",
-      "hasCoreContext": true,
-      "hasCoreResume": true,
+      "email": "sam@example.com",
+      "mobile": "+61 400 000 000",
+      "location": "Brisbane, AU"
+    },
+    "profileCompleteness": {
+      "score": 60,
+      "completed": 3,
+      "total": 5,
+      "status": "in_progress",
+      "showPrompt": true,
+      "checks": [
+        { "key": "fullName", "label": "Full name", "done": true },
+        { "key": "headline", "label": "Headline", "done": true },
+        { "key": "location", "label": "Location", "done": false },
+        { "key": "rawSummaryMd", "label": "Career summary", "done": true },
+        { "key": "coreResumeMd", "label": "Core resume", "done": false }
+      ],
+      "missing": ["location", "coreResumeMd"],
+      "nextAction": {
+        "label": "Add your location",
+        "to": "/profile"
+      }
+    },
+    "interactiveCv": {
+      "summaryPreview": "I am currently working in a full-stack .NET public sector role...",
       "summaryUpdatedAt": "2026-06-08T00:00:00.000Z",
-      "summaryPreview": "I am currently working in a full-stack .NET public sector role..."
+      "reviewSuggested": false,
+      "coreCompetencies": ["React", "Node.js", "Leadership", "Express"],
+      "highlightExperiences": [
+        {
+          "id": "mock-exp-1",
+          "type": "job",
+          "title": "Full-Stack Developer Intern",
+          "meta": "TechCorp · Jun 2025 – Present",
+          "description": "Led an internal dashboard rebuild used by 40+ staff.",
+          "tags": ["React", "Node.js", "Leadership"]
+        }
+      ]
     },
-    "counts": {
-      "experiences": 3,
-      "activities": 12,
-      "opportunities": 4,
-      "documents": 2,
-      "journalEntries": 8
+    "evidencePanel": {
+      "defaultView": "evidenceSummary",
+      "evidenceSummary": {
+        "status": "placeholder",
+        "message": "Experience evidence comes next.",
+        "counts": {
+          "experiences": 0,
+          "activities": 0,
+          "journalEntries": 0
+        }
+      },
+      "recentActivity": {
+        "status": "placeholder",
+        "message": "Your latest captured evidence will appear here.",
+        "items": []
+      }
     },
-    "recentExperiences": [],
-    "recentOpportunities": [],
-    "recentDocuments": [],
-    "recentJournalEntries": []
+    "phasePlaceholders": {
+      "experienceEvidence": "planned",
+      "opportunities": "planned",
+      "documents": "planned"
+    }
   }
 }
 ```
@@ -309,7 +354,26 @@ GET /api/profile
       "summaryUpdatedAt": "2026-06-08T00:00:00.000Z"
     },
     "coreResumeMd": "# Resume...",
-    "coreResumeUpdatedAt": "2026-06-08T00:00:00.000Z"
+    "coreResumeUpdatedAt": "2026-06-08T00:00:00.000Z",
+    "profileCompleteness": {
+      "score": 60,
+      "completed": 3,
+      "total": 5,
+      "status": "in_progress",
+      "showPrompt": true,
+      "checks": [
+        { "key": "fullName", "label": "Full name", "done": true },
+        { "key": "headline", "label": "Headline", "done": true },
+        { "key": "location", "label": "Location", "done": false },
+        { "key": "rawSummaryMd", "label": "Career summary", "done": true },
+        { "key": "coreResumeMd", "label": "Core resume", "done": false }
+      ],
+      "missing": ["location", "coreResumeMd"],
+      "nextAction": {
+        "label": "Add your location",
+        "to": "/profile"
+      }
+    }
   }
 }
 ```
@@ -1263,9 +1327,32 @@ Recommended MVP workspace endpoints:
 - `GET /api/experiences/:experienceId/workspace`
 - `GET /api/opportunities/:opportunityId/workspace`
 
-Optional:
+- `GET /api/dashboard` (implemented — Screen 4 dashboard payload)
 
+## Profile Completeness
+
+`profileCompleteness` is calculated server-side by `profileCompletenessService.js` and returned on both:
+
+- `GET /api/profile`
 - `GET /api/dashboard`
+
+Rules (5 equal fields, 20% each):
+
+| Field | Source | Complete when |
+|-------|--------|---------------|
+| Full name | `CoreContext.fullName` | non-empty trimmed string |
+| Headline | `CoreContext.headline` | non-empty trimmed string |
+| Location | `CoreContext.location` | non-empty trimmed string |
+| Career summary | `CoreContext.rawSummaryMd` | non-empty trimmed string |
+| Core resume | `User.coreResumeMd` | non-empty trimmed string |
+
+`score` = `Math.round((completed / total) * 100)`. `showPrompt` is `true` while any field is incomplete.
+
+## Dashboard Phase 1 Mocks
+
+Until Experience APIs exist, `interactiveCv.coreCompetencies` and `interactiveCv.highlightExperiences` are populated from `server/src/constants/phase1DashboardMocks.js`. The client mirrors these as a UI fallback in `client/src/features/dashboard/phase1MockData.js` when the API returns empty arrays.
+
+Core resume preview and quick-action widgets are **not** part of the Dashboard UI.
 
 ## Field Naming Note
 

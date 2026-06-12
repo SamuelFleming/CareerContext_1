@@ -36,11 +36,11 @@ Use this as the main frontend/API integration checklist.
 | `/api/auth/login` | POST | 2 | Authenticate user |
 | `/api/auth/me` | GET | 2, 3, app shell | Validate current authenticated user |
 | `/api/dashboard` | GET | 4 | Load dashboard summary |
-| `/api/profile` | GET | 4, 5, AI workflows | Load profile/core context |
+| `/api/profile` | GET | 5, AI workflows | Load profile/core context |
 | `/api/profile` | PUT | 5 | Update Core Context structured fields |
 | `/api/profile/core-context` | PUT | 5 | Update Core Context raw summary Markdown |
 | `/api/profile/core-resume` | PUT | 5 | Update core resume Markdown |
-| `/api/experiences` | GET | 4, 6, 9, AI workflows | List user's experiences |
+| `/api/experiences` | GET | 6, 9, AI workflows | List user's experiences |
 | `/api/experiences` | POST | 6 | Create experience |
 | `/api/experiences/:experienceId` | GET | 7 | Load one experience |
 | `/api/experiences/:experienceId` | PUT | 7 | Update experience |
@@ -59,7 +59,7 @@ Use this as the main frontend/API integration checklist.
 | `/api/journal/:journalEntryId` | PUT | 9 | Update journal entry |
 | `/api/journal/:journalEntryId` | DELETE | 9 | Delete/archive journal entry |
 | `/api/journal/:journalEntryId/convert-to-activity` | POST | 9 | Convert note into Activity |
-| `/api/opportunities` | GET | 4, 10, 13 | List opportunities |
+| `/api/opportunities` | GET | 10, 13 | List opportunities |
 | `/api/opportunities` | POST | 10 | Create opportunity |
 | `/api/opportunities/:opportunityId` | GET | 11 | Load one opportunity |
 | `/api/opportunities/:opportunityId` | PUT | 11 | Update opportunity |
@@ -69,7 +69,7 @@ Use this as the main frontend/API integration checklist.
 | `/api/opportunities/:opportunityId/evaluate` | POST | 11 | AI-evaluate fit |
 | `/api/opportunities/:opportunityId/generate-cover-letter` | POST | 11 | Generate cover letter Document |
 | `/api/opportunities/compare` | POST | 13 | Compare selected opportunities |
-| `/api/documents` | GET | 4, 11 | List documents |
+| `/api/documents` | GET | 11 | List documents |
 | `/api/documents` | POST | 13 | Create document manually or save report |
 | `/api/documents/:documentId` | GET | 12 | Load document detail |
 | `/api/documents/:documentId` | PUT | 12 | Update document content/status |
@@ -85,7 +85,7 @@ Screens:
 
 - 2. Login
 - 3. Register
-- 4. Dahsboard (evolutionary through phases)
+- 4. Dashboard (Interactive CV; Phase 1 mocks for competencies/highlights)
 - 5. Profile / Core Context
 
 Endpoints:
@@ -93,6 +93,7 @@ Endpoints:
 - `POST /api/auth/register`
 - `POST /api/auth/login`
 - `GET /api/auth/me`
+- `GET /api/dashboard`
 - `GET /api/profile`
 - `PUT /api/profile`
 - `PUT /api/profile/core-context`
@@ -182,3 +183,4 @@ Endpoints:
 - The matrix is intentionally discrete and redundant. It is meant to support rapid full-stack implementation.
 - Some endpoints appear in multiple screens because the same resource supports multiple workflows.
 - Workspace endpoints are optional but useful when a screen needs multiple related collections.
+- **Screen 4 (Phase 1):** Dashboard loads only `GET /api/dashboard`. Skill chips and experience cards use Phase 1 mocks until Experience APIs replace them. Experiences, opportunities, and documents endpoints are not called by the Dashboard in Phase 1.

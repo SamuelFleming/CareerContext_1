@@ -2,6 +2,7 @@
 
 const User = require('../models/User');
 const coreContextService = require('./coreContextService');
+const { calculateProfileCompleteness } = require('./profileCompletenessService');
 
 const createServiceError = (statusCode, message) => {
   const error = new Error(message);
@@ -27,6 +28,7 @@ const toProfileResponse = (user, coreContext) => ({
   coreContext: coreContextService.toCoreContext(coreContext),
   coreResumeMd: user.coreResumeMd || '',
   coreResumeUpdatedAt: user.coreResumeUpdatedAt || null,
+  profileCompleteness: calculateProfileCompleteness(coreContext, user),
 });
 
 const getProfile = async (userId) => {

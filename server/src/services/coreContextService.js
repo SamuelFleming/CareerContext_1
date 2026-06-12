@@ -38,14 +38,13 @@ const getLegacyUserFields = async (userId) => {
 };
 
 const ensureForUser = async (user) => {
-  const userId = user._id.toString();
   let coreContext = await CoreContext.findOne({ userId: user._id });
 
   if (coreContext) {
     return coreContext;
   }
 
-  const legacy = await getLegacyUserFields(userId);
+  const legacy = await getLegacyUserFields(user._id.toString());
 
   coreContext = await CoreContext.create({
     userId: user._id,

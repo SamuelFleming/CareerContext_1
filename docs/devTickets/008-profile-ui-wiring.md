@@ -1,5 +1,9 @@
 # 008 — Profile / Core Context Screen (UI Wiring)
 
+## Status
+
+**Implemented**
+
 ## Objective
 
 Implement Screen 5: **Profile / Core Context** with live backend integration.
@@ -81,6 +85,21 @@ coreResumeMd
 coreResumeUpdatedAt
 ```
 
+### Profile completeness (from API)
+
+```
+profileCompleteness.score
+profileCompleteness.completed
+profileCompleteness.total
+profileCompleteness.status
+profileCompleteness.showPrompt
+profileCompleteness.checks[]
+profileCompleteness.missing[]
+profileCompleteness.nextAction
+```
+
+Calculated by `profileCompletenessService.js` — same object shape as `GET /api/dashboard`.
+
 ## API Mapping
 
 | UI section | Load from | Save via |
@@ -96,7 +115,7 @@ coreResumeUpdatedAt
 - Core Resume remains a Markdown textarea for MVP.
 - Useful widgets:
   - Last updated badges (`summaryUpdatedAt`, `coreResumeUpdatedAt`)
-  - Profile completion indicator (structured fields + summary + resume)
+  - Profile completion indicator from `profileCompleteness` (matches Dashboard score)
   - Core Context guidance card
   - Per-section save status (idle / saving / saved / error)
 
@@ -114,6 +133,8 @@ coreResumeUpdatedAt
 - Styling is consistent with Dashboard.
 - Refreshing the page preserves saved profile data.
 - Empty states guide the user on what to write.
+- `ProfileFreshnessWidget` displays `profileCompleteness` from `GET /api/profile`.
+- Profile completeness score matches Dashboard after saves (shared backend rules).
 
 ## Out of Scope
 

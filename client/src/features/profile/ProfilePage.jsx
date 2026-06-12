@@ -25,6 +25,7 @@ const emptyProfile = {
   },
   coreResumeMd: "",
   coreResumeUpdatedAt: null,
+  profileCompleteness: null,
 };
 
 function useSaveStatus() {
@@ -77,6 +78,7 @@ export default function ProfilePage() {
           ...emptyProfile.coreContext,
           ...response.data.coreContext,
         },
+        profileCompleteness: response.data.profileCompleteness,
       });
     } catch (error) {
       setLoadError(error.message || "Unable to load profile.");
@@ -117,6 +119,18 @@ export default function ProfilePage() {
     }));
   };
 
+  const refreshCompleteness = useCallback(async () => {
+    try {
+      const response = await getProfile();
+      setProfile((current) => ({
+        ...current,
+        profileCompleteness: response.data.profileCompleteness,
+      }));
+    } catch {
+      // Keep existing completeness if refresh fails.
+    }
+  }, []);
+
   const handleSaveProfile = async () => {
     const { coreContext } = profile;
 
@@ -135,6 +149,7 @@ export default function ProfilePage() {
           ...response.data.coreContext,
         },
       }));
+      await refreshCompleteness();
     });
 
     return saved;
@@ -152,6 +167,7 @@ export default function ProfilePage() {
           summaryUpdatedAt: response.data.summaryUpdatedAt,
         },
       }));
+      await refreshCompleteness();
     });
 
     return saved;
@@ -166,6 +182,7 @@ export default function ProfilePage() {
         coreResumeMd: response.data.coreResumeMd,
         coreResumeUpdatedAt: response.data.coreResumeUpdatedAt,
       }));
+      await refreshCompleteness();
     });
 
     return saved;

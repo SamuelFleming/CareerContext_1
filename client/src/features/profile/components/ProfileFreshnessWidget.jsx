@@ -18,24 +18,13 @@ function formatTimestamp(value) {
   }).format(new Date(value));
 }
 
-function getCompletion(profile) {
-  const coreContext = profile.coreContext || {};
-  const checks = [
-    { label: "Full name", done: Boolean(coreContext.fullName?.trim()) },
-    { label: "Headline", done: Boolean(coreContext.headline?.trim()) },
-    { label: "Location", done: Boolean(coreContext.location?.trim()) },
-    { label: "Career summary", done: Boolean(coreContext.rawSummaryMd?.trim()) },
-    { label: "Core resume", done: Boolean(profile.coreResumeMd?.trim()) },
-  ];
-
-  const completed = checks.filter((item) => item.done).length;
-
-  return { checks, completed, total: checks.length };
-}
-
 export default function ProfileFreshnessWidget({ profile }) {
-  const { checks, completed, total } = getCompletion(profile);
-  const percent = Math.round((completed / total) * 100);
+  const profileCompleteness = profile.profileCompleteness;
+  const checks = profileCompleteness?.checks || [];
+  const completed = profileCompleteness?.completed ?? 0;
+  const total = profileCompleteness?.total ?? checks.length;
+  const percent = profileCompleteness?.score ?? 0;
+
   const summaryUpdated = formatTimestamp(profile.coreContext?.summaryUpdatedAt);
   const resumeUpdated = formatTimestamp(profile.coreResumeUpdatedAt);
 
@@ -77,7 +66,7 @@ export default function ProfileFreshnessWidget({ profile }) {
         <ul className="flex flex-col gap-2">
           {checks.map((item) => (
             <li
-              key={item.label}
+              key={item.key}
               className="flex items-center gap-2 text-sm text-[var(--primary-700)]"
             >
               {item.done ? (
