@@ -139,44 +139,36 @@ Allows a new user to create an account.
 
 ## Description
 
-The authenticated user's home screen. It provides a fast overview of profile completion, recent evidence, recent opportunities, and generated documents.
+The authenticated user's home screen. Centred on an **Interactive CV** (identity, summary preview, skill chips, experience cards) with a right column for profile completeness (when incomplete) and a collapsible evidence panel.
 
 ## Data Requirements
 
 | Data | Purpose |
 |---|---|
-| profile.fullName / profile.headline | Personalise screen from `CoreContext` |
-| profile.hasCoreContext / profile.hasCoreResume | Profile completeness flags |
-| profile.summaryUpdatedAt / profile.summaryPreview | Core context freshness and preview |
-| recent experiences | Let user continue building evidence |
-| recent opportunities | Let user continue application work |
-| recent documents | Let user continue editing outputs |
-| recent journal entries | Encourage ongoing professional journaling |
-| counts/statuses | Show workspace progress |
+| `identity` | Name, headline, email, mobile, location for Interactive CV header |
+| `interactiveCv.summaryPreview` | Career narrative preview inside CV |
+| `interactiveCv.summaryUpdatedAt` / `reviewSuggested` | Freshness hints |
+| `interactiveCv.coreCompetencies` | Skill chips (Phase 1 mock; Phase 2 from Experiences) |
+| `interactiveCv.highlightExperiences` | Evidence cards (Phase 1 mock; Phase 2 from Experiences) |
+| `profileCompleteness` | Shared completion score — same rules as Profile screen |
+| `evidencePanel` | Collapsible Evidence Summary / Recent Activity (Phase 1 placeholders) |
 
 ## UI Actions
 
 | Action | Endpoint | Result |
 |---|---|---|
-| Load dashboard | `GET /api/dashboard` | Fetch summary payload |
-| Open profile | none | Navigate to Screen 5 |
-| Open experience | none | Navigate to Screen 7 |
-| Open opportunity | none | Navigate to Screen 11 |
-| Open document | none | Navigate to Screen 12 |
+| Load dashboard | `GET /api/dashboard` | Fetch dashboard payload |
+| Open profile | none | Navigate to Screen 5 (via completeness CTA or CV edit links) |
 
 ## API Endpoints
 
-Preferred:
-
 - `GET /api/dashboard`
 
-Fallback MVP option:
+## Implementation Notes
 
-- `GET /api/profile`
-- `GET /api/experiences?limit=5`
-- `GET /api/opportunities?limit=5`
-- `GET /api/documents?limit=5`
-- `GET /api/journal?limit=5`
+- No core resume preview card on Dashboard.
+- No quick-actions panel on Dashboard.
+- Profile completeness uses `profileCompletenessService.js` (shared with `GET /api/profile`).
 
 ---
 
@@ -199,6 +191,7 @@ Profile and strategic career context editor. This is where the user maintains th
 | coreContext.summaryUpdatedAt | Shows whether strategic context may be stale |
 | coreResumeMd | Resume source content on `User`, used in AI workflows |
 | coreResumeUpdatedAt | Shows whether resume content may be stale |
+| profileCompleteness | Shared completion score and checklist (same as Dashboard) |
 
 ## UI Actions
 

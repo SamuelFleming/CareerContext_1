@@ -519,22 +519,20 @@ Actions:
 ### 4. Dashboard
 
 Purpose:
-- User's home base.
+- User's home base — Interactive CV workspace overview.
 
-Data:
-- profile completion status
-- recent experiences
-- recent opportunities
-- recent documents
-- suggested next actions
+Data (from `GET /api/dashboard`):
+- `identity` — name, headline, contact details
+- `interactiveCv` — summary preview, skill chips, experience highlight cards (Phase 1 mocks)
+- `profileCompleteness` — shared completion score (same rules as Profile)
+- `evidencePanel` — collapsible Evidence Summary / Recent Activity (Phase 1 placeholders)
 
 Components:
 - Sidebar
 - Header
-- ProfileCompletionWidget
-- RecentExperienceCards
-- OpportunityStatusPanel
-- QuickActionButtons
+- InteractiveCvCard
+- ProfileCompletenessPrompt (when `showPrompt === true`)
+- EvidencePanel
 
 ---
 
@@ -718,14 +716,13 @@ DashboardPage
     Sidebar
     TopBar
     DashboardGrid
-      ProfileCompletionWidget
-      QuickActionsPanel
-      RecentExperiencesPanel
-        ExperienceMiniCard
-      RecentOpportunitiesPanel
-        OpportunityMiniCard
-      RecentDocumentsPanel
-        DocumentMiniCard
+      InteractiveCvCard
+        SkillChips
+        EvidenceCards
+      ProfileCompletenessPrompt    # when profileCompleteness.showPrompt
+      EvidencePanel
+        EvidenceSummaryView
+        RecentActivityView
 ```
 
 ## 11. Opportunity Detail

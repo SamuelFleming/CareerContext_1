@@ -115,17 +115,14 @@ Landing Page
 
 ## Data Read
 
-- User profile summary
-- Recent experiences
-- Recent opportunities
-- Recent documents
-- Recent journal entries
+- Dashboard payload (`identity`, `interactiveCv`, `profileCompleteness`, `evidencePanel`)
+- Phase 1 skill chips and experience highlights from dashboard mocks (Phase 2: real Experience data)
 
 ## Required API Support
 
 - Login
 - Fetch current user
-- Fetch dashboard summary
+- `GET /api/dashboard`
 
 ---
 
@@ -145,9 +142,9 @@ Dashboard
 
 ## Data Updated
 
-- Profile basics
-- `coreContextMd`
-- `coreResumeMd`
+- CoreContext structured fields (`fullName`, `mobile`, `location`, `headline`)
+- `CoreContext.rawSummaryMd`
+- `User.coreResumeMd`
 
 ## Required API Support
 

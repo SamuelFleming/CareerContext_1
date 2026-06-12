@@ -24,6 +24,21 @@ CareerContext is a fast-build MERN stack AI-first portfolio project. The documen
 6. [`05_data_model.md`](./05_data_model.md)  
    Initial MongoDB/Mongoose-oriented domain model, entity relationships, modelling decisions, indexes, and open questions.
 
+7. [`06_screen_catalogue_and_data_requirements.md`](./06_screen_catalogue_and_data_requirements.md)  
+   Screen-by-screen data needs and API dependencies.
+
+8. [`07_screen_data_matrix.md`](./07_screen_data_matrix.md)  
+   Screen-to-endpoint and endpoint-to-screen integration matrix.
+
+9. [`08_api_contract.md`](./08_api_contract.md)  
+   API endpoint registry, request/response shapes, and implementation notes.
+
+10. [`devTickets/`](./devTickets/)  
+    Implementation tickets (e.g. Dashboard 006.x, Profile 008). [`devCompletion.md`](../devCompletion.md) at repo root tracks completed work; [`devTickets_next.md`](../devTickets_next.md) lists upcoming work.
+
+11. [`06_flows_to_screens.md`](./06_flows_to_screens.md)  
+    User flows mapped to screens and required API support.
+
 ## Documentation Principles
 
 - Keep documents lightweight enough to support rapid development.
