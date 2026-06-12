@@ -255,11 +255,12 @@ GET /api/dashboard
 {
   "data": {
     "profile": {
-      "name": "Sam Fleming",
+      "fullName": "Sam Fleming",
       "headline": "Full-stack developer",
       "hasCoreContext": true,
       "hasCoreResume": true,
-      "coreContextUpdatedAt": "2026-06-08T00:00:00.000Z"
+      "summaryUpdatedAt": "2026-06-08T00:00:00.000Z",
+      "summaryPreview": "I am currently working in a full-stack .NET public sector role..."
     },
     "counts": {
       "experiences": 3,
@@ -295,13 +296,20 @@ GET /api/profile
 ```json
 {
   "data": {
-    "id": "userId",
-    "name": "Sam Fleming",
-    "email": "sam@example.com",
-    "headline": "Full-stack developer",
-    "coreContextMd": "I am currently...",
+    "user": {
+      "id": "userId",
+      "email": "sam@example.com"
+    },
+    "coreContext": {
+      "fullName": "Sam Fleming",
+      "mobile": "+61 400 000 000",
+      "location": "Brisbane, AU",
+      "headline": "Full-stack developer",
+      "rawSummaryMd": "I am currently...",
+      "summaryUpdatedAt": "2026-06-08T00:00:00.000Z"
+    },
     "coreResumeMd": "# Resume...",
-    "coreContextUpdatedAt": "2026-06-08T00:00:00.000Z"
+    "coreResumeUpdatedAt": "2026-06-08T00:00:00.000Z"
   }
 }
 ```
@@ -316,7 +324,9 @@ PUT /api/profile
 
 ```json
 {
-  "name": "Sam Fleming",
+  "fullName": "Sam Fleming",
+  "mobile": "+61 400 000 000",
+  "location": "Brisbane, AU",
   "headline": "Full-stack developer"
 }
 ```
@@ -327,7 +337,14 @@ PUT /api/profile
 {
   "message": "Profile updated",
   "data": {
-    "profile": {}
+    "coreContext": {
+      "fullName": "Sam Fleming",
+      "mobile": "+61 400 000 000",
+      "location": "Brisbane, AU",
+      "headline": "Full-stack developer",
+      "rawSummaryMd": "I am currently...",
+      "summaryUpdatedAt": "2026-06-08T00:00:00.000Z"
+    }
   }
 }
 ```
@@ -342,7 +359,7 @@ PUT /api/profile/core-context
 
 ```json
 {
-  "coreContextMd": "I am currently working in a full-stack .NET public sector role..."
+  "rawSummaryMd": "I am currently working in a full-stack .NET public sector role..."
 }
 ```
 
@@ -352,8 +369,8 @@ PUT /api/profile/core-context
 {
   "message": "Core context updated",
   "data": {
-    "coreContextMd": "I am currently working in a full-stack .NET public sector role...",
-    "coreContextUpdatedAt": "2026-06-08T00:00:00.000Z"
+    "rawSummaryMd": "I am currently working in a full-stack .NET public sector role...",
+    "summaryUpdatedAt": "2026-06-08T00:00:00.000Z"
   }
 }
 ```
@@ -982,7 +999,7 @@ GET /api/opportunities/:opportunityId/workspace
     "latestEvaluation": {},
     "documents": [],
     "contextPreview": {
-      "coreContextUpdatedAt": "2026-06-08T00:00:00.000Z",
+      "summaryUpdatedAt": "2026-06-08T00:00:00.000Z",
       "experienceCount": 3,
       "activityCount": 12
     }

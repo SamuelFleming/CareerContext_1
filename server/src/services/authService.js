@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/User');
+const CoreContext = require('../models/CoreContext');
 
 const SALT_ROUNDS = 10;
 
@@ -70,8 +71,6 @@ const toSafeUser = (user) => ({
   id: user._id.toString(),
   name: user.name,
   email: user.email,
-  coreContextMd: user.coreContextMd,
-  coreResumeMd: user.coreResumeMd,
   createdAt: user.createdAt,
   updatedAt: user.updatedAt,
 });
@@ -99,8 +98,11 @@ const register = async ({ name, email, password }) => {
       name: name.trim(),
       email: normalisedEmail,
       passwordHash,
-      coreContextMd: '',
-      coreResumeMd: '',
+    });
+
+    await CoreContext.create({
+      userId: user._id,
+      fullName: name.trim(),
     });
 
     return {

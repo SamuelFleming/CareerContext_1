@@ -1,26 +1,63 @@
 // server/src/controllers/profileController.js
 
-const { notImplemented } = require('../utils/notImplemented');
+const profileService = require('../services/profileService');
 
-const getProfile = notImplemented(
-  'GET /api/profile',
-  'Load profile, core context, and core resume content'
-);
+const handleProfileError = (res, error) => {
+  const statusCode = error.statusCode || 500;
 
-const updateProfile = notImplemented(
-  'PUT /api/profile',
-  'Update basic profile fields'
-);
+  return res.status(statusCode).json({
+    message: error.message || 'Profile error',
+  });
+};
 
-const updateCoreContext = notImplemented(
-  'PUT /api/profile/core-context',
-  'Update user core career context Markdown'
-);
+const getProfile = async (req, res) => {
+  try {
+    const profile = await profileService.getProfile(req.user.userId);
 
-const updateCoreResume = notImplemented(
-  'PUT /api/profile/core-resume',
-  'Update user core resume Markdown'
-);
+    return res.status(200).json({ data: profile });
+  } catch (error) {
+    return handleProfileError(res, error);
+  }
+};
+
+const updateProfile = async (req, res) => {
+  try {
+    const coreContext = await profileService.updateProfile(req.user.userId, req.body);
+
+    return res.status(200).json({
+      message: 'Profile updated',
+      data: { coreContext },
+    });
+  } catch (error) {
+    return handleProfileError(res, error);
+  }
+};
+
+const updateCoreContext = async (req, res) => {
+  try {
+    const result = await profileService.updateCoreContext(req.user.userId, req.body);
+
+    return res.status(200).json({
+      message: 'Core context updated',
+      data: result,
+    });
+  } catch (error) {
+    return handleProfileError(res, error);
+  }
+};
+
+const updateCoreResume = async (req, res) => {
+  try {
+    const result = await profileService.updateCoreResume(req.user.userId, req.body);
+
+    return res.status(200).json({
+      message: 'Core resume updated',
+      data: result,
+    });
+  } catch (error) {
+    return handleProfileError(res, error);
+  }
+};
 
 module.exports = {
   getProfile,

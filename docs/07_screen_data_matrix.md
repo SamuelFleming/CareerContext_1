@@ -37,8 +37,8 @@ Use this as the main frontend/API integration checklist.
 | `/api/auth/me` | GET | 2, 3, app shell | Validate current authenticated user |
 | `/api/dashboard` | GET | 4 | Load dashboard summary |
 | `/api/profile` | GET | 4, 5, AI workflows | Load profile/core context |
-| `/api/profile` | PUT | 5 | Update profile fields |
-| `/api/profile/core-context` | PUT | 5 | Update core context Markdown |
+| `/api/profile` | PUT | 5 | Update Core Context structured fields |
+| `/api/profile/core-context` | PUT | 5 | Update Core Context raw summary Markdown |
 | `/api/profile/core-resume` | PUT | 5 | Update core resume Markdown |
 | `/api/experiences` | GET | 4, 6, 9, AI workflows | List user's experiences |
 | `/api/experiences` | POST | 6 | Create experience |

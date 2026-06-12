@@ -21,13 +21,13 @@ const UserSchema = new mongoose.Schema(
       required: [true, 'Name is required'],
       trim: true,
     },
-    coreContextMd: {
-      type: String,
-      default: '',
-    },
     coreResumeMd: {
       type: String,
       default: '',
+    },
+    coreResumeUpdatedAt: {
+      type: Date,
+      default: null,
     },
   },
   {
