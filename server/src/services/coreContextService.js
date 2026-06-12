@@ -11,6 +11,7 @@ const createServiceError = (statusCode, message) => {
   return error;
 };
 
+<<<<<<< Updated upstream
 const toCoreContext = (coreContext) => ({
   fullName: coreContext.fullName || '',
   mobile: coreContext.mobile || '',
@@ -20,6 +21,8 @@ const toCoreContext = (coreContext) => ({
   summaryUpdatedAt: coreContext.summaryUpdatedAt || null,
 });
 
+=======
+>>>>>>> Stashed changes
 const getLegacyUserFields = async (userId) => {
   const rawUser = await User.collection.findOne({
     _id: new mongoose.Types.ObjectId(userId),
@@ -38,14 +41,21 @@ const getLegacyUserFields = async (userId) => {
 };
 
 const ensureForUser = async (user) => {
+<<<<<<< Updated upstream
   const userId = user._id.toString();
+=======
+>>>>>>> Stashed changes
   let coreContext = await CoreContext.findOne({ userId: user._id });
 
   if (coreContext) {
     return coreContext;
   }
 
+<<<<<<< Updated upstream
   const legacy = await getLegacyUserFields(userId);
+=======
+  const legacy = await getLegacyUserFields(user._id.toString());
+>>>>>>> Stashed changes
 
   coreContext = await CoreContext.create({
     userId: user._id,
@@ -71,5 +81,8 @@ const findForUser = async (userId) => {
 module.exports = {
   ensureForUser,
   findForUser,
+<<<<<<< Updated upstream
   toCoreContext,
+=======
+>>>>>>> Stashed changes
 };
