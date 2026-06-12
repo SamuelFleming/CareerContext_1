@@ -13,7 +13,7 @@ export default function ProfileCompletenessPrompt({ profileCompleteness }) {
     return null;
   }
 
-  const { score, status, nextAction } = profileCompleteness;
+  const { score, completed, total, status, nextAction } = profileCompleteness;
 
   return (
     <Card className="border-[var(--accent-200)] bg-[var(--accent-100)]/30">
@@ -28,9 +28,11 @@ export default function ProfileCompletenessPrompt({ profileCompleteness }) {
         <div>
           <div className="mb-2 flex items-center justify-between text-sm">
             <span className="font-medium text-[var(--primary-800)]">
-              {status === "empty" ? "Just getting started" : "In progress"}
+              Profile completion
             </span>
-            <span className="text-[var(--primary-600)]">{score}%</span>
+            <span className="text-[var(--primary-600)]">
+              {completed}/{total} ({score}%)
+            </span>
           </div>
           <div
             className="h-2 overflow-hidden rounded-full bg-[var(--neutral-200)]"
@@ -45,6 +47,9 @@ export default function ProfileCompletenessPrompt({ profileCompleteness }) {
               style={{ width: `${score}%` }}
             />
           </div>
+          <p className="mt-2 text-xs text-[var(--primary-600)]">
+            {status === "empty" ? "Just getting started" : "In progress"}
+          </p>
         </div>
 
         {nextAction && (

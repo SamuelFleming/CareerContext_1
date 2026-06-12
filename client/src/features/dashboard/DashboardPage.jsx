@@ -6,8 +6,6 @@ import { getDashboard } from "../../services/dashboardService";
 import InteractiveCvCard from "./components/InteractiveCvCard";
 import ProfileCompletenessPrompt from "./components/ProfileCompletenessPrompt";
 import EvidencePanel from "./components/EvidencePanel";
-import CoreResumePreviewCard from "./components/CoreResumePreviewCard";
-import QuickActionsCard from "./components/QuickActionsCard";
 
 const emptyDashboard = {
   identity: {
@@ -19,8 +17,11 @@ const emptyDashboard = {
   },
   profileCompleteness: {
     score: 0,
+    completed: 0,
+    total: 5,
     status: "empty",
     showPrompt: true,
+    checks: [],
     missing: [],
     nextAction: null,
   },
@@ -30,11 +31,6 @@ const emptyDashboard = {
     reviewSuggested: false,
     coreCompetencies: [],
     highlightExperiences: [],
-  },
-  coreResumePreview: {
-    exists: false,
-    previewMd: null,
-    updatedAt: null,
   },
   evidencePanel: {
     defaultView: "evidenceSummary",
@@ -49,7 +45,6 @@ const emptyDashboard = {
       items: [],
     },
   },
-  quickActions: [],
 };
 
 export default function DashboardPage() {
@@ -63,7 +58,33 @@ export default function DashboardPage() {
 
     try {
       const response = await getDashboard();
-      setDashboard({ ...emptyDashboard, ...response.data });
+      const data = response.data || {};
+
+      setDashboard({
+        ...emptyDashboard,
+        ...data,
+        identity: { ...emptyDashboard.identity, ...data.identity },
+        profileCompleteness: {
+          ...emptyDashboard.profileCompleteness,
+          ...data.profileCompleteness,
+        },
+        interactiveCv: {
+          ...emptyDashboard.interactiveCv,
+          ...data.interactiveCv,
+        },
+        evidencePanel: {
+          ...emptyDashboard.evidencePanel,
+          ...data.evidencePanel,
+          evidenceSummary: {
+            ...emptyDashboard.evidencePanel.evidenceSummary,
+            ...data.evidencePanel?.evidenceSummary,
+          },
+          recentActivity: {
+            ...emptyDashboard.evidencePanel.recentActivity,
+            ...data.evidencePanel?.recentActivity,
+          },
+        },
+      });
     } catch (error) {
       setLoadError(error.message || "Unable to load dashboard.");
     } finally {
@@ -128,8 +149,6 @@ export default function DashboardPage() {
             profileCompleteness={dashboard.profileCompleteness}
           />
           <EvidencePanel evidencePanel={dashboard.evidencePanel} />
-          <CoreResumePreviewCard coreResumePreview={dashboard.coreResumePreview} />
-          <QuickActionsCard quickActions={dashboard.quickActions} />
         </div>
       </div>
     </div>

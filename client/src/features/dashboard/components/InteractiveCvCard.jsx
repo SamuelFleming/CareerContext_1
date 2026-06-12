@@ -1,11 +1,19 @@
 // client/src/features/dashboard/components/InteractiveCvCard.jsx
 import { Link } from "react-router-dom";
+import { Briefcase, GraduationCap } from "lucide-react";
 import Card, {
   CardHeader,
   CardTitle,
   CardContent,
 } from "../../../components/ui/Card";
 import SkillChip from "../../../components/ui/SkillChip";
+import EvidenceCard from "../../../components/ui/EvidenceCard";
+import { resolvePhase1InteractiveCv } from "../phase1MockData";
+
+const EXPERIENCE_ICONS = {
+  job: Briefcase,
+  project: GraduationCap,
+};
 
 function formatTimestamp(value) {
   if (!value) {
@@ -30,7 +38,8 @@ function ContactStrip({ identity }) {
 }
 
 export default function InteractiveCvCard({ identity, interactiveCv }) {
-  const updatedLabel = formatTimestamp(interactiveCv.summaryUpdatedAt);
+  const cv = resolvePhase1InteractiveCv(interactiveCv);
+  const updatedLabel = formatTimestamp(cv.summaryUpdatedAt);
 
   return (
     <Card className="flex flex-col gap-5">
@@ -56,14 +65,14 @@ export default function InteractiveCvCard({ identity, interactiveCv }) {
           <h4 className="text-sm font-semibold uppercase tracking-wide text-[var(--primary-800)]">
             Profile
           </h4>
-          {interactiveCv.summaryPreview ? (
+          {cv.summaryPreview ? (
             <>
               <p className="text-sm leading-relaxed text-[var(--primary-700)]">
-                {interactiveCv.summaryPreview}
+                {cv.summaryPreview}
               </p>
               <div className="flex flex-wrap items-center gap-3 text-xs text-[var(--primary-600)]">
                 {updatedLabel && <span>Updated {updatedLabel}</span>}
-                {interactiveCv.reviewSuggested && (
+                {cv.reviewSuggested && (
                   <span className="font-medium text-[var(--warning-600)]">
                     Review suggested
                   </span>
@@ -91,9 +100,9 @@ export default function InteractiveCvCard({ identity, interactiveCv }) {
           <h4 className="text-sm font-semibold uppercase tracking-wide text-[var(--primary-800)]">
             Core competencies
           </h4>
-          {interactiveCv.coreCompetencies?.length > 0 ? (
+          {cv.coreCompetencies?.length > 0 ? (
             <div className="flex flex-wrap gap-2">
-              {interactiveCv.coreCompetencies.map((skill) => (
+              {cv.coreCompetencies.map((skill) => (
                 <SkillChip key={skill}>{skill}</SkillChip>
               ))}
             </div>
@@ -104,14 +113,23 @@ export default function InteractiveCvCard({ identity, interactiveCv }) {
           )}
         </section>
 
-        <section className="flex flex-col gap-2">
+        <section className="flex flex-col gap-3">
           <h4 className="text-sm font-semibold uppercase tracking-wide text-[var(--primary-800)]">
             Experiences & projects
           </h4>
-          {interactiveCv.highlightExperiences?.length > 0 ? (
-            <p className="text-sm text-[var(--primary-600)]">
-              Experience highlights will render here in a later phase.
-            </p>
+          {cv.highlightExperiences?.length > 0 ? (
+            <div className="flex flex-col gap-3">
+              {cv.highlightExperiences.map((experience) => (
+                <EvidenceCard
+                  key={experience.id}
+                  icon={EXPERIENCE_ICONS[experience.type] || Briefcase}
+                  title={experience.title}
+                  meta={experience.meta}
+                  description={experience.description}
+                  tags={experience.tags}
+                />
+              ))}
+            </div>
           ) : (
             <p className="text-sm text-[var(--primary-600)]">
               Your most notable roles and projects will surface here after you add
