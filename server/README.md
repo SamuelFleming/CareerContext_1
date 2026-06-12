@@ -28,19 +28,19 @@ Base URL: `http://localhost:3006/api`
 
 Status key: **Implemented** · **Stub (501)** · **Not routed**
 
-Last updated: Dev ticket **007 — Profile and Core Context Backend**
+Last updated: Dev ticket **007.2 — CoreContext Model and Profile Refactor**
 
 | Method | Endpoint | Status | Auth | Notes |
 |--------|----------|--------|------|-------|
 | GET | `/api` | Implemented | No | API root message |
 | GET | `/api/health` | Implemented | No | Health check |
-| POST | `/api/auth/register` | Implemented | No | Creates user, returns JWT |
+| POST | `/api/auth/register` | Implemented | No | Creates user + CoreContext, returns JWT |
 | POST | `/api/auth/login` | Implemented | No | Returns JWT |
 | GET | `/api/auth/me` | Implemented | Yes | Current user summary |
-| GET | `/api/dashboard` | Stub (501) | No | Dashboard summary |
-| GET | `/api/profile` | Implemented | Yes | Current user profile and core context |
-| PUT | `/api/profile` | Implemented | Yes | Update `name`, `headline` |
-| PUT | `/api/profile/core-context` | Implemented | Yes | Update `coreContextMd`, sets `coreContextUpdatedAt` |
+| GET | `/api/dashboard` | Implemented | Yes | Dashboard summary; profile from CoreContext |
+| GET | `/api/profile` | Implemented | Yes | Returns `user`, `coreContext`, and resume fields |
+| PUT | `/api/profile` | Implemented | Yes | Update CoreContext: `fullName`, `mobile`, `location`, `headline` |
+| PUT | `/api/profile/core-context` | Implemented | Yes | Update `rawSummaryMd`, sets `summaryUpdatedAt` |
 | PUT | `/api/profile/core-resume` | Implemented | Yes | Update `coreResumeMd`, sets `coreResumeUpdatedAt` |
 | GET | `/api/experiences` | Stub (501) | No | List experiences |
 | POST | `/api/experiences` | Stub (501) | No | Create experience |
@@ -71,9 +71,9 @@ Last updated: Dev ticket **007 — Profile and Core Context Backend**
 | PUT | `/api/documents/:documentId` | Stub (501) | No | Update document |
 | DELETE | `/api/documents/:documentId` | Stub (501) | No | Delete document |
 
-## Profile endpoints (007)
+## Profile endpoints (007 / 007.2)
 
-All profile routes require `Authorization: Bearer <token>`. The authenticated user's ID from the JWT is the only profile source; there is no way to read or update another user's profile. `passwordHash` is never returned.
+All profile routes require `Authorization: Bearer <token>`. Structured career context lives on the `CoreContext` model (one per user via `userId`). `email` remains on `User`. Resume Markdown remains on `User` until a future Document migration.
 
 ### Manual test flow
 
@@ -87,30 +87,32 @@ curl -s -X POST http://localhost:3006/api/auth/register \
 curl -s http://localhost:3006/api/profile \
   -H "Authorization: Bearer <token>"
 
-# 3. PUT profile
+# 3. PUT profile (structured Core Context fields)
 curl -s -X PUT http://localhost:3006/api/profile \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <token>" \
-  -d '{"name":"Sam Fleming","headline":"Full-stack developer"}'
+  -d '{"fullName":"Sam Fleming","mobile":"+61 400 000 000","location":"Brisbane, AU","headline":"Full-stack developer"}'
 
-# 4. PUT core context
+# 4. PUT core context (raw summary Markdown)
 curl -s -X PUT http://localhost:3006/api/profile/core-context \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <token>" \
-  -d '{"coreContextMd":"I am currently working in a full-stack role..."}'
+  -d '{"rawSummaryMd":"I am currently working in a full-stack role..."}'
 
-# 5. PUT core resume
+# 5. GET dashboard
+curl -s http://localhost:3006/api/dashboard \
+  -H "Authorization: Bearer <token>"
+
+# 6. PUT core resume
 curl -s -X PUT http://localhost:3006/api/profile/core-resume \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <token>" \
   -d '{"coreResumeMd":"# Resume\n\n..."}'
-
-# 6. Unauthenticated request should return 401
-curl -s -o /dev/null -w "%{http_code}" http://localhost:3006/api/profile
 ```
 
 ## Changelog
 
 | Date | Ticket | Change |
 |------|--------|--------|
-| 2026-06-12 | 007 | Implemented profile endpoints; extended `User` model with `headline`, `coreContextUpdatedAt`, `coreResumeUpdatedAt` |
+| 2026-06-12 | 007.2 | Added `CoreContext` model; refactored profile/dashboard to use structured Core Context + `rawSummaryMd` |
+| 2026-06-12 | 007 | Implemented profile endpoints; extended `User` model with headline and context timestamps |
