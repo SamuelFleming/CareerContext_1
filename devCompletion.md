@@ -12,6 +12,13 @@ Tracks completed backend and full-stack development tickets.
 | 006.3 | Dashboard API endpoint | Phase 1 | 2026-06-12 | `GET /api/dashboard` with 006.2 contract |
 | 006.4 | Dashboard API integration | Phase 1 | 2026-06-12 | Screen 4 wired to dashboard API |
 
+## 006.3 / 006.4 — Summary
+
+- `GET /api/dashboard` returns Interactive CV payload with identity, summary preview, Phase 1 mock competencies/experiences, evidence panel placeholders.
+- `profileCompletenessService.js` shared between Dashboard and Profile (`GET /api/profile` includes `profileCompleteness`).
+- Dashboard UI: `InteractiveCvCard`, `ProfileCompletenessPrompt`, `EvidencePanel`. No core resume preview or quick actions.
+- Phase 1 mocks: `server/src/constants/phase1DashboardMocks.js` (+ client fallback in `phase1MockData.js`).
+
 ## 007.2 — Summary
 
 - Added `server/src/models/CoreContext.js` with one-to-one `userId` relationship.
