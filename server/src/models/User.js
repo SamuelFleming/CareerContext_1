@@ -21,19 +21,6 @@ const UserSchema = new mongoose.Schema(
       required: [true, 'Name is required'],
       trim: true,
     },
-    headline: {
-      type: String,
-      default: '',
-      trim: true,
-    },
-    coreContextMd: {
-      type: String,
-      default: '',
-    },
-    coreContextUpdatedAt: {
-      type: Date,
-      default: null,
-    },
     coreResumeMd: {
       type: String,
       default: '',

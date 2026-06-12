@@ -22,11 +22,11 @@ const getProfile = async (req, res) => {
 
 const updateProfile = async (req, res) => {
   try {
-    const profile = await profileService.updateProfile(req.user.userId, req.body);
+    const coreContext = await profileService.updateProfile(req.user.userId, req.body);
 
     return res.status(200).json({
       message: 'Profile updated',
-      data: { profile },
+      data: { coreContext },
     });
   } catch (error) {
     return handleProfileError(res, error);

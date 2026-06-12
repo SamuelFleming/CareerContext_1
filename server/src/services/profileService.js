@@ -1,23 +1,13 @@
 // server/src/services/profileService.js
 
 const User = require('../models/User');
+const coreContextService = require('./coreContextService');
 
 const createServiceError = (statusCode, message) => {
   const error = new Error(message);
   error.statusCode = statusCode;
   return error;
 };
-
-const toProfile = (user) => ({
-  id: user._id.toString(),
-  name: user.name,
-  email: user.email,
-  headline: user.headline || '',
-  coreContextMd: user.coreContextMd || '',
-  coreContextUpdatedAt: user.coreContextUpdatedAt || null,
-  coreResumeMd: user.coreResumeMd || '',
-  coreResumeUpdatedAt: user.coreResumeUpdatedAt || null,
-});
 
 const findUserById = async (userId) => {
   const user = await User.findById(userId);
@@ -29,59 +19,98 @@ const findUserById = async (userId) => {
   return user;
 };
 
+const toProfileResponse = (user, coreContext) => ({
+  user: {
+    id: user._id.toString(),
+    email: user.email,
+  },
+  coreContext: coreContextService.toCoreContext(coreContext),
+  coreResumeMd: user.coreResumeMd || '',
+  coreResumeUpdatedAt: user.coreResumeUpdatedAt || null,
+});
+
 const getProfile = async (userId) => {
   const user = await findUserById(userId);
+  const coreContext = await coreContextService.ensureForUser(user);
 
-  return toProfile(user);
+  return toProfileResponse(user, coreContext);
 };
 
-const updateProfile = async (userId, { name, headline }) => {
-  if (name === undefined && headline === undefined) {
-    throw createServiceError(400, 'At least one of name or headline is required');
+const updateProfile = async (userId, { fullName, mobile, location, headline }) => {
+  if (
+    fullName === undefined &&
+    mobile === undefined &&
+    location === undefined &&
+    headline === undefined
+  ) {
+    throw createServiceError(
+      400,
+      'At least one of fullName, mobile, location, or headline is required'
+    );
   }
 
   const user = await findUserById(userId);
+  const coreContext = await coreContextService.ensureForUser(user);
 
-  if (name !== undefined) {
-    if (typeof name !== 'string' || !name.trim()) {
-      throw createServiceError(400, 'Name must be a non-empty string');
+  if (fullName !== undefined) {
+    if (typeof fullName !== 'string' || !fullName.trim()) {
+      throw createServiceError(400, 'fullName must be a non-empty string');
     }
 
-    user.name = name.trim();
+    coreContext.fullName = fullName.trim();
+  }
+
+  if (mobile !== undefined) {
+    if (typeof mobile !== 'string') {
+      throw createServiceError(400, 'mobile must be a string');
+    }
+
+    coreContext.mobile = mobile.trim();
+  }
+
+  if (location !== undefined) {
+    if (typeof location !== 'string') {
+      throw createServiceError(400, 'location must be a string');
+    }
+
+    coreContext.location = location.trim();
   }
 
   if (headline !== undefined) {
     if (typeof headline !== 'string') {
-      throw createServiceError(400, 'Headline must be a string');
+      throw createServiceError(400, 'headline must be a string');
     }
 
-    user.headline = headline.trim();
+    coreContext.headline = headline.trim();
   }
 
-  await user.save();
+  await coreContext.save();
 
-  return toProfile(user);
+  return coreContextService.toCoreContext(coreContext);
 };
 
-const updateCoreContext = async (userId, { coreContextMd }) => {
-  if (coreContextMd === undefined) {
-    throw createServiceError(400, 'coreContextMd is required');
+const updateCoreContext = async (userId, body) => {
+  const rawSummaryMd = body.rawSummaryMd ?? body.coreContextMd;
+
+  if (rawSummaryMd === undefined) {
+    throw createServiceError(400, 'rawSummaryMd is required');
   }
 
-  if (typeof coreContextMd !== 'string') {
-    throw createServiceError(400, 'coreContextMd must be a string');
+  if (typeof rawSummaryMd !== 'string') {
+    throw createServiceError(400, 'rawSummaryMd must be a string');
   }
 
   const user = await findUserById(userId);
+  const coreContext = await coreContextService.ensureForUser(user);
 
-  user.coreContextMd = coreContextMd;
-  user.coreContextUpdatedAt = new Date();
+  coreContext.rawSummaryMd = rawSummaryMd;
+  coreContext.summaryUpdatedAt = new Date();
 
-  await user.save();
+  await coreContext.save();
 
   return {
-    coreContextMd: user.coreContextMd,
-    coreContextUpdatedAt: user.coreContextUpdatedAt,
+    rawSummaryMd: coreContext.rawSummaryMd,
+    summaryUpdatedAt: coreContext.summaryUpdatedAt,
   };
 };
 
@@ -112,5 +141,5 @@ module.exports = {
   updateProfile,
   updateCoreContext,
   updateCoreResume,
-  toProfile,
+  toProfileResponse,
 };
