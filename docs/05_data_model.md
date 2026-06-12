@@ -58,7 +58,7 @@ AI interactions should be recorded for debugging, traceability, and portfolio de
 
 ```text
 User
-  ├── Profile / Core Context
+  ├── CoreContext
   ├── Documents
   ├── Experiences
   │     ├── Activities
@@ -73,7 +73,8 @@ User
 
 | Entity | Relationship |
 |---|---|
-| User | Has one profile and many experiences, opportunities, documents, journal entries, and AI runs |
+| User | Has one CoreContext and many experiences, opportunities, documents, journal entries, and AI runs |
+| CoreContext | Belongs to one user; stores structured profile metadata and raw career summary Markdown |
 | Experience | Belongs to one user and has many activities and journal entries |
 | Activity | Belongs to one experience and one user |
 | JournalEntry | Belongs to one user and may link to an experience and/or activity |
@@ -94,13 +95,12 @@ Represents an authenticated person using the app.
 
 ```js
 {
-  _id, 
+  _id,
   email,
   passwordHash,
   name,
-  headline,
-  coreContext,
-  coreResumeDocumentId,
+  coreResumeMd,
+  coreResumeUpdatedAt,
   createdAt,
   updatedAt
 }
@@ -108,9 +108,40 @@ Represents an authenticated person using the app.
 
 ### Notes
 
-`coreContext` should remain flexible and user-authored. It may be a long text field in the MVP.
+- `email` and `passwordHash` support authentication.
+- `name` is the registration-time display name; richer profile identity lives on `CoreContext.fullName`.
+- `coreResumeMd` remains on `User` for MVP until resume content migrates to `Document`.
 
-I think `coreContext` should have it's own updatedAt (or 'last updated'). This is because it allows visibility to how up to date the core context is.
+---
+
+## CoreContext
+
+Represents structured career/profile context for one user.
+
+### Fields
+
+```js
+{
+  _id,
+  userId,
+  fullName,
+  mobile,
+  location,
+  headline,
+  rawSummaryMd,
+  summaryUpdatedAt,
+  createdAt,
+  updatedAt
+}
+```
+
+### Notes
+
+- One-to-one with `User` via `CoreContext.userId` (unique index).
+- `email` remains on `User`, not on `CoreContext`.
+- `rawSummaryMd` is the user-authored Markdown career summary (replaces the earlier `User.coreContextMd` concept).
+- AI-polished or AI-summarised fields may be added later; not required for MVP.
+- `summaryUpdatedAt` tracks when the raw summary was last edited.
 
 ---
 

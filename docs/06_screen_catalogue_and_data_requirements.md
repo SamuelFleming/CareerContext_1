@@ -145,7 +145,9 @@ The authenticated user's home screen. It provides a fast overview of profile com
 
 | Data | Purpose |
 |---|---|
-| profile summary | Personalise screen and show core context/resume status |
+| profile.fullName / profile.headline | Personalise screen from `CoreContext` |
+| profile.hasCoreContext / profile.hasCoreResume | Profile completeness flags |
+| profile.summaryUpdatedAt / profile.summaryPreview | Core context freshness and preview |
 | recent experiences | Let user continue building evidence |
 | recent opportunities | Let user continue application work |
 | recent documents | Let user continue editing outputs |
@@ -188,20 +190,23 @@ Profile and strategic career context editor. This is where the user maintains th
 
 | Data | Purpose |
 |---|---|
-| name | Basic identity |
-| email | Read-only account identity |
-| headline | Quick profile label |
-| coreContextMd | User-authored career narrative and direction |
-| coreResumeMd | Resume source content used in AI workflows |
-| coreContextUpdatedAt | Shows whether strategic context may be stale |
+| user.email | Read-only account identity from `User` |
+| coreContext.fullName | Display name and CV identity |
+| coreContext.mobile | Contact detail |
+| coreContext.location | Location detail |
+| coreContext.headline | Quick profile label |
+| coreContext.rawSummaryMd | User-authored career narrative and direction |
+| coreContext.summaryUpdatedAt | Shows whether strategic context may be stale |
+| coreResumeMd | Resume source content on `User`, used in AI workflows |
+| coreResumeUpdatedAt | Shows whether resume content may be stale |
 
 ## UI Actions
 
 | Action | Endpoint | Result |
 |---|---|---|
 | Load profile | `GET /api/profile` | Populate form/editor |
-| Save profile fields | `PUT /api/profile` | Update basic profile |
-| Save core context | `PUT /api/profile/core-context` | Update core context Markdown |
+| Save profile fields | `PUT /api/profile` | Update structured Core Context fields (`fullName`, `mobile`, `location`, `headline`) |
+| Save core context | `PUT /api/profile/core-context` | Update `rawSummaryMd` on Core Context |
 | Save core resume | `PUT /api/profile/core-resume` | Update core resume Markdown |
 
 ## API Endpoints

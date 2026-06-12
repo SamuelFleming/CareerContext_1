@@ -134,8 +134,22 @@ The simpler MVP model could be
   email,
   passwordHash,
   name,
-  coreContextMd,
-  coreResumeMd
+  coreResumeMd,
+  coreResumeUpdatedAt
+}
+```
+
+## CoreContext
+
+```js
+{
+  userId,
+  fullName,
+  mobile,
+  location,
+  headline,
+  rawSummaryMd,
+  summaryUpdatedAt
 }
 ```
 
