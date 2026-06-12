@@ -28,7 +28,7 @@ Base URL: `http://localhost:3006/api`
 
 Status key: **Implemented** · **Stub (501)** · **Not routed**
 
-Last updated: Dev ticket **007.2 — CoreContext Model and Profile Refactor**
+Last updated: Dev tickets **006.3 / 006.4 — Dashboard API and UI**
 
 | Method | Endpoint | Status | Auth | Notes |
 |--------|----------|--------|------|-------|
@@ -37,7 +37,7 @@ Last updated: Dev ticket **007.2 — CoreContext Model and Profile Refactor**
 | POST | `/api/auth/register` | Implemented | No | Creates user + CoreContext, returns JWT |
 | POST | `/api/auth/login` | Implemented | No | Returns JWT |
 | GET | `/api/auth/me` | Implemented | Yes | Current user summary |
-| GET | `/api/dashboard` | Implemented | Yes | Dashboard summary; profile from CoreContext |
+| GET | `/api/dashboard` | Implemented | Yes | Interactive CV payload, completeness, previews, placeholders |
 | GET | `/api/profile` | Implemented | Yes | Returns `user`, `coreContext`, and resume fields |
 | PUT | `/api/profile` | Implemented | Yes | Update CoreContext: `fullName`, `mobile`, `location`, `headline` |
 | PUT | `/api/profile/core-context` | Implemented | Yes | Update `rawSummaryMd`, sets `summaryUpdatedAt` |

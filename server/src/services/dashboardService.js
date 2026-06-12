@@ -9,10 +9,6 @@ const createServiceError = (statusCode, message) => {
   return error;
 };
 
-<<<<<<< Updated upstream
-const buildSummaryPreview = (rawSummaryMd, maxLength = 200) => {
-  const trimmed = (rawSummaryMd || '').trim();
-=======
 const COMPLETENESS_RULES = [
   { key: 'fullName', weight: 15, label: 'Add your full name', isComplete: (cc) => Boolean(cc.fullName?.trim()) },
   { key: 'headline', weight: 15, label: 'Add a headline', isComplete: (cc) => Boolean(cc.headline?.trim()) },
@@ -33,7 +29,6 @@ const COMPLETENESS_RULES = [
 
 const buildPreview = (text, maxLength) => {
   const trimmed = (text || '').trim();
->>>>>>> Stashed changes
 
   if (!trimmed) {
     return null;
@@ -43,9 +38,6 @@ const buildPreview = (text, maxLength) => {
     return trimmed;
   }
 
-<<<<<<< Updated upstream
-  return `${trimmed.slice(0, maxLength).trimEnd()}...`;
-=======
   return `${trimmed.slice(0, maxLength).trimEnd()}…`;
 };
 
@@ -66,7 +58,7 @@ const calculateProfileCompleteness = (coreContext, user) => {
     if (rule.isComplete(coreContext, user)) {
       score += rule.weight;
     } else {
-      missing.push(rule.key === 'rawSummaryMd' ? 'rawSummaryMd' : rule.key);
+      missing.push(rule.key);
     }
   }
 
@@ -91,7 +83,6 @@ const calculateProfileCompleteness = (coreContext, user) => {
         }
       : null,
   };
->>>>>>> Stashed changes
 };
 
 const getDashboard = async (userId) => {
@@ -102,30 +93,6 @@ const getDashboard = async (userId) => {
   }
 
   const coreContext = await coreContextService.ensureForUser(user);
-<<<<<<< Updated upstream
-  const rawSummary = coreContext.rawSummaryMd || '';
-
-  return {
-    profile: {
-      fullName: coreContext.fullName || user.name || '',
-      headline: coreContext.headline || '',
-      hasCoreContext: Boolean(rawSummary.trim()),
-      hasCoreResume: Boolean((user.coreResumeMd || '').trim()),
-      summaryUpdatedAt: coreContext.summaryUpdatedAt || null,
-      summaryPreview: buildSummaryPreview(rawSummary),
-    },
-    counts: {
-      experiences: 0,
-      activities: 0,
-      opportunities: 0,
-      documents: 0,
-      journalEntries: 0,
-    },
-    recentExperiences: [],
-    recentOpportunities: [],
-    recentDocuments: [],
-    recentJournalEntries: [],
-=======
   const profileCompleteness = calculateProfileCompleteness(coreContext, user);
   const summaryPreview = buildPreview(coreContext.rawSummaryMd, 350);
 
@@ -178,16 +145,12 @@ const getDashboard = async (userId) => {
       opportunities: 'planned',
       documents: 'planned',
     },
->>>>>>> Stashed changes
   };
 };
 
 module.exports = {
   getDashboard,
-<<<<<<< Updated upstream
-=======
   calculateProfileCompleteness,
   buildPreview,
   isReviewSuggested,
->>>>>>> Stashed changes
 };

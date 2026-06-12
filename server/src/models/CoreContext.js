@@ -46,7 +46,6 @@ const CoreContextSchema = new mongoose.Schema(
 
 CoreContextSchema.index({ userId: 1 }, { unique: true });
 
-<<<<<<< Updated upstream
 CoreContextSchema.set('toJSON', {
   transform: (doc, ret) => {
     ret.id = ret._id.toString();
@@ -57,6 +56,4 @@ CoreContextSchema.set('toJSON', {
   },
 });
 
-=======
->>>>>>> Stashed changes
 module.exports = mongoose.model('CoreContext', CoreContextSchema);

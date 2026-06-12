@@ -1,15 +1,114 @@
 // client/src/features/dashboard/DashboardPage.jsx
-import { Briefcase, GraduationCap, Activity } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
 import PageHeader from "../../components/ui/PageHeader";
-import Card, {
-  CardHeader,
-  CardTitle,
-  CardContent,
-} from "../../components/ui/Card";
-import EvidenceCard from "../../components/ui/EvidenceCard";
-import SkillChip from "../../components/ui/SkillChip";
+import Button from "../../components/ui/Button";
+import { getDashboard } from "../../services/dashboardService";
+import InteractiveCvCard from "./components/InteractiveCvCard";
+import ProfileCompletenessPrompt from "./components/ProfileCompletenessPrompt";
+import EvidencePanel from "./components/EvidencePanel";
+import CoreResumePreviewCard from "./components/CoreResumePreviewCard";
+import QuickActionsCard from "./components/QuickActionsCard";
+
+const emptyDashboard = {
+  identity: {
+    fullName: "",
+    headline: "",
+    email: "",
+    mobile: "",
+    location: "",
+  },
+  profileCompleteness: {
+    score: 0,
+    status: "empty",
+    showPrompt: true,
+    missing: [],
+    nextAction: null,
+  },
+  interactiveCv: {
+    summaryPreview: null,
+    summaryUpdatedAt: null,
+    reviewSuggested: false,
+    coreCompetencies: [],
+    highlightExperiences: [],
+  },
+  coreResumePreview: {
+    exists: false,
+    previewMd: null,
+    updatedAt: null,
+  },
+  evidencePanel: {
+    defaultView: "evidenceSummary",
+    evidenceSummary: {
+      status: "placeholder",
+      message: "Experience evidence comes next.",
+      counts: { experiences: 0, activities: 0, journalEntries: 0 },
+    },
+    recentActivity: {
+      status: "placeholder",
+      message: "Your latest captured evidence will appear here.",
+      items: [],
+    },
+  },
+  quickActions: [],
+};
 
 export default function DashboardPage() {
+  const [dashboard, setDashboard] = useState(emptyDashboard);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
+
+  const loadDashboard = useCallback(async () => {
+    setIsLoading(true);
+    setLoadError("");
+
+    try {
+      const response = await getDashboard();
+      setDashboard({ ...emptyDashboard, ...response.data });
+    } catch (error) {
+      setLoadError(error.message || "Unable to load dashboard.");
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadDashboard();
+  }, [loadDashboard]);
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col gap-8">
+        <PageHeader
+          eyebrow="Dashboard"
+          title="Your Career Context"
+          description="Loading your workspace overview..."
+        />
+        <p className="text-sm text-[var(--primary-600)]">Loading dashboard…</p>
+      </div>
+    );
+  }
+
+  if (loadError) {
+    return (
+      <div className="flex flex-col gap-8">
+        <PageHeader
+          eyebrow="Dashboard"
+          title="Your Career Context"
+          description="A living overview of your profile, evidence, opportunities, and generated documents."
+        />
+        <div
+          role="alert"
+          className="rounded-md border border-[var(--error-100)] bg-[var(--error-100)]/40 px-4 py-3 text-sm text-[var(--error-600)]"
+        >
+          {loadError}
+        </div>
+        <Button type="button" onClick={loadDashboard}>
+          Try again
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-8">
       <PageHeader
@@ -19,61 +118,18 @@ export default function DashboardPage() {
       />
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.4fr_1fr]">
-        <Card className="flex flex-col gap-5">
-          <CardHeader>
-            <p className="text-xs font-semibold uppercase tracking-wider text-[var(--accent-600)]">
-              Interactive CV
-            </p>
-            <CardTitle className="text-2xl">Samuel Example</CardTitle>
-            <p className="text-sm text-[var(--primary-600)]">
-              Software Developer · Project Lead · Computing Student
-            </p>
-          </CardHeader>
-
-          <div className="flex flex-wrap gap-2">
-            <SkillChip>React</SkillChip>
-            <SkillChip>Node.js</SkillChip>
-            <SkillChip variant="neutral">Leadership</SkillChip>
-            <SkillChip variant="success">Express</SkillChip>
-          </div>
-
-          <div className="flex flex-col gap-3">
-            <EvidenceCard
-              icon={Briefcase}
-              title="[Dummy] Full-Stack Developer Intern"
-              meta="TechCorp · Jun 2025 – Present"
-              description="Led an internal dashboard rebuild used by 40+ staff."
-              tags={["React", "Node.js", "Leadership"]}
-            />
-            <EvidenceCard
-              icon={GraduationCap}
-              title="[Dummy] Capstone Project"
-              meta="University · 2025"
-              description="Built a MERN application for structuring career evidence."
-              tags={["MongoDB", "AI"]}
-            />
-          </div>
-        </Card>
+        <InteractiveCvCard
+          identity={dashboard.identity}
+          interactiveCv={dashboard.interactiveCv}
+        />
 
         <div className="flex flex-col gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Evidence Summary</CardTitle>
-            </CardHeader>
-            <CardContent>
-              Experiences, activities, and journal entries will appear here.
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex-row items-center gap-2">
-              <Activity size={18} className="text-[var(--accent-600)]" aria-hidden="true" />
-              <CardTitle>Recent Activity</CardTitle>
-            </CardHeader>
-            <CardContent>
-              Your latest captured evidence will appear here.
-            </CardContent>
-          </Card>
+          <ProfileCompletenessPrompt
+            profileCompleteness={dashboard.profileCompleteness}
+          />
+          <EvidencePanel evidencePanel={dashboard.evidencePanel} />
+          <CoreResumePreviewCard coreResumePreview={dashboard.coreResumePreview} />
+          <QuickActionsCard quickActions={dashboard.quickActions} />
         </div>
       </div>
     </div>

@@ -254,25 +254,61 @@ GET /api/dashboard
 ```json
 {
   "data": {
-    "profile": {
+    "identity": {
       "fullName": "Sam Fleming",
       "headline": "Full-stack developer",
-      "hasCoreContext": true,
-      "hasCoreResume": true,
+      "email": "sam@example.com",
+      "mobile": "+61 400 000 000",
+      "location": "Brisbane, AU"
+    },
+    "profileCompleteness": {
+      "score": 70,
+      "status": "in_progress",
+      "showPrompt": true,
+      "missing": ["coreResumeMd"],
+      "nextAction": {
+        "label": "Add your core resume",
+        "to": "/profile"
+      }
+    },
+    "interactiveCv": {
+      "summaryPreview": "I am currently working in a full-stack .NET public sector role...",
       "summaryUpdatedAt": "2026-06-08T00:00:00.000Z",
-      "summaryPreview": "I am currently working in a full-stack .NET public sector role..."
+      "reviewSuggested": false,
+      "coreCompetencies": [],
+      "highlightExperiences": []
     },
-    "counts": {
-      "experiences": 3,
-      "activities": 12,
-      "opportunities": 4,
-      "documents": 2,
-      "journalEntries": 8
+    "coreResumePreview": {
+      "exists": true,
+      "previewMd": "# Sam Fleming\n\nGraduate Developer...",
+      "updatedAt": "2026-06-08T00:00:00.000Z"
     },
-    "recentExperiences": [],
-    "recentOpportunities": [],
-    "recentDocuments": [],
-    "recentJournalEntries": []
+    "evidencePanel": {
+      "defaultView": "evidenceSummary",
+      "evidenceSummary": {
+        "status": "placeholder",
+        "message": "Experience evidence comes next.",
+        "counts": {
+          "experiences": 0,
+          "activities": 0,
+          "journalEntries": 0
+        }
+      },
+      "recentActivity": {
+        "status": "placeholder",
+        "message": "Your latest captured evidence will appear here.",
+        "items": []
+      }
+    },
+    "quickActions": [
+      { "label": "Edit Core Context", "to": "/profile", "enabled": true },
+      { "label": "Add Experience", "to": "/experiences", "enabled": false, "badge": "Coming soon" }
+    ],
+    "phasePlaceholders": {
+      "experienceEvidence": "planned",
+      "opportunities": "planned",
+      "documents": "planned"
+    }
   }
 }
 ```
