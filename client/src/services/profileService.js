@@ -8,7 +8,8 @@ import { apiRequest } from "./apiClient";
  *     user: { id, email },
  *     coreContext: { fullName, mobile, location, headline, rawSummaryMd, summaryUpdatedAt },
  *     coreResumeMd,
- *     coreResumeUpdatedAt
+ *     coreResumeUpdatedAt,
+ *     profileCompleteness: { score, completed, total, status, showPrompt, checks, missing, nextAction }
  *   }
  * }
  */
