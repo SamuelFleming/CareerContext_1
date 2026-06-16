@@ -6,7 +6,7 @@ import Card, {
   CardDescription,
   CardContent,
 } from "../../../components/ui/Card";
-import TextArea from "../../../components/ui/TextArea";
+import MarkdownEditor from "../../../components/editor/MarkdownEditor";
 import Button from "../../../components/ui/Button";
 
 const saveStatusText = {
@@ -91,13 +91,14 @@ export default function CoreContextEditor({
         </CardContent>
       )}
 
-      <TextArea
+      <MarkdownEditor
         label="Career summary"
         placeholder="I am a full-stack developer currently working in public sector systems. I am targeting mid-level product engineering roles where I can..."
-        helperText="Markdown supported. This is saved as your raw summary."
+        helperText="This summary is used as strategic context for future AI workflows."
         value={rawSummaryMd}
-        onChange={(event) => onChange(event.target.value)}
-        className="min-h-[220px]"
+        onChange={onChange}
+        minRows={12}
+        previewEnabled
       />
     </Card>
   );
