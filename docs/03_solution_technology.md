@@ -546,15 +546,15 @@ Purpose:
 - Manage user profile, career state, career direction, and core resume.
 
 Data:
-- user profile
-- coreContext
-- core resume document
+- `coreContext` structured fields + `rawSummaryMd`
+- `User.coreResumeMd` (MVP; migrates to Document per **008.2**)
+- `profileCompleteness`
 
 Components:
-- ProfileForm
-- CoreContextEditor
-- ResumeUploadCard
-- CareerDirectionPanel
+- `ProfileSummaryForm` — structured CoreContext fields
+- `CoreContextEditor` — raw summary (`MarkdownEditor`, **008.1**)
+- `CoreResumeEditor` — source resume (`MarkdownEditor` **008.3**; upload scaffold **008.4**)
+- `ProfileFreshnessWidget` — completeness + timestamps
 
 ---
 
