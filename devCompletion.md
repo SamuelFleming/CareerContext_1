@@ -12,6 +12,13 @@ Tracks completed backend and full-stack development tickets.
 | 006.3 | Dashboard API endpoint | Phase 1 | 2026-06-12 | `GET /api/dashboard` with 006.2 contract |
 | 006.4 | Dashboard API integration | Phase 1 | 2026-06-12 | Screen 4 wired to dashboard API |
 | 008.1 | Reusable Markdown editor widget | Phase 1 | 2026-06-16 | Shared `MarkdownEditor` on Profile + Journal drawer |
+| 008.2 | Core resume → Document refactor plan | Phase 1 | 2026-06-16 | Documentation only; migration deferred to DOC-002 |
+
+## 008.2 — Summary
+
+- Core resume stays on `User.coreResumeMd` until refactor triggers (versioning, export, opportunity-linked docs, etc.).
+- Future: `Document { type: 'core_resume' }` + `User.coreResumeDocumentId`.
+- **008.3** / **008.4** improve Profile UX without changing storage.
 
 ## 008.1 — Summary
 

@@ -34,7 +34,7 @@ CareerContext is a fast-build MERN stack AI-first portfolio project. The documen
    API endpoint registry, request/response shapes, and implementation notes.
 
 10. [`devTickets/`](./devTickets/)  
-    Implementation tickets (e.g. Dashboard 006.x, Profile 008, Markdown editor 008.1). [`devCompletion.md`](../devCompletion.md) at repo root tracks completed work; [`devTickets_next.md`](../devTickets_next.md) lists upcoming work.
+    Implementation tickets (e.g. Dashboard 006.x, Profile 008.x, Markdown editor 008.1, Core resume plan 008.2–008.4). [`devCompletion.md`](../devCompletion.md) tracks completed work; [`devTickets_next.md`](../devTickets_next.md) lists upcoming work.
 
 11. [`06_flows_to_screens.md`](./06_flows_to_screens.md)  
     User flows mapped to screens and required API support.
