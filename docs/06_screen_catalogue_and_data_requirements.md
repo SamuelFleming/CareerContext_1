@@ -206,7 +206,7 @@ Profile and strategic career context editor. This is where the user maintains th
 
 | Ticket | Behaviour |
 |--------|-----------|
-| **008.3** | `MarkdownEditor` (Edit/Preview) replaces plain textarea |
+| **008.3** | `MarkdownEditor` (Edit/Preview) — **implemented** |
 | **008.4** | Input mode scaffold: **Write in Markdown** (active) vs **Upload file** (placeholder until Document API) |
 
 Storage remains `User.coreResumeMd` until **008.2** / **DOC-002** migration.

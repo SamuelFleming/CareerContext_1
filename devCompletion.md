@@ -13,6 +13,12 @@ Tracks completed backend and full-stack development tickets.
 | 006.4 | Dashboard API integration | Phase 1 | 2026-06-12 | Screen 4 wired to dashboard API |
 | 008.1 | Reusable Markdown editor widget | Phase 1 | 2026-06-16 | Shared `MarkdownEditor` on Profile + Journal drawer |
 | 008.2 | Core resume → Document refactor plan | Phase 1 | 2026-06-16 | Documentation only; migration deferred to DOC-002 |
+| 008.3 | Core resume MarkdownEditor | Phase 1 | 2026-06-16 | `CoreResumeEditor` uses shared `MarkdownEditor` |
+
+## 008.3 — Summary
+
+- `CoreResumeEditor` uses `MarkdownEditor` (Edit/Preview + toolbar) for `coreResumeMd`.
+- API unchanged: `PUT /api/profile/core-resume`.
 
 ## 008.2 — Summary
 

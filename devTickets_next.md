@@ -6,11 +6,10 @@ Suggested upcoming work after **008.1**.
 
 | Ticket | Title | Priority | Type | Notes |
 |--------|-------|----------|------|-------|
-| **008.3** | Core resume `MarkdownEditor` | High | UI | Swap `TextArea` in `CoreResumeEditor`; no API change |
 | **008.4** | Core resume input mode scaffold | Medium | UI | Markdown vs Upload toggle; upload is placeholder only |
 | — | Resume migration to Document model | Low | Backend | See **DOC-002**; blocked on refactor triggers + DOC-001 |
 
-**Completed in Phase 1:** Profile API (007 / 007.2), Profile UI (008), Dashboard (006.x), Markdown editor widget (008.1).
+**Completed in Phase 1:** Profile API (007 / 007.2), Profile UI (008), Dashboard (006.x), Markdown editor widget (008.1), Core resume editor (008.3).
 
 **Documented (no code):** **008.2** — Core resume → Document refactor plan.
 

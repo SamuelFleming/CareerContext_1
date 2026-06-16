@@ -4,7 +4,7 @@ import Card, {
   CardTitle,
   CardDescription,
 } from "../../../components/ui/Card";
-import TextArea from "../../../components/ui/TextArea";
+import MarkdownEditor from "../../../components/editor/MarkdownEditor";
 import Button from "../../../components/ui/Button";
 
 const saveStatusText = {
@@ -64,17 +64,20 @@ export default function CoreResumeEditor({
         </div>
       )}
 
-      <TextArea
+      <MarkdownEditor
         label="Resume Markdown"
-        placeholder={"# Your Name\n\n## Experience\n\n- Role at Company — key outcomes...\n\n## Skills\n\n- React, Node.js, ..."}
+        placeholder={
+          "# Your Name\n\n## Experience\n\n- Role at Company — key outcomes...\n\n## Skills\n\n- React, Node.js, ..."
+        }
         helperText={
           isEmpty
             ? "Start with headings and bullet points. You can paste an existing resume and refine it here."
-            : "Markdown supported."
+            : "Use Edit/Preview to review how your resume will read. Saved as Markdown for AI workflows."
         }
         value={coreResumeMd}
-        onChange={(event) => onChange(event.target.value)}
-        className="min-h-[280px] font-mono text-sm"
+        onChange={onChange}
+        minRows={14}
+        previewEnabled
       />
     </Card>
   );
