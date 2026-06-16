@@ -11,6 +11,14 @@ Tracks completed backend and full-stack development tickets.
 | 006.1 | Dashboard audit and target-state discovery | Phase 1 | 2026-06-12 | Interactive CV layout; collapsible evidence panel |
 | 006.3 | Dashboard API endpoint | Phase 1 | 2026-06-12 | `GET /api/dashboard` with 006.2 contract |
 | 006.4 | Dashboard API integration | Phase 1 | 2026-06-12 | Screen 4 wired to dashboard API |
+| 008.1 | Reusable Markdown editor widget | Phase 1 | 2026-06-16 | Shared `MarkdownEditor` on Profile + Journal drawer |
+
+## 008.1 — Summary
+
+- `client/src/components/editor/` — `MarkdownEditor`, `MarkdownPreview`, toolbar helpers, themed CSS.
+- Edit/Preview toggle + formatting toolbar; renders via `react-markdown` + `remark-gfm`.
+- **Profile:** `CoreContextEditor` raw summary field.
+- **Journal:** `JournalDrawer` notes field (local draft until journal API lands).
 
 ## 006.3 / 006.4 — Summary
 

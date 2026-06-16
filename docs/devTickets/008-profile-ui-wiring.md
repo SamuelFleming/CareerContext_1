@@ -147,3 +147,4 @@ Calculated by `profileCompletenessService.js` — same object shape as `GET /api
 
 - **007** — Profile endpoints
 - **007.2** — `CoreContext` model and refactored profile API shape
+- **008.1** — `MarkdownEditor` for raw summary field (`CoreContextEditor`)
