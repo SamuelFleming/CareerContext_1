@@ -3,26 +3,49 @@ import { useEffect, useState } from "react";
 import { BookOpen, X } from "lucide-react";
 import Button from "../ui/Button";
 import Input from "../ui/Input";
-import TextArea from "../ui/TextArea";
+import MarkdownEditor from "../editor/MarkdownEditor";
 import { cn } from "../../utils/cn";
 
+const emptyEntry = {
+  title: "",
+  notesMd: "",
+};
+
 /**
- * Placeholder journal / binder drawer.
- * Opens and closes via local state only — nothing is persisted yet.
+ * Global journal / binder drawer for quick evidence capture.
+ * Uses the shared MarkdownEditor widget; persistence via journal API is Phase 5.
  */
 export default function JournalDrawer() {
   const [isOpen, setIsOpen] = useState(false);
+  const [entry, setEntry] = useState(emptyEntry);
+  const [draftNotice, setDraftNotice] = useState("");
 
   useEffect(() => {
     if (!isOpen) return undefined;
 
     const handleKeyDown = (event) => {
-      if (event.key === "Escape") setIsOpen(false);
+      if (event.key === "Escape") handleClose();
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen]);
+
+  const handleClose = () => {
+    setIsOpen(false);
+    setDraftNotice("");
+  };
+
+  const handleSaveDraft = () => {
+    if (!entry.title.trim() && !entry.notesMd.trim()) {
+      return;
+    }
+
+    setDraftNotice("Draft captured locally — journal API persistence comes next.");
+    setEntry(emptyEntry);
+  };
+
+  const canSaveDraft = Boolean(entry.title.trim() || entry.notesMd.trim());
 
   return (
     <>
@@ -48,7 +71,7 @@ export default function JournalDrawer() {
 
       {/* Backdrop */}
       <div
-        onClick={() => setIsOpen(false)}
+        onClick={handleClose}
         aria-hidden="true"
         className={cn(
           "fixed inset-0 z-40 bg-[var(--primary-900)]/30 transition-opacity duration-300",
@@ -80,7 +103,7 @@ export default function JournalDrawer() {
 
           <button
             type="button"
-            onClick={() => setIsOpen(false)}
+            onClick={handleClose}
             aria-label="Close journal"
             className="rounded-md p-1 text-[var(--primary-600)] transition-colors hover:bg-[var(--neutral-200)] hover:text-[var(--primary-900)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-200)]"
           >
@@ -92,13 +115,39 @@ export default function JournalDrawer() {
           Capture a rough note now — structure it into evidence later.
         </p>
 
-        <div className="flex flex-col gap-4">
-          <Input label="Title" placeholder="e.g. Led incident response during outage" />
+        {draftNotice && (
+          <p
+            className="rounded-md border border-[var(--success-100)] bg-[var(--success-100)]/50 px-4 py-3 text-sm text-[var(--success-600)]"
+            role="status"
+            aria-live="polite"
+          >
+            {draftNotice}
+          </p>
+        )}
 
-          <TextArea
-            label="Notes (markdown)"
-            placeholder={"What happened, what you did, and the impact...\n\n- Context\n- Action\n- Result"}
-            className="min-h-[200px] font-[var(--font-mono)] text-sm"
+        <div className="flex flex-col gap-4">
+          <Input
+            label="Title"
+            placeholder="e.g. Led incident response during outage"
+            value={entry.title}
+            onChange={(event) =>
+              setEntry((current) => ({ ...current, title: event.target.value }))
+            }
+          />
+
+          <MarkdownEditor
+            label="Notes"
+            name="journalNotesMd"
+            placeholder={
+              "What happened, what you did, and the impact...\n\n- Context\n- Action\n- Result"
+            }
+            helperText="Use Edit/Preview to write and review Markdown before saving."
+            value={entry.notesMd}
+            onChange={(value) =>
+              setEntry((current) => ({ ...current, notesMd: value }))
+            }
+            minRows={10}
+            previewEnabled
           />
 
           <div className="flex flex-col gap-1.5">
@@ -112,10 +161,16 @@ export default function JournalDrawer() {
         </div>
 
         <div className="mt-auto flex items-center justify-end gap-3 pt-4">
-          <Button variant="ghost" onClick={() => setIsOpen(false)}>
+          <Button variant="ghost" onClick={handleClose}>
             Cancel
           </Button>
-          <Button variant="primary">Save Draft</Button>
+          <Button
+            variant="primary"
+            onClick={handleSaveDraft}
+            disabled={!canSaveDraft}
+          >
+            Save Draft
+          </Button>
         </div>
       </aside>
     </>
