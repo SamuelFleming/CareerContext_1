@@ -324,6 +324,8 @@ Detail/editor screen for a single Activity. Activities are reusable evidence ite
 
 Professional journal workspace for rough notes. Journal Entries should lower friction for capturing work before it is fully structured.
 
+The global **Journal drawer** (`JournalDrawer` in the app shell) and future Screen 9 editors both use the shared **`MarkdownEditor`** component (008.1) for note content.
+
 ## Data Requirements
 
 | Data | Purpose |
