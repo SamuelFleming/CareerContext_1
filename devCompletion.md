@@ -15,6 +15,14 @@ Tracks completed backend and full-stack development tickets.
 | 008.2 | Core resume → Document refactor plan | Phase 1 | 2026-06-16 | Documentation only; migration deferred to DOC-002 |
 | 008.3 | Core resume MarkdownEditor | Phase 1 | 2026-06-16 | `CoreResumeEditor` uses shared `MarkdownEditor` |
 | 008.4 | Core resume input mode scaffold | Phase 1 | 2026-06-16 | Markdown vs Upload toggle; upload placeholder only |
+| 009 | Shared authenticated app layout polish | Phase 1 | 2026-06-16 | NavItem, mobile shell, user identity, placeholder routes |
+
+## 009 — Summary
+
+- `NavItem` + `navConfig` centralise primary navigation.
+- `TopNav` shows user name/email, mobile menu, active links on small screens.
+- `Sidebar` mobile overlay; Journal opens global drawer via `JournalDrawerContext`.
+- Placeholder routes: `/experiences`, `/journal`, `/opportunities`, `/documents`.
 
 ## 008.4 — Summary
 
