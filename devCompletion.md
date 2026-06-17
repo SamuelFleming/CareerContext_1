@@ -16,6 +16,13 @@ Tracks completed backend and full-stack development tickets.
 | 008.3 | Core resume MarkdownEditor | Phase 1 | 2026-06-16 | `CoreResumeEditor` uses shared `MarkdownEditor` |
 | 008.4 | Core resume input mode scaffold | Phase 1 | 2026-06-16 | Markdown vs Upload toggle; upload placeholder only |
 | 009 | Shared authenticated app layout polish | Phase 1 | 2026-06-16 | NavItem, mobile shell, user identity, placeholder routes |
+| 010 | Phase 1 stabilisation and QA pass | Phase 1 | 2026-06-16 | API smoke tests passed; checklist reconciled |
+
+## 010 — Summary
+
+- Phase 1 auth, profile, and dashboard flows verified via API smoke test.
+- Dashboard **no longer** shows core resume preview (by design); Core Context summary preview in Interactive CV.
+- Ready to proceed to Phase 2 (Experience Evidence).
 
 ## 009 — Summary
 
