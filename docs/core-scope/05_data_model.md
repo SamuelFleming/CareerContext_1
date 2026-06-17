@@ -111,7 +111,7 @@ Represents an authenticated person using the app.
 - `email` and `passwordHash` support authentication.
 - `name` is the registration-time display name; richer profile identity lives on `CoreContext.fullName`.
 - `coreResumeMd` remains on `User` for MVP until resume content migrates to `Document`.
-- See [`devTickets/008.2-core-resume-document-refactor-plan.md`](./devTickets/008.2-core-resume-document-refactor-plan.md) for migration triggers, target model, and when to implement `coreResumeDocumentId`.
+- See [`008.2-core-resume-document-refactor-plan.md`](../devTickets/phase1/008.2-core-resume-document-refactor-plan.md) for migration triggers, target model, and when to implement `coreResumeDocumentId`.
 
 ---
 

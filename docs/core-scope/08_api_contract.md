@@ -468,7 +468,7 @@ PUT /api/profile/core-resume
 
 - **MVP:** Resume body is stored on `User.coreResumeMd` (not `Document`).
 - **UI:** Screen 5 uses `MarkdownEditor` (**008.3**) with optional upload-mode scaffold (**008.4**); upload does not call this endpoint until Document APIs exist.
-- **Future:** When refactor triggers in [`devTickets/008.2-core-resume-document-refactor-plan.md`](./devTickets/008.2-core-resume-document-refactor-plan.md) are met, core resume migrates to `Document { type: 'core_resume' }` and `User.coreResumeDocumentId`. This endpoint may become a thin wrapper over document update during a deprecation window.
+- **Future:** When refactor triggers in [`008.2-core-resume-document-refactor-plan.md`](../devTickets/phase1/008.2-core-resume-document-refactor-plan.md) are met, core resume migrates to `Document { type: 'core_resume' }` and `User.coreResumeDocumentId`. This endpoint may become a thin wrapper over document update during a deprecation window.
 
 ---
 

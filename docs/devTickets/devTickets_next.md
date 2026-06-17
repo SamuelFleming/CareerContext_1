@@ -6,6 +6,7 @@ Phase 1 (Auth and Profile) is **complete**. See [`devCompletion.md`](./devComple
 
 | Ticket | Title | Priority | Notes |
 |--------|-------|----------|-------|
+| **200** | Phase 2 planning and data contract review | High | Completed kickoff review in `phase2/200-phase-2-planning-and-data-contract-review.md` |
 | — | Experience CRUD backend | High | Replace 501 stubs for `/api/experiences` |
 | — | Activity CRUD backend | High | Nested under experiences |
 | — | Experience Index UI (Screen 6) | High | Wire `/experiences` route |
