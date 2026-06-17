@@ -1,6 +1,7 @@
 // server/src/controllers/experienceController.js
 
 const experienceService = require('../services/experienceService');
+const activityService = require('../services/activityService');
 const { notImplemented } = require('../utils/notImplemented');
 
 const handleExperienceError = (res, error) => {
@@ -90,15 +91,42 @@ const getExperienceWorkspace = notImplemented(
   'Load an experience workspace with related activities and journal entries'
 );
 
-const listActivitiesForExperience = notImplemented(
-  'GET /api/experiences/:experienceId/activities',
-  'List activities under a specific experience'
-);
+const listActivitiesForExperience = async (req, res) => {
+  try {
+    const data = await activityService.listActivitiesForExperience(
+      req.user.userId,
+      req.params.experienceId
+    );
 
-const createActivityForExperience = notImplemented(
-  'POST /api/experiences/:experienceId/activities',
-  'Create an activity under a specific experience'
-);
+    return res.status(200).json({
+      data,
+      meta: { count: data.length },
+    });
+  } catch (error) {
+    return handleExperienceError(res, error);
+  }
+};
+
+const createActivityForExperience = async (req, res) => {
+  try {
+    const activity = await activityService.createActivityForExperience(
+      req.user.userId,
+      req.params.experienceId,
+      req.body
+    );
+
+    return res.status(201).json({
+      message: 'Activity created',
+      data: {
+        activity: {
+          id: activity.id,
+        },
+      },
+    });
+  } catch (error) {
+    return handleExperienceError(res, error);
+  }
+};
 
 const polishExperience = notImplemented(
   'POST /api/experiences/:experienceId/polish',

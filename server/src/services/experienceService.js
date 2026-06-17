@@ -324,4 +324,5 @@ module.exports = {
   getExperienceById,
   updateExperience,
   archiveExperience,
+  findOwnedExperience,
 };

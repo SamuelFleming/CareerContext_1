@@ -2,7 +2,7 @@
 
 ## Status
 
-**Planned**
+**Implemented**
 
 ## Phase
 
@@ -119,23 +119,27 @@ Same as **202** — follow Phase 1 controller/service error and envelope pattern
 
 ## Technical Tasks
 
-- [ ] Create `activityService.js`
-- [ ] Implement list activities for owned experience
-- [ ] Implement create activity under owned experience (set both `userId` and `experienceId`)
-- [ ] Implement get activity by id (owned; include `parentExperience`)
-- [ ] Implement update activity (owned)
-- [ ] Implement archive activity (owned)
-- [ ] Wire controllers; replace `notImplemented` stubs for CRUD only
-- [ ] Keep polish endpoint as 501
+- [x] Create `activityService.js`
+- [x] Implement list activities for owned experience
+- [x] Implement create activity under owned experience (set both `userId` and `experienceId`)
+- [x] Implement get activity by id (owned; include `parentExperience`)
+- [x] Implement update activity (owned)
+- [x] Implement archive activity (owned)
+- [x] Wire controllers; replace `notImplemented` stubs for CRUD only
+- [x] Keep polish endpoint as 501
 
 ## Acceptance Criteria
 
-- [ ] User can list activities for their own non-archived experience
-- [ ] User cannot list activities for another user's experience
-- [ ] User can create activity under their own experience
-- [ ] User can get/update/archive their own activity
-- [ ] User cannot access or mutate another user's activity
-- [ ] Activity responses include `experienceId`
-- [ ] `GET /api/activities/:activityId` includes `parentExperience` summary
-- [ ] Unauthenticated requests return `401`
-- [ ] Manual API tests pass
+- [x] User can list activities for their own non-archived experience
+- [x] User cannot list activities for another user's experience
+- [x] User can create activity under their own experience
+- [x] User can get/update/archive their own activity
+- [x] User cannot access or mutate another user's activity
+- [x] Activity responses include `experienceId`
+- [x] `GET /api/activities/:activityId` includes `parentExperience` summary
+- [x] Unauthenticated requests return `401`
+- [x] Manual API tests pass
+
+## Follow-on
+
+Validation and ownership checks are currently in services. Extract to middleware in **204**.
