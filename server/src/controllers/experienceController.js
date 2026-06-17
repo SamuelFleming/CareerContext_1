@@ -85,10 +85,17 @@ const deleteExperience = async (req, res) => {
   }
 };
 
-const getExperienceWorkspace = notImplemented(
-  'GET /api/experiences/:experienceId/workspace',
-  'Load an experience workspace with related activities and journal entries'
-);
+const getExperienceWorkspace = async (req, res) => {
+  try {
+    const workspace = await experienceService.getExperienceWorkspace(req.experience);
+
+    return res.status(200).json({
+      data: workspace,
+    });
+  } catch (error) {
+    return handleExperienceError(res, error);
+  }
+};
 
 const listActivitiesForExperience = async (req, res) => {
   try {

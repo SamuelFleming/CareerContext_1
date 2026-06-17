@@ -2,7 +2,7 @@
 
 ## Status
 
-**Planned**
+**Implemented**
 
 ## Phase
 
@@ -65,7 +65,7 @@ authenticateWithJwt
 
 ## Acceptance Criteria
 
-- [ ] Authenticated user receives workspace for owned experience
-- [ ] `404` for invalid id, not found, or not owned
-- [ ] `activities` populated from Activity collection
-- [ ] `journalEntries` is empty array (placeholder for Phase 5)
+- [x] Authenticated user receives workspace for owned experience
+- [x] `404` for invalid id, not found, or not owned
+- [x] `activities` populated from Activity collection
+- [x] `journalEntries` is empty array (placeholder for Phase 5)

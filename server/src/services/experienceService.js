@@ -3,6 +3,7 @@
 const mongoose = require('mongoose');
 const Experience = require('../models/Experience');
 const Activity = require('../models/Activity');
+const activityService = require('./activityService');
 const { createServiceError } = require('../utils/serviceError');
 
 const { EXPERIENCE_TYPES } = Experience;
@@ -127,10 +128,21 @@ const archiveExperience = async (experience) => {
   await experience.save();
 };
 
+const getExperienceWorkspace = async (experience) => {
+  const activities = await activityService.listActivitiesForExperience(experience);
+
+  return {
+    experience: toExperience(experience),
+    activities,
+    journalEntries: [],
+  };
+};
+
 module.exports = {
   listExperiences,
   createExperience,
   getExperienceById,
   updateExperience,
   archiveExperience,
+  getExperienceWorkspace,
 };
