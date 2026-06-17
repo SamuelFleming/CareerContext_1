@@ -1,0 +1,183 @@
+/* client/src/components/editor/markdownEditor.css */
+
+.markdown-editor__preview {
+  min-height: inherit;
+  padding: var(--spacing-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--neutral-300);
+  background: var(--neutral-050);
+  color: var(--primary-900);
+  text-align: left;
+  overflow-y: auto;
+}
+
+.markdown-editor__preview--empty {
+  color: var(--neutral-500);
+  font-style: italic;
+}
+
+.markdown-editor__preview-content {
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+}
+
+.markdown-editor__preview-content > *:first-child {
+  margin-top: 0;
+}
+
+.markdown-editor__preview-content > *:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-editor__preview-content h1,
+.markdown-editor__preview-content h2,
+.markdown-editor__preview-content h3,
+.markdown-editor__preview-content h4 {
+  font-family: var(--font-heading);
+  color: var(--primary-900);
+  margin: var(--spacing-4) 0 var(--spacing-2);
+  line-height: var(--leading-tight);
+}
+
+.markdown-editor__preview-content h1 {
+  font-size: var(--text-2xl);
+}
+
+.markdown-editor__preview-content h2 {
+  font-size: var(--text-xl);
+}
+
+.markdown-editor__preview-content h3 {
+  font-size: var(--text-lg);
+}
+
+.markdown-editor__preview-content p {
+  margin: 0 0 var(--spacing-3);
+}
+
+.markdown-editor__preview-content ul,
+.markdown-editor__preview-content ol {
+  margin: 0 0 var(--spacing-3);
+  padding-left: var(--spacing-6);
+}
+
+.markdown-editor__preview-content li {
+  margin-bottom: var(--spacing-1);
+}
+
+.markdown-editor__preview-content a {
+  color: var(--accent-600);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.markdown-editor__preview-content a:hover {
+  color: var(--accent-500);
+}
+
+.markdown-editor__preview-content code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  padding: 0.1em 0.35em;
+  border-radius: var(--radius-sm);
+  background: var(--neutral-100);
+  color: var(--primary-800);
+}
+
+.markdown-editor__preview-content pre {
+  margin: 0 0 var(--spacing-3);
+  padding: var(--spacing-3);
+  border-radius: var(--radius-md);
+  background: var(--primary-900);
+  color: var(--neutral-100);
+  overflow-x: auto;
+}
+
+.markdown-editor__preview-content pre code {
+  padding: 0;
+  background: transparent;
+  color: inherit;
+}
+
+.markdown-editor__preview-content blockquote {
+  margin: 0 0 var(--spacing-3);
+  padding-left: var(--spacing-4);
+  border-left: 3px solid var(--accent-300);
+  color: var(--primary-700);
+}
+
+.markdown-editor__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-1);
+  padding: var(--spacing-2);
+  border: 1px solid var(--neutral-300);
+  border-bottom: none;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  background: var(--neutral-100);
+}
+
+.markdown-editor__toolbar-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  min-height: 2rem;
+  padding: 0 var(--spacing-2);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--primary-700);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.markdown-editor__toolbar-button:hover:not(:disabled) {
+  background: var(--neutral-000);
+  border-color: var(--neutral-300);
+  color: var(--primary-900);
+}
+
+.markdown-editor__toolbar-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.markdown-editor__textarea--with-toolbar {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.markdown-editor__mode-toggle {
+  display: inline-flex;
+  border: 1px solid var(--neutral-300);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--neutral-100);
+}
+
+.markdown-editor__mode-button {
+  padding: var(--spacing-1) var(--spacing-3);
+  border: none;
+  background: transparent;
+  color: var(--primary-600);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.markdown-editor__mode-button:hover:not(:disabled) {
+  color: var(--primary-900);
+}
+
+.markdown-editor__mode-button--active {
+  background: var(--neutral-000);
+  color: var(--accent-600);
+  box-shadow: inset 0 0 0 1px var(--neutral-300);
+}
+
+.markdown-editor__mode-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

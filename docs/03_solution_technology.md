@@ -57,6 +57,10 @@ careercontext/
     src/
       app/
       components/
+        editor/          # shared MarkdownEditor widget (008.1)
+        layout/
+        navigation/
+        ui/
       features/
         auth/
         dashboard/
@@ -429,9 +433,9 @@ This makes the product feel like a structured professional knowledge base.
 
 ### 3. The Journal Drawer
 
-There is a drawer shaped like a Journal - a literal binder spine that when clicked extends across the screen for Raw user INput (the Journal Concept):
-- This is a native Markdown entry textbox 
-- Also a file upload tool
+There is a drawer shaped like a Journal - a literal binder spine that when clicked extends across the screen for raw user input (the Journal concept):
+- Notes use the shared **`MarkdownEditor`** widget (Edit/Preview + toolbar) — same component as Profile raw summary
+- File upload tool (future)
 
 The journal drawer is a very good differentiator and could make it globally available inside the protected app shell:
 
@@ -453,7 +457,7 @@ Quick Journal Entry
 Title
 [________________]
 
-Markdown Notes
+Markdown Notes (MarkdownEditor — Edit / Preview)
 [________________________]
 
 Suggested Destination
@@ -542,15 +546,15 @@ Purpose:
 - Manage user profile, career state, career direction, and core resume.
 
 Data:
-- user profile
-- coreContext
-- core resume document
+- `coreContext` structured fields + `rawSummaryMd`
+- `User.coreResumeMd` (MVP; migrates to Document per **008.2**)
+- `profileCompleteness`
 
 Components:
-- ProfileForm
-- CoreContextEditor
-- ResumeUploadCard
-- CareerDirectionPanel
+- `ProfileSummaryForm` — structured CoreContext fields
+- `CoreContextEditor` — raw summary (`MarkdownEditor`, **008.1**)
+- `CoreResumeEditor` — source resume (`MarkdownEditor` **008.3**; upload scaffold **008.4**)
+- `ProfileFreshnessWidget` — completeness + timestamps
 
 ---
 
@@ -623,10 +627,12 @@ Data:
 - filters by experience, activity, tag, date
 
 Components:
-- JournalEntryEditor
+- JournalEntryEditor (uses shared `MarkdownEditor`)
 - JournalTimeline
 - ConvertToActivityButton
 - TagFilter
+
+Global capture: `JournalDrawer` in the app shell also uses `MarkdownEditor` for quick notes.
 
 ---
 
@@ -707,6 +713,20 @@ Components:
 ---
 
 # Component Hierarchy Examples
+
+## Shared — Markdown Editor (008.1)
+
+```text
+MarkdownEditor
+  ModeToggle (Edit | Preview)
+  FormattingToolbar (optional)
+  textarea (edit mode)
+  MarkdownPreview (preview mode — react-markdown)
+```
+
+Used by: Profile `CoreContextEditor`, global `JournalDrawer`, and future Experience/Activity/Document editors.
+
+---
 
 ## 4. Dashboard
 

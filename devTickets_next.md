@@ -1,14 +1,23 @@
 # CareerContext — Next Dev Tickets
 
-Suggested upcoming work after **006.4** and **008** (Dashboard + Profile UI wired).
+Suggested upcoming work after **008.1**.
 
 ## Phase 1 — Auth and Profile (remaining)
 
+| Ticket | Title | Priority | Type | Notes |
+|--------|-------|----------|------|-------|
+| — | Resume migration to Document model | Low | Backend | See **DOC-002**; blocked on refactor triggers + DOC-001 |
+
+**Completed in Phase 1:** Profile API (007 / 007.2), Profile UI (008), Dashboard (006.x), Markdown editor (008.1), Core resume editor (008.3), Core resume input scaffold (008.4).
+
+**Documented (no code):** **008.2** — Core resume → Document refactor plan.
+
+## Phase 3 — Documents (future)
+
 | Ticket | Title | Priority | Notes |
 |--------|-------|----------|-------|
-| — | Resume migration to Document model | Low | Out of scope for 007.2; keep `coreResumeMd` on User for now |
-
-**Completed in Phase 1:** Profile API (007 / 007.2), Profile UI (008), Dashboard API (006.3), Dashboard UI (006.4).
+| **DOC-001** | Document model + CRUD backend | High | Replace 501 stubs; align with `05_data_model` |
+| **DOC-002** | Migrate core resume to `core_resume` Document | Low | Trigger per **008.2**; depends on DOC-001 |
 
 ## Phase 2 — Experience Evidence
 
@@ -16,7 +25,7 @@ Suggested upcoming work after **006.4** and **008** (Dashboard + Profile UI wire
 |--------|-------|----------|-------|
 | — | Experience CRUD backend | High | Replace 501 stubs for `/api/experiences` |
 | — | Activity CRUD backend | High | Nested under experiences |
-| — | Dashboard CV from real data | Medium | Replace `phase1DashboardMocks` with Experience-derived competencies/highlights |
+| — | Dashboard CV from real data | Medium | Replace `phase1DashboardMocks` |
 
 ## Phase 4 — AI Workflows (future)
 

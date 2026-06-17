@@ -464,9 +464,13 @@ PUT /api/profile/core-resume
 }
 ```
 
----
+### Implementation notes
 
-# Experience Endpoints
+- **MVP:** Resume body is stored on `User.coreResumeMd` (not `Document`).
+- **UI:** Screen 5 uses `MarkdownEditor` (**008.3**) with optional upload-mode scaffold (**008.4**); upload does not call this endpoint until Document APIs exist.
+- **Future:** When refactor triggers in [`devTickets/008.2-core-resume-document-refactor-plan.md`](./devTickets/008.2-core-resume-document-refactor-plan.md) are met, core resume migrates to `Document { type: 'core_resume' }` and `User.coreResumeDocumentId`. This endpoint may become a thin wrapper over document update during a deprecation window.
+
+---
 
 ## API-009 — List Experiences
 
@@ -1351,6 +1355,10 @@ Rules (5 equal fields, 20% each):
 ## Dashboard Phase 1 Mocks
 
 Until Experience APIs exist, `interactiveCv.coreCompetencies` and `interactiveCv.highlightExperiences` are populated from `server/src/constants/phase1DashboardMocks.js`. The client mirrors these as a UI fallback in `client/src/features/dashboard/phase1MockData.js` when the API returns empty arrays.
+
+## Core Resume and Documents
+
+Core resume is profile-owned for Phase 1 (`User.coreResumeMd`, API-008). Document CRUD (API-038+) is stubbed. See **008.2** for migration plan and **DOC-001** / **DOC-002** for future implementation tickets.
 
 Core resume preview and quick-action widgets are **not** part of the Dashboard UI.
 

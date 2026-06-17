@@ -112,7 +112,8 @@ Calculated by `profileCompletenessService.js` — same object shape as `GET /api
 
 - Visually continue the theme established in Dashboard (PageHeader, Card, accent tokens).
 - Core Context should feel important — it is the strategic career narrative for future AI workflows.
-- Core Resume remains a Markdown textarea for MVP.
+- Core Context uses **`MarkdownEditor`** (**008.1**).
+- Core Resume: **`MarkdownEditor`** (**008.3**) + upload/markdown mode scaffold (**008.4**). Storage stays on `User` per **008.2**.
 - Useful widgets:
   - Last updated badges (`summaryUpdatedAt`, `coreResumeUpdatedAt`)
   - Profile completion indicator from `profileCompleteness` (matches Dashboard score)
@@ -139,7 +140,8 @@ Calculated by `profileCompletenessService.js` — same object shape as `GET /api
 ## Out of Scope
 
 - AI summarisation or polishing of `rawSummaryMd`
-- Resume migration to `Document` model
+- Resume migration to `Document` model (**008.2** documents plan; **DOC-002** implements)
+- Core resume `MarkdownEditor` and upload scaffold (**008.3**, **008.4** — implemented)
 - Auto-save / debounced save
 - Markdown preview rendering
 
@@ -147,3 +149,5 @@ Calculated by `profileCompletenessService.js` — same object shape as `GET /api
 
 - **007** — Profile endpoints
 - **007.2** — `CoreContext` model and refactored profile API shape
+- **008.1** — `MarkdownEditor` for raw summary field (`CoreContextEditor`)
+- **008.2** — Core resume → Document refactor plan (documentation)

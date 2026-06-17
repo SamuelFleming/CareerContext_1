@@ -410,7 +410,9 @@ Variants: Default · Evidence · Interactive
   margin-bottom: var(--spacing-6);
 }
 
+/* Journal notes use shared MarkdownEditor — see components/editor/markdownEditor.css */
 ```
+
 
 
 ### Evidence Card (Specialized)
@@ -545,8 +547,8 @@ Usage Examples
 <div className="journal-drawer">
   <h2 className="journal-drawer__header">Quick Journal Entry</h2>
   <input className="input" placeholder="Title" />
-  <textarea className="textarea" placeholder="Markdown notes..." />
-  <button className="button-primary">Save to Evidence</button>
+  <MarkdownEditor label="Notes" previewEnabled helperText="Edit/Preview Markdown notes" />
+  <button className="button-primary">Save Draft</button>
 </div>
 ```
 ## Design Token Summary

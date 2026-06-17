@@ -11,6 +11,34 @@ Tracks completed backend and full-stack development tickets.
 | 006.1 | Dashboard audit and target-state discovery | Phase 1 | 2026-06-12 | Interactive CV layout; collapsible evidence panel |
 | 006.3 | Dashboard API endpoint | Phase 1 | 2026-06-12 | `GET /api/dashboard` with 006.2 contract |
 | 006.4 | Dashboard API integration | Phase 1 | 2026-06-12 | Screen 4 wired to dashboard API |
+| 008.1 | Reusable Markdown editor widget | Phase 1 | 2026-06-16 | Shared `MarkdownEditor` on Profile + Journal drawer |
+| 008.2 | Core resume → Document refactor plan | Phase 1 | 2026-06-16 | Documentation only; migration deferred to DOC-002 |
+| 008.3 | Core resume MarkdownEditor | Phase 1 | 2026-06-16 | `CoreResumeEditor` uses shared `MarkdownEditor` |
+| 008.4 | Core resume input mode scaffold | Phase 1 | 2026-06-16 | Markdown vs Upload toggle; upload placeholder only |
+
+## 008.4 — Summary
+
+- `CoreResumeEditor` mode toggle: **Write in Markdown** | **Upload file**.
+- `CoreResumeUploadPlaceholder` — Phase 3 messaging; disabled choose file; no API calls.
+- Save disabled on Upload tab; markdown content preserved when switching modes.
+
+## 008.3 — Summary
+
+- `CoreResumeEditor` uses `MarkdownEditor` (Edit/Preview + toolbar) for `coreResumeMd`.
+- API unchanged: `PUT /api/profile/core-resume`.
+
+## 008.2 — Summary
+
+- Core resume stays on `User.coreResumeMd` until refactor triggers (versioning, export, opportunity-linked docs, etc.).
+- Future: `Document { type: 'core_resume' }` + `User.coreResumeDocumentId`.
+- **008.3** / **008.4** improve Profile UX without changing storage.
+
+## 008.1 — Summary
+
+- `client/src/components/editor/` — `MarkdownEditor`, `MarkdownPreview`, toolbar helpers, themed CSS.
+- Edit/Preview toggle + formatting toolbar; renders via `react-markdown` + `remark-gfm`.
+- **Profile:** `CoreContextEditor` raw summary field.
+- **Journal:** `JournalDrawer` notes field (local draft until journal API lands).
 
 ## 006.3 / 006.4 — Summary
 

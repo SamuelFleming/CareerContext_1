@@ -202,6 +202,15 @@ Profile and strategic career context editor. This is where the user maintains th
 | Save core context | `PUT /api/profile/core-context` | Update `rawSummaryMd` on Core Context |
 | Save core resume | `PUT /api/profile/core-resume` | Update core resume Markdown |
 
+## Core Resume UI (planned)
+
+| Ticket | Behaviour |
+|--------|-----------|
+| **008.3** | `MarkdownEditor` (Edit/Preview) — **implemented** |
+| **008.4** | Input mode scaffold: **Write in Markdown** vs **Upload file** — **implemented** (upload placeholder) |
+
+Storage remains `User.coreResumeMd` until **008.2** / **DOC-002** migration.
+
 ## API Endpoints
 
 - `GET /api/profile`
@@ -323,6 +332,8 @@ Detail/editor screen for a single Activity. Activities are reusable evidence ite
 ## Description
 
 Professional journal workspace for rough notes. Journal Entries should lower friction for capturing work before it is fully structured.
+
+The global **Journal drawer** (`JournalDrawer` in the app shell) and future Screen 9 editors both use the shared **`MarkdownEditor`** component (008.1) for note content.
 
 ## Data Requirements
 

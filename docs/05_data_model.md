@@ -111,6 +111,7 @@ Represents an authenticated person using the app.
 - `email` and `passwordHash` support authentication.
 - `name` is the registration-time display name; richer profile identity lives on `CoreContext.fullName`.
 - `coreResumeMd` remains on `User` for MVP until resume content migrates to `Document`.
+- See [`devTickets/008.2-core-resume-document-refactor-plan.md`](./devTickets/008.2-core-resume-document-refactor-plan.md) for migration triggers, target model, and when to implement `coreResumeDocumentId`.
 
 ---
 
@@ -405,6 +406,9 @@ archived
 ### Notes
 
 For MVP, generated documents can be stored as plain text or Markdown. PDF/DOCX export can be deferred, but these types for document uploads will be persisted.
+
+- Canonical body field name: **`content`** (Markdown or plain text). API layers may expose `contentMd` as an alias — align at **DOC-001** implementation.
+- `type: 'core_resume'` — one canonical source resume per user after **DOC-002** migration; until then, core resume lives on `User.coreResumeMd` (**008.2**).
 
 ---
 
