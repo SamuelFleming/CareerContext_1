@@ -8,7 +8,7 @@ Phase 1 (Auth and Profile) is **complete**. See [`devCompletion.md`](./devComple
 |--------|-------|----------|-------|
 | **200** | Phase 2 planning and data contract review | High | Done — `phase2/200-phase-2-planning-and-data-contract-review.md` |
 | **201** | Experience and Activity models | High | Done — `phase2/201-experience-and-activity-models.md` |
-| **202** | Experience backend CRUD | High | `phase2/202-experience-backend-crud.md` — after **201** |
+| **202** | Experience backend CRUD | High | Done — `phase2/202-experience-backend-crud.md` |
 | **203** | Activity backend CRUD | High | `phase2/203-activity-backend-crud.md` — after **202** |
 | **204** | Experience workspace endpoint | Medium | `phase2/204-experience-workspace-endpoint.md` — after **203** |
 | — | Experience Index UI (Screen 6) | High | Wire `/experiences` route — after backend burst |

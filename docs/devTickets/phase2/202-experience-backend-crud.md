@@ -2,7 +2,7 @@
 
 ## Status
 
-**Planned**
+**Implemented**
 
 ## Phase
 
@@ -123,23 +123,23 @@ Use `createServiceError(statusCode, message)` pattern from `profileService.js`.
 
 ## Technical Tasks
 
-- [ ] Add `router.use(authenticateWithJwt)` to experience routes
-- [ ] Create `experienceService.js` with list, create, getById, update, archive
-- [ ] Wire controller methods to service (replace `notImplemented` stubs for CRUD only)
-- [ ] Validate required fields on create (`type`, `title`)
-- [ ] Validate `type` enum
-- [ ] Exclude archived records from list/get
-- [ ] Compute `activityCount` on list items
-- [ ] Return consistent error responses
+- [x] Add `router.use(authenticateWithJwt)` to experience routes
+- [x] Create `experienceService.js` with list, create, getById, update, archive
+- [x] Wire controller methods to service (replace `notImplemented` stubs for CRUD only)
+- [x] Validate required fields on create (`type`, `title`)
+- [x] Validate `type` enum
+- [x] Exclude archived records from list/get
+- [x] Compute `activityCount` on list items
+- [x] Return consistent error responses
 
 ## Acceptance Criteria
 
-- [ ] `GET /api/experiences` returns only the current user's non-archived experiences
-- [ ] `POST /api/experiences` creates an experience for the current user
-- [ ] `GET /api/experiences/:experienceId` returns one owned experience
-- [ ] `PUT /api/experiences/:experienceId` updates one owned experience
-- [ ] `DELETE /api/experiences/:experienceId` archives one owned experience (soft delete)
-- [ ] Another user cannot access or mutate someone else's experience
-- [ ] Unauthenticated requests return `401`
-- [ ] Manual API tests pass
-- [ ] Polish and workspace endpoints remain 501 until their tickets
+- [x] `GET /api/experiences` returns only the current user's non-archived experiences
+- [x] `POST /api/experiences` creates an experience for the current user
+- [x] `GET /api/experiences/:experienceId` returns one owned experience
+- [x] `PUT /api/experiences/:experienceId` updates one owned experience
+- [x] `DELETE /api/experiences/:experienceId` archives one owned experience (soft delete)
+- [x] Another user cannot access or mutate someone else's experience
+- [x] Unauthenticated requests return `401`
+- [x] Manual API tests pass
+- [x] Polish and workspace endpoints remain 501 until their tickets
