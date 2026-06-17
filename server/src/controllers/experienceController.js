@@ -27,7 +27,10 @@ const listExperiences = async (req, res) => {
 
 const createExperience = async (req, res) => {
   try {
-    const experience = await experienceService.createExperience(req.user.userId, req.body);
+    const experience = await experienceService.createExperience(
+      req.user.userId,
+      req.validatedBody
+    );
 
     return res.status(201).json({
       message: 'Experience created',
@@ -44,10 +47,7 @@ const createExperience = async (req, res) => {
 
 const getExperienceById = async (req, res) => {
   try {
-    const experience = await experienceService.getExperienceById(
-      req.user.userId,
-      req.params.experienceId
-    );
+    const experience = await experienceService.getExperienceById(req.experience);
 
     return res.status(200).json({
       data: { experience },
@@ -60,9 +60,8 @@ const getExperienceById = async (req, res) => {
 const updateExperience = async (req, res) => {
   try {
     const experience = await experienceService.updateExperience(
-      req.user.userId,
-      req.params.experienceId,
-      req.body
+      req.experience,
+      req.validatedBody
     );
 
     return res.status(200).json({
@@ -76,7 +75,7 @@ const updateExperience = async (req, res) => {
 
 const deleteExperience = async (req, res) => {
   try {
-    await experienceService.archiveExperience(req.user.userId, req.params.experienceId);
+    await experienceService.archiveExperience(req.experience);
 
     return res.status(200).json({
       message: 'Experience archived',
@@ -93,10 +92,7 @@ const getExperienceWorkspace = notImplemented(
 
 const listActivitiesForExperience = async (req, res) => {
   try {
-    const data = await activityService.listActivitiesForExperience(
-      req.user.userId,
-      req.params.experienceId
-    );
+    const data = await activityService.listActivitiesForExperience(req.experience);
 
     return res.status(200).json({
       data,
@@ -110,9 +106,8 @@ const listActivitiesForExperience = async (req, res) => {
 const createActivityForExperience = async (req, res) => {
   try {
     const activity = await activityService.createActivityForExperience(
-      req.user.userId,
-      req.params.experienceId,
-      req.body
+      req.experience,
+      req.validatedBody
     );
 
     return res.status(201).json({

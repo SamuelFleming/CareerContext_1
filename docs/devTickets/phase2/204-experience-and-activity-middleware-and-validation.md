@@ -2,7 +2,7 @@
 
 ## Status
 
-**Planned**
+**Implemented**
 
 ## Phase
 
@@ -164,12 +164,12 @@ server/src/services/activityService.js         # slim after refactor
 
 ## Acceptance Criteria
 
-- [ ] Invalid `:experienceId` / `:activityId` returns `400` before service layer
-- [ ] Not-found / not-owned records return `404` via ownership loaders
-- [ ] Create/update validation errors return `400` with same messages as **202**/**203**
-- [ ] Controllers no longer duplicate param validation logic
-- [ ] Existing manual API behaviour unchanged (regression check against **202**/**203** flows)
-- [ ] Route stack documented in this ticket and referenced from **205**
+- [x] Invalid `:experienceId` / `:activityId` returns `400` before service layer
+- [x] Not-found / not-owned records return `404` via ownership loaders
+- [x] Create/update validation errors return `400` with same messages as **202**/**203**
+- [x] Controllers no longer duplicate param validation logic
+- [x] Existing manual API behaviour unchanged (regression check against **202**/**203** flows)
+- [x] Route stack documented in this ticket and referenced from **205**
 
 ## Implementation Note
 

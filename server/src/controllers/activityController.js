@@ -13,7 +13,7 @@ const handleActivityError = (res, error) => {
 
 const getActivityById = async (req, res) => {
   try {
-    const data = await activityService.getActivityById(req.user.userId, req.params.activityId);
+    const data = await activityService.getActivityById(req.activity);
 
     return res.status(200).json({ data });
   } catch (error) {
@@ -23,11 +23,7 @@ const getActivityById = async (req, res) => {
 
 const updateActivity = async (req, res) => {
   try {
-    const activity = await activityService.updateActivity(
-      req.user.userId,
-      req.params.activityId,
-      req.body
-    );
+    const activity = await activityService.updateActivity(req.activity, req.validatedBody);
 
     return res.status(200).json({
       message: 'Activity updated',
@@ -40,7 +36,7 @@ const updateActivity = async (req, res) => {
 
 const deleteActivity = async (req, res) => {
   try {
-    await activityService.archiveActivity(req.user.userId, req.params.activityId);
+    await activityService.archiveActivity(req.activity);
 
     return res.status(200).json({
       message: 'Activity archived',
