@@ -40,6 +40,8 @@ Implement authenticated CRUD for Experiences, replacing 501 scaffold responses.
 
 Out of scope for this ticket: workspace (`API-014`), nested activities (`API-015`/`016`), polish (`API-017`).
 
+Validation and ownership checks are currently in services. Extract to middleware in **204**.
+
 ## Files
 
 ```

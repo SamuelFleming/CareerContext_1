@@ -140,6 +140,7 @@ Original draft tickets **201**–**203** were reviewed and updated to match this
 | **201** | Experience and Activity models |
 | **202** | Experience backend CRUD |
 | **203** | Activity backend CRUD |
-| **204** | Experience workspace endpoint (split from original 202 scope) |
+| **204** | Experience and Activity middleware and validation |
+| **205** | Experience workspace endpoint |
 
-Recommended implementation order: **201 → 202 → 203 → 204**.
+Recommended implementation order: **201 → 202 → 203 → 204 → 205**.

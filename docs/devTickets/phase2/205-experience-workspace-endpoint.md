@@ -1,4 +1,4 @@
-# 204 — Experience Workspace Endpoint
+# 205 — Experience Workspace Endpoint
 
 ## Status
 
@@ -18,6 +18,7 @@ Phase 2 — Experience Evidence
 
 - **202** — Experience backend CRUD
 - **203** — Activity backend CRUD
+- **204** — Experience and Activity middleware and validation (recommended before or in parallel)
 
 ## Related Docs
 
@@ -50,6 +51,17 @@ Implement `GET /api/experiences/:experienceId/workspace` for Screen 7 initial lo
 - Load owned, non-archived experience
 - Include non-archived activities for that experience
 - Return `journalEntries: []` as empty array until Phase 5 Journal API exists
+
+## Middleware (from **204**)
+
+Recommended route stack:
+
+```text
+authenticateWithJwt
+→ validateObjectIdParam('experienceId')
+→ loadOwnedExperience
+→ getExperienceWorkspace controller
+```
 
 ## Acceptance Criteria
 
