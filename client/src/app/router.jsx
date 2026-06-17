@@ -10,6 +10,7 @@ import RegisterPage from "../features/auth/RegisterPage";
 import ProtectedRoute from "../features/auth/ProtectedRoute";
 import DashboardPage from "../features/dashboard/DashboardPage";
 import ProfilePage from "../features/profile/ProfilePage";
+import ComingSoonPage from "../features/placeholders/ComingSoonPage";
 
 export const router = createBrowserRouter([
   {
@@ -43,6 +44,44 @@ export const router = createBrowserRouter([
       {
         path: "/profile",
         element: <ProfilePage />,
+      },
+      {
+        path: "/experiences",
+        element: (
+          <ComingSoonPage
+            title="Experiences"
+            description="Experience evidence containers arrive in Phase 2. Capture rough notes in the Journal drawer until then."
+            showJournalAction
+          />
+        ),
+      },
+      {
+        path: "/journal",
+        element: (
+          <ComingSoonPage
+            title="Journal"
+            description="The full journal workspace arrives in Phase 5. Use quick capture from the sidebar or the spine on the right."
+            showJournalAction
+          />
+        ),
+      },
+      {
+        path: "/opportunities",
+        element: (
+          <ComingSoonPage
+            title="Opportunities"
+            description="Opportunity evaluation and comparison arrive in Phase 3."
+          />
+        ),
+      },
+      {
+        path: "/documents",
+        element: (
+          <ComingSoonPage
+            title="Documents"
+            description="Generated and uploaded documents arrive in Phase 3."
+          />
+        ),
       },
     ],
   },
