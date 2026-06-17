@@ -4,6 +4,7 @@ import { BookOpen, X } from "lucide-react";
 import Button from "../ui/Button";
 import Input from "../ui/Input";
 import MarkdownEditor from "../editor/MarkdownEditor";
+import { useJournalDrawer } from "../../contexts/JournalDrawerContext";
 import { cn } from "../../utils/cn";
 
 const emptyEntry = {
@@ -16,7 +17,7 @@ const emptyEntry = {
  * Uses the shared MarkdownEditor widget; persistence via journal API is Phase 5.
  */
 export default function JournalDrawer() {
-  const [isOpen, setIsOpen] = useState(false);
+  const { isOpen, closeJournal, openJournal } = useJournalDrawer();
   const [entry, setEntry] = useState(emptyEntry);
   const [draftNotice, setDraftNotice] = useState("");
 
@@ -32,7 +33,7 @@ export default function JournalDrawer() {
   }, [isOpen]);
 
   const handleClose = () => {
-    setIsOpen(false);
+    closeJournal();
     setDraftNotice("");
   };
 
@@ -53,7 +54,7 @@ export default function JournalDrawer() {
       {!isOpen && (
         <button
           type="button"
-          onClick={() => setIsOpen(true)}
+          onClick={openJournal}
           aria-label="Open journal to capture evidence"
           className={cn(
             "fixed right-0 top-1/2 z-40 -translate-y-1/2",
