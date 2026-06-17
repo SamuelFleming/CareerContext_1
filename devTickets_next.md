@@ -1,23 +1,6 @@
 # CareerContext — Next Dev Tickets
 
-Suggested upcoming work after **008.1**.
-
-## Phase 1 — Auth and Profile (remaining)
-
-| Ticket | Title | Priority | Type | Notes |
-|--------|-------|----------|------|-------|
-| — | Resume migration to Document model | Low | Backend | See **DOC-002**; blocked on refactor triggers + DOC-001 |
-
-**Completed in Phase 1:** Profile API (007 / 007.2), Profile UI (008), Dashboard (006.x), Markdown editor (008.1), Core resume editor (008.3), Core resume input scaffold (008.4).
-
-**Documented (no code):** **008.2** — Core resume → Document refactor plan.
-
-## Phase 3 — Documents (future)
-
-| Ticket | Title | Priority | Notes |
-|--------|-------|----------|-------|
-| **DOC-001** | Document model + CRUD backend | High | Replace 501 stubs; align with `05_data_model` |
-| **DOC-002** | Migrate core resume to `core_resume` Document | Low | Trigger per **008.2**; depends on DOC-001 |
+Phase 1 (Auth and Profile) is **complete**. See [`devCompletion.md`](./devCompletion.md).
 
 ## Phase 2 — Experience Evidence
 
@@ -25,10 +8,26 @@ Suggested upcoming work after **008.1**.
 |--------|-------|----------|-------|
 | — | Experience CRUD backend | High | Replace 501 stubs for `/api/experiences` |
 | — | Activity CRUD backend | High | Nested under experiences |
+| — | Experience Index UI (Screen 6) | High | Wire `/experiences` route |
 | — | Dashboard CV from real data | Medium | Replace `phase1DashboardMocks` |
+
+## Phase 3 — Opportunities and Documents
+
+| Ticket | Title | Priority | Notes |
+|--------|-------|----------|-------|
+| **DOC-001** | Document model + CRUD backend | High | Replace 501 stubs |
+| **DOC-002** | Migrate core resume to `core_resume` Document | Low | Per **008.2** triggers |
+| — | Opportunities Index UI (Screen 10) | Medium | Replace coming-soon page |
+| — | Documents UI (Screen 12) | Medium | Replace coming-soon page |
+
+## Phase 5 — Journal
+
+| Ticket | Title | Priority | Notes |
+|--------|-------|----------|-------|
+| — | Journal API + Screen 9 | Medium | Replace `/journal` coming-soon; persist drawer drafts |
 
 ## Phase 4 — AI Workflows (future)
 
 | Ticket | Title | Priority | Notes |
 |--------|-------|----------|-------|
-| — | AI summarisation of `rawSummaryMd` | Low | Add polished summary fields on CoreContext when ready |
+| — | AI summarisation of `rawSummaryMd` | Low | Polished summary fields on CoreContext |
