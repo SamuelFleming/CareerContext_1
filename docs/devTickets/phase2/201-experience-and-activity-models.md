@@ -2,7 +2,7 @@
 
 ## Status
 
-**Planned**
+**Implemented**
 
 ## Phase
 
@@ -100,17 +100,17 @@ Follow existing `User.js` / `CoreContext.js` patterns:
 
 ## Technical Tasks
 
-- [ ] Create `Experience` schema with fields above
-- [ ] Create `Activity` schema with fields above
-- [ ] Add indexes listed above
-- [ ] Export models cleanly
-- [ ] Verify server starts without model compilation errors
+- [x] Create `Experience` schema with fields above
+- [x] Create `Activity` schema with fields above
+- [x] Add indexes listed above
+- [x] Export models cleanly
+- [x] Verify server starts without model compilation errors
 
 ## Acceptance Criteria
 
-- [ ] `Experience` model exists and compiles
-- [ ] `Activity` model exists and compiles
-- [ ] Each record is owned via `userId`
-- [ ] Activity requires both `userId` and `experienceId`
-- [ ] Archive fields exist for soft-delete support in **202** / **203**
-- [ ] No frontend changes required
+- [x] `Experience` model exists and compiles
+- [x] `Activity` model exists and compiles
+- [x] Each record is owned via `userId`
+- [x] Activity requires both `userId` and `experienceId`
+- [x] Archive fields exist for soft-delete support in **202** / **203**
+- [x] No frontend changes required

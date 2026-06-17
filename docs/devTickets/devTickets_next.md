@@ -7,7 +7,7 @@ Phase 1 (Auth and Profile) is **complete**. See [`devCompletion.md`](./devComple
 | Ticket | Title | Priority | Notes |
 |--------|-------|----------|-------|
 | **200** | Phase 2 planning and data contract review | High | Done — `phase2/200-phase-2-planning-and-data-contract-review.md` |
-| **201** | Experience and Activity models | High | `phase2/201-experience-and-activity-models.md` |
+| **201** | Experience and Activity models | High | Done — `phase2/201-experience-and-activity-models.md` |
 | **202** | Experience backend CRUD | High | `phase2/202-experience-backend-crud.md` — after **201** |
 | **203** | Activity backend CRUD | High | `phase2/203-activity-backend-crud.md` — after **202** |
 | **204** | Experience workspace endpoint | Medium | `phase2/204-experience-workspace-endpoint.md` — after **203** |
