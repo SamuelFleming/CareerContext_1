@@ -22,9 +22,12 @@ Use **Route → Controller → Service → Model**. Controllers stay thin; busin
 routes/experienceRoutes.js → controllers/experienceController.js → services/experienceService.js → models/Experience.js
 ```
 
+- Before adding a backend feature, check whether the matching route/controller/service/model already exists as a 501 stub.
 - AI logic belongs in `services/ai/` (or dedicated AI services), not controllers.
 - Reuse `server/src/utils/serviceError.js` for `{ statusCode, message }` errors.
-- Reuse `server/src/utils/listQuery.js` for list pagination (ticket **206**).
+- Reuse `server/src/utils/listQuery.js` for list pagination, as introduced in the Phase 2 list pagination ticket.
+- Keep controllers responsible for HTTP concerns only: params, status codes, request/response mapping.
+- Keep services responsible for ownership-aware data access and business logic.
 
 ## Authentication & middleware
 

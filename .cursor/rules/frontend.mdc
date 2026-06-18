@@ -45,6 +45,13 @@ client/src/
 - Pass list query params for index/workspace pagination — do not assume unbounded lists.
 - Workspace (Screen 7): prefer `GET /api/experiences/:id/workspace` for initial load; use paginated activity endpoint for “load more”.
 
+## Screen state conventions
+
+- Screens that fetch data should handle loading, error, empty, and success states.
+- Prefer feature-level state in screen components before introducing shared state.
+- Keep presentational components prop-driven and API-agnostic.
+- Do not hide API errors silently; show a user-friendly message and keep console detail useful for development.
+
 ## Markdown editing
 
 - Use shared **`MarkdownEditor`** (`components/editor/MarkdownEditor.jsx`) for user-authored Markdown.
@@ -65,3 +72,4 @@ client/src/
 - Hardcode API Base URLs outside `apiClient` / `VITE_API_BASE_URL`.
 - Build Screen 6–8 UI against undocumented endpoints — check `08_api_contract.md` and phase tickets first.
 - Replace Phase 1 dashboard mocks with unbounded client-side arrays when wiring real evidence.
+- Replace the CareerContext visual language with generic SaaS/admin styling.

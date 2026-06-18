@@ -61,6 +61,14 @@ The first MVP will not focus on:
 | Database | MongoDB, Mongoose |
 | Markdown | `react-markdown`, `remark-gfm` |
 
+## Working Rules
+
+- Prefer small, ticket-aligned changes over broad un-guided refactors.
+- Check `docs/devTickets/devTickets_next.md` before introducing new feature scope.
+- Keep backend, frontend, and docs aligned when adding or changing API behaviour.
+- Do not invent new endpoint shapes without checking `docs/core-scope/08_api_contract.md`.
+- Do not replace established architecture unless the user explicitly asks for a refactor.
+
 ## Sources of Truth
 
 ### Project/Solution Concepts
