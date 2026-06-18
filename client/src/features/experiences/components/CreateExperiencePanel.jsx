@@ -5,7 +5,7 @@ import Card, {
   CardTitle,
 } from "../../../components/ui/Card";
 import Input from "../../../components/ui/Input";
-import TextArea from "../../../components/ui/TextArea";
+import MarkdownEditor from "../../../components/editor/MarkdownEditor";
 import Button from "../../../components/ui/Button";
 import { EXPERIENCE_TYPE_OPTIONS } from "./experienceUi";
 
@@ -125,13 +125,14 @@ export default function CreateExperiencePanel({
           This is a current experience
         </label>
 
-        <TextArea
+        <MarkdownEditor
           label="Overview (optional)"
           placeholder="Rough notes about this experience — you can refine this later."
+          helperText="Stored as Markdown in overviewRaw. AI polish arrives in a later phase."
           value={form.overviewRaw}
-          onChange={(event) => onChange("overviewRaw", event.target.value)}
+          onChange={(value) => onChange("overviewRaw", value)}
           disabled={isSubmitting}
-          className="min-h-[100px]"
+          minRows={8}
         />
 
         <div className="flex flex-wrap gap-3">

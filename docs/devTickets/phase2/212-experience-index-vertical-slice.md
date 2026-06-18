@@ -111,7 +111,7 @@ API-009 list items do not include `overviewRaw` or an overview preview field (`t
 ### Create UX
 
 - Inline panel toggled by “Add experience” (no modal — matches Profile pattern)
-- Required: `type`, `title`; optional: org, role, dates, `isCurrent`, `overviewRaw` (plain `TextArea`)
+- Required: `type`, `title`; optional: org, role, dates, `isCurrent`, `overviewRaw` (shared `MarkdownEditor`)
 - Stays on index after create (list refetch); user navigates to detail via card click
 
 ## Completion notes
@@ -159,3 +159,11 @@ API-009 list items do not include `overviewRaw` or an overview preview field (`t
 - List pagination UI when `meta.hasMore` (footer note only for now)
 - Overview preview on list cards when API-009 adds a preview field
 - Search/type filter (screen catalogue — later ticket)
+
+## Follow-up (post-completion)
+
+### Overview field — shared MarkdownEditor (2026-06-18)
+
+- `CreateExperiencePanel` overview uses shared `MarkdownEditor` (`client/src/components/editor/`) instead of plain `TextArea`, matching Profile core context and Journal patterns.
+- Value still maps to API field `overviewRaw` on create; Edit/Preview toggle and formatting toolbar enabled.
+- List cards still do not show overview preview (API-009 list shape unchanged).
