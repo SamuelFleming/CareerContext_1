@@ -8,6 +8,8 @@ alwaysApply: false
 
 Sources of truth: `docs/core-scope/05_data_model.md`, `docs/core-scope/08_api_contract.md`, `docs/devTickets/phase2/`.
 
+**Phase 2 backend (tickets 200–206) is complete.** New backend work during Phase 2 frontend should be limited to small dashboard response extensions for ticket **215** unless a ticket explicitly requires otherwise.
+
 ## Stack
 
 - Node.js, **Express 5**, **Mongoose**, **JWT** (`jsonwebtoken`), **bcrypt**

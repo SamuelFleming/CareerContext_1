@@ -43,7 +43,13 @@ New tickets in `docs/devTickets/phase{N}/` should include:
 - Endpoint tables with registry IDs where applicable
 - Explicit **out of scope** to prevent scope creep
 
-When a ticket is completed: mark acceptance criteria `[x]`, set Status to **Implemented**, update `devTickets_next.md`.
+When a ticket is completed: mark acceptance criteria `[x]`, set Status to **Implemented**, update `devTickets_next.md` and `devCompletion.md` (for shipped work).
+
+## Phase awareness
+
+- **Phase 1** is complete — do not re-scope auth/profile/dashboard foundation work unless fixing a regression.
+- **Phase 2 frontend** tickets **211**–**215** live in `docs/devTickets/phase2/`; backend **200**–**206** are done.
+- Later phases (Opportunities, Documents, Journal, AI) have placeholder routes — document them in tickets before implementing.
 
 ## Contract alignment
 
