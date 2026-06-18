@@ -12,6 +12,7 @@ Phase 1 (Auth and Profile) is **complete**. See [`devCompletion.md`](./devComple
 | **203** | Activity backend CRUD | High | Done — `phase2/203-activity-backend-crud.md` |
 | **204** | Experience and Activity middleware and validation | Medium | Done — `phase2/204-experience-and-activity-middleware-and-validation.md` |
 | **205** | Experience workspace endpoint | Medium | Done — `phase2/205-experience-workspace-endpoint.md` |
+| **206** | List query standard (filter/search/sort/pagination) | Medium | Done — `phase2/206-list-query-standard.md` |
 | — | Experience Index UI (Screen 6) | High | Wire `/experiences` route — after backend burst |
 | — | Dashboard CV from real data | Medium | Replace `phase1DashboardMocks` — after **201**–**203** |
 

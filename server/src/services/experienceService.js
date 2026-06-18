@@ -5,11 +5,11 @@ const Experience = require('../models/Experience');
 const Activity = require('../models/Activity');
 const activityService = require('./activityService');
 const { createServiceError } = require('../utils/serviceError');
+const { parseListQuery, buildListMeta } = require('../utils/listQuery');
 
 const { EXPERIENCE_TYPES } = Experience;
 
-const DEFAULT_LIST_LIMIT = 50;
-const MAX_LIST_LIMIT = 100;
+const EXPERIENCE_SORT_FIELDS = ['updatedAt', 'createdAt', 'title', 'dateStart'];
 
 const toExperience = (experience) => experience.toJSON();
 
@@ -53,10 +53,17 @@ const getActivityCountsByExperienceIds = async (experienceIds) => {
   return new Map(counts.map(({ _id, count }) => [_id.toString(), count]));
 };
 
-const listExperiences = async (userId, { type, search, limit } = {}) => {
+const listExperiences = async (userId, query = {}) => {
   if (!mongoose.isValidObjectId(userId)) {
     throw createServiceError(400, 'Invalid user ID');
   }
+
+  const { type } = query;
+  const { limit, offset, sortObject, search } = parseListQuery(query, {
+    allowedSortFields: EXPERIENCE_SORT_FIELDS,
+    defaultSort: 'updatedAt',
+    defaultOrder: 'desc',
+  });
 
   const filter = {
     userId,
@@ -71,34 +78,33 @@ const listExperiences = async (userId, { type, search, limit } = {}) => {
     filter.type = type;
   }
 
-  if (search !== undefined && search.trim() !== '') {
-    const pattern = new RegExp(search.trim(), 'i');
+  if (search) {
+    const pattern = new RegExp(search, 'i');
     filter.$or = [{ title: pattern }, { organisation: pattern }, { role: pattern }];
   }
 
-  let parsedLimit = DEFAULT_LIST_LIMIT;
-
-  if (limit !== undefined && limit !== '') {
-    parsedLimit = Number.parseInt(limit, 10);
-
-    if (Number.isNaN(parsedLimit) || parsedLimit < 1) {
-      throw createServiceError(400, 'limit must be a positive integer');
-    }
-
-    parsedLimit = Math.min(parsedLimit, MAX_LIST_LIMIT);
-  }
-
-  const experiences = await Experience.find(filter)
-    .sort({ updatedAt: -1 })
-    .limit(parsedLimit);
+  const [experiences, total] = await Promise.all([
+    Experience.find(filter).sort(sortObject).skip(offset).limit(limit),
+    Experience.countDocuments(filter),
+  ]);
 
   const activityCounts = await getActivityCountsByExperienceIds(
     experiences.map((experience) => experience._id)
   );
 
-  return experiences.map((experience) =>
+  const items = experiences.map((experience) =>
     toListItem(experience, activityCounts.get(experience._id.toString()) || 0)
   );
+
+  return {
+    items,
+    meta: buildListMeta({
+      count: items.length,
+      total,
+      limit,
+      offset,
+    }),
+  };
 };
 
 const createExperience = async (userId, validatedBody) => {
@@ -128,13 +134,27 @@ const archiveExperience = async (experience) => {
   await experience.save();
 };
 
-const getExperienceWorkspace = async (experience) => {
-  const activities = await activityService.listActivitiesForExperience(experience);
+const getExperienceWorkspace = async (experience, query = {}) => {
+  const listQuery = parseListQuery(query, {
+    allowedSortFields: ['updatedAt', 'createdAt', 'title'],
+    defaultSort: 'updatedAt',
+    defaultOrder: 'desc',
+  });
+
+  const { items: activities, meta: activitiesMeta } =
+    await activityService.listActivitiesForExperience(experience, query);
 
   return {
     experience: toExperience(experience),
     activities,
+    activitiesMeta,
     journalEntries: [],
+    journalMeta: buildListMeta({
+      count: 0,
+      total: 0,
+      limit: listQuery.limit,
+      offset: listQuery.offset,
+    }),
   };
 };
 

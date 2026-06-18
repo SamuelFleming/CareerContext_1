@@ -41,15 +41,31 @@ Implement `GET /api/experiences/:experienceId/workspace` for Screen 7 initial lo
   "data": {
     "experience": {},
     "activities": [],
-    "journalEntries": []
+    "activitiesMeta": {
+      "count": 0,
+      "total": 0,
+      "limit": 20,
+      "offset": 0,
+      "hasMore": false
+    },
+    "journalEntries": [],
+    "journalMeta": {
+      "count": 0,
+      "total": 0,
+      "limit": 20,
+      "offset": 0,
+      "hasMore": false
+    }
   }
 }
 ```
 
+Activities honour list query params (`limit`, `offset`, `sort`, `order`, `search`) per **206**.
+
 ## Scope
 
 - Load owned, non-archived experience
-- Include non-archived activities for that experience
+- Include paginated non-archived activities for that experience (default `limit=20`)
 - Return `journalEntries: []` as empty array until Phase 5 Journal API exists
 
 ## Middleware (from **204**)

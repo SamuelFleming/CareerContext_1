@@ -14,11 +14,11 @@ const handleExperienceError = (res, error) => {
 
 const listExperiences = async (req, res) => {
   try {
-    const data = await experienceService.listExperiences(req.user.userId, req.query);
+    const { items, meta } = await experienceService.listExperiences(req.user.userId, req.query);
 
     return res.status(200).json({
-      data,
-      meta: { count: data.length },
+      data: items,
+      meta,
     });
   } catch (error) {
     return handleExperienceError(res, error);
@@ -87,7 +87,10 @@ const deleteExperience = async (req, res) => {
 
 const getExperienceWorkspace = async (req, res) => {
   try {
-    const workspace = await experienceService.getExperienceWorkspace(req.experience);
+    const workspace = await experienceService.getExperienceWorkspace(
+      req.experience,
+      req.query
+    );
 
     return res.status(200).json({
       data: workspace,
@@ -99,11 +102,14 @@ const getExperienceWorkspace = async (req, res) => {
 
 const listActivitiesForExperience = async (req, res) => {
   try {
-    const data = await activityService.listActivitiesForExperience(req.experience);
+    const { items, meta } = await activityService.listActivitiesForExperience(
+      req.experience,
+      req.query
+    );
 
     return res.status(200).json({
-      data,
-      meta: { count: data.length },
+      data: items,
+      meta,
     });
   } catch (error) {
     return handleExperienceError(res, error);

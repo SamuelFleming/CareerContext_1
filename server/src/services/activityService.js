@@ -3,6 +3,9 @@
 const Activity = require('../models/Activity');
 const Experience = require('../models/Experience');
 const { createServiceError } = require('../utils/serviceError');
+const { parseListQuery, buildListMeta } = require('../utils/listQuery');
+
+const ACTIVITY_SORT_FIELDS = ['updatedAt', 'createdAt', 'title'];
 
 const toActivity = (activity) => activity.toJSON();
 
@@ -11,14 +14,40 @@ const toParentExperience = (experience) => ({
   title: experience.title,
 });
 
-const listActivitiesForExperience = async (experience) => {
-  const activities = await Activity.find({
+const listActivitiesForExperience = async (experience, query = {}) => {
+  const { limit, offset, sortObject, search } = parseListQuery(query, {
+    allowedSortFields: ACTIVITY_SORT_FIELDS,
+    defaultSort: 'updatedAt',
+    defaultOrder: 'desc',
+  });
+
+  const filter = {
     userId: experience.userId,
     experienceId: experience._id,
     isArchived: false,
-  }).sort({ updatedAt: -1 });
+  };
 
-  return activities.map(toActivity);
+  if (search) {
+    const pattern = new RegExp(search, 'i');
+    filter.$or = [{ title: pattern }, { rawDescription: pattern }];
+  }
+
+  const [activities, total] = await Promise.all([
+    Activity.find(filter).sort(sortObject).skip(offset).limit(limit),
+    Activity.countDocuments(filter),
+  ]);
+
+  const items = activities.map(toActivity);
+
+  return {
+    items,
+    meta: buildListMeta({
+      count: items.length,
+      total,
+      limit,
+      offset,
+    }),
+  };
 };
 
 const createActivityForExperience = async (experience, validatedBody) => {
