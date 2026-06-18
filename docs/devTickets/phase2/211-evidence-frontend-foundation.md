@@ -1,6 +1,6 @@
 ---
 phase: 2
-status: planned
+status: implemented
 source: repo-local execution ticket
 methodology: lightweight intent-led ticket; agent must inspect current codebase before implementation
 ---
@@ -37,14 +37,14 @@ A logged-in user can navigate to Phase 2 evidence routes and see safe placeholde
 
 ## Acceptance criteria
 
-- `/experiences` is a protected route.
-- `/experiences/:experienceId` is a protected route.
-- `/activities/:activityId` is a protected route.
-- Experience service exists or is updated and uses the shared API client.
-- Activity service exists or is updated and uses the shared API client.
-- No hardcoded API calls are introduced inside React components.
-- Placeholder pages, if used, follow existing app layout/visual direction.
-- Any API contract mismatch is documented in this ticket.
+- [x] `/experiences` is a protected route.
+- [x] `/experiences/:experienceId` is a protected route.
+- [x] `/activities/:activityId` is a protected route.
+- [x] Experience service exists or is updated and uses the shared API client.
+- [x] Activity service exists or is updated and uses the shared API client.
+- [x] No hardcoded API calls are introduced inside React components.
+- [x] Placeholder pages, if used, follow existing app layout/visual direction.
+- [x] Any API contract mismatch is documented in this ticket.
 
 ## Agent planning checklist
 
@@ -71,15 +71,58 @@ Then provide a plan listing:
 
 ## Implementation notes
 
-_To be completed by the agent after codebase inspection._
+### Files created
+
+- `client/src/services/experienceService.js` — API-009–016 wrappers (no polish)
+- `client/src/services/activityService.js` — API-018–020 wrappers (no polish)
+- `client/src/features/experiences/ExperiencesFoundationPage.jsx`
+- `client/src/features/experiences/ExperienceDetailFoundationPage.jsx`
+- `client/src/features/activities/ActivityDetailFoundationPage.jsx`
+
+### Files modified
+
+- `client/src/app/router.jsx` — foundation pages for three evidence routes
+- `client/src/components/navigation/navConfig.js` — Experiences nav: `kind: "link"`, removed `soon` badge
+
+### Service assumptions
+
+- List endpoints return `{ data: [], meta }` with `data` as array at root (not nested under `experiences`).
+- Create endpoints return minimal `{ id }` in `data.experience` / `data.activity` — **212** must refetch or navigate with id.
+- Workspace (API-014) returns `experience`, paginated `activities` + `activitiesMeta`, and empty `journalEntries` stub until Journal API (Phase 5).
+- Activity GET (API-018) returns `{ data: { activity, parentExperience } }`.
+- Polish endpoints (API-017, API-021) omitted from services — server returns 501.
+
+### API contract mismatches (documented, no 211 blocker)
+
+| Item | Contract (`08_api_contract.md`) | Implementation | Impact |
+|------|--------------------------------|----------------|--------|
+| DELETE messages | `"Experience deleted"` / `"Activity deleted"` | `"Experience archived"` / `"Activity archived"` | None — clients ignore message text |
+| Workspace journal | `journalEntries` populated when linked | Always `[]` until Journal API | **213** should handle empty journal gracefully |
+| Polish | API-017, API-021 documented | `501 notImplemented` | Out of scope; **214** shows disabled affordance |
 
 ## Completion notes
 
-_To be completed after implementation._
+**Completed:** 2026-06-18
 
-Include:
+### Files changed
 
-- files changed,
-- checks/builds run,
-- manual smoke test path,
-- known limitations or follow-up tickets.
+See implementation notes above. No backend or API contract doc changes.
+
+### Checks run
+
+- `npm run build` (client) — **passed**
+- `npm run lint` (client) — **failed** with 8 pre-existing errors in Phase 1 files (`JournalDrawer.jsx`, `NavItem.jsx`, `authContext.jsx`, `DashboardPage.jsx`, `EvidencePanel.jsx`, `ProfilePage.jsx`); **no lint issues in 211 files**
+
+### Manual smoke test path
+
+1. Log in → sidebar **Experiences** (no “Soon” badge) → `/experiences` foundation page
+2. Navigate to `/experiences/test-id` → detail foundation shows param id
+3. Navigate to `/activities/test-id` → activity foundation shows param id
+4. Unauthenticated visit to `/experiences` → redirects to login
+
+### Known limitations / follow-up
+
+- Foundation pages do not call services yet — **212** wires `listExperiences` / `createExperience` on `/experiences`
+- **213** replaces `ExperienceDetailFoundationPage` with full Screen 7
+- **214** replaces `ActivityDetailFoundationPage` with full Screen 8
+- **215** dashboard evidence integration unchanged

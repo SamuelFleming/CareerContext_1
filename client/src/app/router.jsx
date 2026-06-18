@@ -10,6 +10,9 @@ import RegisterPage from "../features/auth/RegisterPage";
 import ProtectedRoute from "../features/auth/ProtectedRoute";
 import DashboardPage from "../features/dashboard/DashboardPage";
 import ProfilePage from "../features/profile/ProfilePage";
+import ExperiencesFoundationPage from "../features/experiences/ExperiencesFoundationPage";
+import ExperienceDetailFoundationPage from "../features/experiences/ExperienceDetailFoundationPage";
+import ActivityDetailFoundationPage from "../features/activities/ActivityDetailFoundationPage";
 import ComingSoonPage from "../features/placeholders/ComingSoonPage";
 
 export const router = createBrowserRouter([
@@ -47,13 +50,15 @@ export const router = createBrowserRouter([
       },
       {
         path: "/experiences",
-        element: (
-          <ComingSoonPage
-            title="Experiences"
-            description="Experience evidence containers arrive in Phase 2. Capture rough notes in the Journal drawer until then."
-            showJournalAction
-          />
-        ),
+        element: <ExperiencesFoundationPage />,
+      },
+      {
+        path: "/experiences/:experienceId",
+        element: <ExperienceDetailFoundationPage />,
+      },
+      {
+        path: "/activities/:activityId",
+        element: <ActivityDetailFoundationPage />,
       },
       {
         path: "/journal",
