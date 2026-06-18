@@ -1,0 +1,66 @@
+---
+description: CareerContext backend — Express 5, Mongoose, JWT, API contract
+globs: server/**/*
+alwaysApply: false
+---
+
+# CareerContext Backend Rules
+
+Sources of truth: `docs/core-scope/05_data_model.md`, `docs/core-scope/08_api_contract.md`, `docs/devTickets/phase2/`.
+
+## Stack
+
+- Node.js, **Express 5**, **Mongoose**, **JWT** (`jsonwebtoken`), **bcrypt**
+- CommonJS in `server/` (`"type": "commonjs"`)
+- Base path: `/api`
+
+## Architecture
+
+Use **Route → Controller → Service → Model**. Controllers stay thin; business logic lives in services.
+
+```text
+routes/experienceRoutes.js → controllers/experienceController.js → services/experienceService.js → models/Experience.js
+```
+
+- AI logic belongs in `services/ai/` (or dedicated AI services), not controllers.
+- Reuse `server/src/utils/serviceError.js` for `{ statusCode, message }` errors.
+- Reuse `server/src/utils/listQuery.js` for list pagination (ticket **206**).
+
+## Authentication & middleware
+
+- Protect user-owned routes with `authenticateWithJwt` (`router.use` or per-route).
+- JWT payload exposes `req.user.userId` — **never** trust `userId` from request body.
+- Use `mediaTypeValidator` on `POST`/`PUT` with JSON bodies.
+- Evidence routes use middleware in `server/src/middleware/evidence/`:
+  - `validateObjectIdParam` → `400` for invalid ids
+  - `loadOwnedExperience` / `loadOwnedActivity` → `404` + attach `req.experience` / `req.activity`
+  - `validateExperienceBody` / `validateActivityBody` → `req.validatedBody`
+
+## Data model conventions
+
+- Almost every entity is **user-owned** via `userId`.
+- **Activity** requires both `userId` and `experienceId`.
+- Preserve **raw + polished** fields (e.g. `overviewRaw` / `overviewPolished`, `rawDescription` / `polishedSummary`).
+- Use canonical field names from `05_data_model.md` — not legacy `*Md` suffixes on Experience/Activity body fields.
+- **Soft delete**: `DELETE` sets `isArchived: true` and `archivedAt`; exclude archived from list/get by default.
+- Mongoose models: `timestamps: true`, `toJSON` transform exposing `id` (string), omit `_id`, `__v`, internal refs where appropriate.
+
+## API contract
+
+- Derive endpoints from screens/flows (`06`, `07`), not from models alone.
+- Response envelopes per `08_api_contract.md`:
+  - Read: `{ data: ... }`
+  - Create/update: `{ message, data: ... }`
+  - List: `{ data: [], meta: { count, total, limit, offset, hasMore } }`
+  - Errors in controllers: `{ message }` with correct status (match existing Phase 1/2 handlers)
+- List endpoints: `limit` (default 20, max 100), `offset`, `sort`, `order`, `search` + entity filters.
+- **Dashboard** is not a list endpoint — return capped previews and `countDocuments` only.
+- **Workspace** endpoints return one parent + paginated child slice + `*Meta` (see API-014, ticket **206**).
+- Route params: `:experienceId`, `:activityId`, `:journalEntryId`, `:opportunityId`, `:documentId`.
+
+## Do not
+
+- Hard-delete user evidence in MVP without explicit ticket scope.
+- Add endpoints without screen justification in docs/tickets.
+- Skip ownership checks on nested resources (e.g. activities under an experience).
+- Put validation-only logic back into services when middleware already handles it for that route.

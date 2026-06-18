@@ -1,0 +1,60 @@
+---
+description: CareerContext docs — principles, tickets, core-scope alignment
+globs: docs/**/*
+alwaysApply: false
+---
+
+# CareerContext Documentation Rules
+
+Sources of truth: `docs/core-scope/00_documentation_index.md`, `CLAUDE.md`, `docs/devTickets/devTickets_next.md`.
+
+## Documentation principles
+
+When creating or updating docs:
+
+1. Keep documents **lightweight** — support rapid development, not enterprise bloat.
+2. Prefer **clear MVP decisions** over speculative long-term design.
+3. Allow docs to **evolve** as the product becomes clearer.
+4. Write for the **portfolio story**, not only internal notes.
+5. Treat **AI behaviour** as a first-class design concern.
+6. Derive the API contract from **flows → screens → screen data needs → data model** — not from entities alone.
+
+## Document locations
+
+| Area | Path |
+|------|------|
+| Product & technical specs | `docs/core-scope/` (`01`–`08`, index `00`) |
+| Design system | `docs/design-concept/` |
+| Implementation tickets | `docs/devTickets/phase{N}/` |
+| Completed work registry | `docs/devTickets/devCompletion.md` |
+| Upcoming work queue | `docs/devTickets/devTickets_next.md` |
+
+- Canonical specs live under **`docs/core-scope/`** — avoid duplicating numbered docs at `docs/` root.
+- Cross-link tickets to screen numbers, API IDs (`API-009`), and related tickets.
+
+## Dev ticket format
+
+New tickets in `docs/devTickets/phase{N}/` should include:
+
+- **Status** (`Planned` / `Implemented`)
+- **Phase** and **Depends On** (prior tickets)
+- **Related Screen(s)** and **Related Docs**
+- **Objective**, **Scope**, **Files**, **Technical Tasks**, **Acceptance Criteria** (checkboxes)
+- Endpoint tables with registry IDs where applicable
+- Explicit **out of scope** to prevent scope creep
+
+When a ticket is completed: mark acceptance criteria `[x]`, set Status to **Implemented**, update `devTickets_next.md`.
+
+## Contract alignment
+
+- Field names must match `05_data_model.md` and `08_api_contract.md` (e.g. `overviewRaw`, not `rawOverviewMd`).
+- List endpoints document pagination per **206** (`limit`, `offset`, `sort`, `order`, `search`, full `meta`).
+- Workspace vs list vs dashboard boundaries must be explicit (no unbounded payloads in dashboard/workspace docs).
+- If implementation diverges from docs, **update the ticket and contract** — do not leave silent drift.
+
+## Do not
+
+- Create markdown files the user did not ask for (README dumps, unsolicited audits).
+- Document features without tying them to a screen number or API endpoint.
+- Copy outdated examples from `03_solution_technology.md` simplified model when `05`/`08` are more current.
+- Split one implementation into vague tickets — prefer numbered phase tickets (e.g. `201`, `202`) with clear dependencies.
