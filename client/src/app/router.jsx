@@ -11,7 +11,7 @@ import ProtectedRoute from "../features/auth/ProtectedRoute";
 import DashboardPage from "../features/dashboard/DashboardPage";
 import ProfilePage from "../features/profile/ProfilePage";
 import ExperienceIndexPage from "../features/experiences/ExperienceIndexPage";
-import ExperienceDetailFoundationPage from "../features/experiences/ExperienceDetailFoundationPage";
+import ExperienceDetailPage from "../features/experiences/ExperienceDetailPage";
 import ActivityDetailFoundationPage from "../features/activities/ActivityDetailFoundationPage";
 import ComingSoonPage from "../features/placeholders/ComingSoonPage";
 
@@ -54,7 +54,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/experiences/:experienceId",
-        element: <ExperienceDetailFoundationPage />,
+        element: <ExperienceDetailPage />,
       },
       {
         path: "/activities/:activityId",

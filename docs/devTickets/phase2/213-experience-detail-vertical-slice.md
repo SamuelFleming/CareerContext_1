@@ -1,6 +1,6 @@
 ---
 phase: 2
-status: planned
+status: implemented
 source: repo-local execution ticket
 methodology: lightweight intent-led ticket; agent must inspect current codebase before implementation
 ---
@@ -38,17 +38,17 @@ A logged-in user can open an Experience, view its details, edit it, create suppo
 
 ## Acceptance criteria
 
-- `/experiences/:experienceId` remains protected.
-- Screen fetches the Experience by ID.
-- Screen fetches Activities for the Experience when available.
-- User can update Experience fields.
-- User can create an Activity under the Experience.
-- User can open Activity Detail from the Activity list.
-- User can delete the Experience with a confirmation step.
-- Error/not-found state displays when the Experience is unavailable.
-- Components do not call `fetch` directly.
-- Markdown editing uses the reusable editor if it exists.
-- Any API/model mismatch is documented.
+- [x] `/experiences/:experienceId` remains protected.
+- [x] Screen fetches the Experience by ID.
+- [x] Screen fetches Activities for the Experience when available.
+- [x] User can update Experience fields.
+- [x] User can create an Activity under the Experience.
+- [x] User can open Activity Detail from the Activity list.
+- [x] User can delete the Experience with a confirmation step.
+- [x] Error/not-found state displays when the Experience is unavailable.
+- [x] Components do not call `fetch` directly.
+- [x] Markdown editing uses the reusable editor if it exists.
+- [x] Any API/model mismatch is documented.
 
 ## Agent planning checklist
 
@@ -82,16 +82,84 @@ Then provide a plan listing:
 
 ## Implementation notes
 
-_To be completed by the agent after codebase inspection._
+### Load strategy
+
+- Initial load: `getExperienceWorkspace(experienceId, { limit: 20, sort: 'updatedAt', order: 'desc' })` (API-014) — one request for experience + activities slice.
+- After activity create: `listActivitiesForExperience` refetch (API-015).
+- Experience save: `updateExperience` (API-012); merge `data.experience` into local state.
+
+### Component structure
+
+- `ExperienceDetailPage.jsx` — container, load/save/delete/create orchestration
+- `ExperienceEditorCard.jsx` — metadata + `overviewRaw` via `MarkdownEditor`
+- `ExperiencePolishedOverview.jsx` — read-only `MarkdownPreview` + disabled AI polish CTA
+- `ExperienceDeleteConfirm.jsx` — inline two-step delete confirmation
+- `ExperienceActivitySection.jsx` + `ExperienceActivityListItem.jsx` + `CreateActivityPanel.jsx`
+- `experienceFormUtils.js` — form mapping, payloads, `emptyActivityForm`
+
+### Markdown editor
+
+- `overviewRaw` and activity `rawDescription` use shared `MarkdownEditor`.
+- `overviewPolished` read-only via `MarkdownPreview`; AI polish button disabled (API-017 is 501).
+
+### API contract mismatches (documented)
+
+| Item | Contract | Implementation | Impact |
+|------|----------|----------------|--------|
+| DELETE message | `"Experience deleted"` | `"Experience archived"` | None for UI |
+| Workspace journal | `journalEntries` in API-014 | Always `[]` until Journal API | Journal section omitted |
+| Polish | API-017 documented | `501 notImplemented` | Disabled button only |
+| Invalid id | — | `400 Invalid experience ID` | Treated as not-found UI |
+| Create activity response | Full activity optional | `{ id }` only | Refetch activities after create |
 
 ## Completion notes
 
-_To be completed after implementation._
+**Completed:** 2026-06-18
 
-Include:
+### Files changed
 
-- files changed,
-- checks/builds run,
-- manual smoke test path from `/experiences` to detail,
-- API/model mismatches or assumptions,
-- known limitations or follow-up tickets.
+**Created**
+
+- `client/src/features/experiences/ExperienceDetailPage.jsx`
+- `client/src/features/experiences/components/ExperienceEditorCard.jsx`
+- `client/src/features/experiences/components/ExperiencePolishedOverview.jsx`
+- `client/src/features/experiences/components/ExperienceDeleteConfirm.jsx`
+- `client/src/features/experiences/components/ExperienceActivitySection.jsx`
+- `client/src/features/experiences/components/ExperienceActivityListItem.jsx`
+- `client/src/features/experiences/components/CreateActivityPanel.jsx`
+- `client/src/features/experiences/components/experienceFormUtils.js`
+
+**Modified**
+
+- `client/src/app/router.jsx` — `/experiences/:experienceId` → `ExperienceDetailPage`
+
+**Deleted**
+
+- `client/src/features/experiences/ExperienceDetailFoundationPage.jsx`
+
+### Checks run
+
+- `npm run build` (client) — **passed**
+- `npm run lint` (client) — **failed** with pre-existing Phase 1 errors plus same `setState-in-effect` pattern on detail page (matches Dashboard/Profile)
+
+### Manual smoke test path
+
+1. Log in → `/experiences`
+2. Open an experience card → `/experiences/:experienceId`
+3. Verify metadata, overview `MarkdownEditor`, polished section (empty or preview)
+4. Edit fields → **Save changes** → refresh → changes persist
+5. **Add activity** → title + description → appears in list
+6. Click activity → `/activities/:id` (foundation until **214**)
+7. **Delete experience** → confirm → redirected to `/experiences`; item removed from index
+8. Invalid id → not-found message + link back
+
+### API integration status
+
+**Fully wired to real API** — workspace, update, delete, list/create activities. No mock fallback.
+
+### Known limitations / follow-up
+
+- **214** — full Activity Detail screen
+- Activity pagination UI when `activitiesMeta.hasMore`
+- Journal section when Journal API lands (Phase 5)
+- **215** — dashboard evidence integration
