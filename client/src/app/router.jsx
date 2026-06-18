@@ -12,7 +12,7 @@ import DashboardPage from "../features/dashboard/DashboardPage";
 import ProfilePage from "../features/profile/ProfilePage";
 import ExperienceIndexPage from "../features/experiences/ExperienceIndexPage";
 import ExperienceDetailPage from "../features/experiences/ExperienceDetailPage";
-import ActivityDetailFoundationPage from "../features/activities/ActivityDetailFoundationPage";
+import ActivityDetailPage from "../features/activities/ActivityDetailPage";
 import ComingSoonPage from "../features/placeholders/ComingSoonPage";
 
 export const router = createBrowserRouter([
@@ -58,7 +58,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/activities/:activityId",
-        element: <ActivityDetailFoundationPage />,
+        element: <ActivityDetailPage />,
       },
       {
         path: "/journal",

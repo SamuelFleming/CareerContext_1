@@ -1,6 +1,6 @@
 ---
 phase: 2
-status: planned
+status: implemented
 source: repo-local execution ticket
 methodology: lightweight intent-led ticket; agent must inspect current codebase before implementation
 ---
@@ -39,59 +39,92 @@ A logged-in user can open an Activity, edit its evidence content, see its parent
 
 ## Acceptance criteria
 
-- `/activities/:activityId` remains protected.
-- Screen fetches Activity by ID.
-- Parent Experience context is visible or linked when available.
-- User can update Activity title/content.
-- User can delete Activity with a confirmation step.
-- User can navigate back to the parent Experience.
-- Empty polished-content state exists.
-- Future AI polish action is visible but disabled or marked as coming later.
-- Components do not call `fetch` directly.
-- Any API/model mismatch is documented.
-
-## Agent planning checklist
-
-Before writing code, inspect:
-
-- `CLAUDE.md`
-- `.cursor/rules/frontend.mdc`
-- `.cursor/rules/backend.mdc`
-- `.cursor/rules/documentation.mdc`
-- `client/src/features/activities/`
-- `client/src/features/experiences/`
-- `client/src/services/activityService.js`
-- `client/src/services/experienceService.js`
-- `client/src/app/router.jsx`
-- `server/src/routes/`
-- `server/src/controllers/`
-- `server/src/services/`
-- `docs/core-scope/08_api_contract.md`
-- `docs/core-scope/05_data_model.md`
-
-Then provide a plan listing:
-
-1. current Activity model/service/API findings,
-2. proposed component breakdown,
-3. parent Experience linking approach,
-4. Markdown editor reuse decision,
-5. delete/back-navigation behaviour,
-6. exact files to change,
-7. verification steps,
-8. documentation updates required.
+- [x] `/activities/:activityId` remains protected.
+- [x] Screen fetches Activity by ID.
+- [x] Parent Experience context is visible or linked when available.
+- [x] User can update Activity title/content.
+- [x] User can delete Activity with a confirmation step.
+- [x] User can navigate back to the parent Experience.
+- [x] Empty polished-content state exists.
+- [x] Future AI polish action is visible but disabled or marked as coming later.
+- [x] Components do not call `fetch` directly.
+- [x] Any API/model mismatch is documented.
 
 ## Implementation notes
 
-_To be completed by the agent after codebase inspection._
+### Load strategy
+
+- Single `getActivity(activityId)` (API-018) returns `{ activity, parentExperience }`.
+- Save: `updateActivity` (API-019) with `title`, `rawDescription`.
+- Delete: `deleteActivity` (API-020) → navigate to `/experiences/:parentExperienceId`.
+
+### Component structure
+
+- `ActivityDetailPage.jsx` — container
+- `ActivityParentContext.jsx` — parent experience link
+- `ActivityEditorCard.jsx` — title + `rawDescription` via `MarkdownEditor`
+- `ActivityPolishedSummary.jsx` — read-only `polishedSummary` + disabled AI CTA
+- `ActivityDeleteConfirm.jsx` — inline delete confirmation
+- `activityFormUtils.js` — form mapping and payload builder
+
+### Markdown editor
+
+- `rawDescription`: shared `MarkdownEditor`
+- `polishedSummary`: read-only `MarkdownPreview`; AI polish disabled (API-021 is 501)
+
+### API contract mismatches
+
+| Item | Contract | Implementation | Impact |
+|------|----------|----------------|--------|
+| DELETE message | `"Activity deleted"` | `"Activity archived"` | None for UI |
+| Invalid id | — | `400 Invalid activity ID` | Shown as not-found UI |
+| Polish | API-021 documented | `501 notImplemented` | Disabled button only |
 
 ## Completion notes
 
-_To be completed after implementation._
+**Completed:** 2026-06-18
 
-Include:
+### Files changed
 
-- files changed,
-- checks/builds run,
-- manual smoke test path from Experience Detail to Activity Detail and back,
-- API/model mismatches or assumptions,
-- known limitations or follow-up tickets.
+**Created**
+
+- `client/src/features/activities/ActivityDetailPage.jsx`
+- `client/src/features/activities/components/activityFormUtils.js`
+- `client/src/features/activities/components/ActivityParentContext.jsx`
+- `client/src/features/activities/components/ActivityEditorCard.jsx`
+- `client/src/features/activities/components/ActivityPolishedSummary.jsx`
+- `client/src/features/activities/components/ActivityDeleteConfirm.jsx`
+
+**Modified**
+
+- `client/src/app/router.jsx` — `/activities/:activityId` → `ActivityDetailPage`
+
+**Deleted**
+
+- `client/src/features/activities/ActivityDetailFoundationPage.jsx`
+
+### Checks run
+
+- `npm run build` (client) — **passed**
+- `npm run lint` (client) — **failed** with pre-existing Phase 1 errors plus same `setState-in-effect` pattern on detail page (matches Experience Detail)
+
+### Manual smoke test path
+
+1. Log in → `/experiences` → open an experience
+2. On Experience Detail → click an activity → `/activities/:id`
+3. Verify parent context card + **Back to experience** in header
+4. Edit title + raw Markdown → **Save changes** → reload → persisted
+5. Polished summary: empty state or preview when present; AI button disabled
+6. **Back to experience** → `/experiences/:parentId`
+7. Return to activity → **Delete activity** → confirm → parent experience; activity removed from list
+8. Invalid activity id → not-found UI
+
+### API integration status
+
+**Fully wired to real API** — `getActivity`, `updateActivity`, `deleteActivity`. No mock fallback.
+
+### Known limitations / follow-up
+
+- **215** — dashboard evidence integration
+- Manual edit of `polishedSummary` not exposed (AI-only workflow later)
+- API-021 polish not wired
