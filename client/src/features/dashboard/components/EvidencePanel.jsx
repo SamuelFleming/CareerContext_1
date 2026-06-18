@@ -1,12 +1,113 @@
 // client/src/features/dashboard/components/EvidencePanel.jsx
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Activity } from "lucide-react";
-import Card, {
-  CardHeader,
-  CardTitle,
-  CardContent,
-} from "../../../components/ui/Card";
+import Card, { CardHeader, CardContent } from "../../../components/ui/Card";
 import { cn } from "../../../utils/cn";
+
+function formatUpdatedAt(value) {
+  if (!value) {
+    return null;
+  }
+
+  return new Intl.DateTimeFormat(undefined, {
+    dateStyle: "medium",
+  }).format(new Date(value));
+}
+
+function EvidenceSummaryView({ evidenceSummary }) {
+  const counts = evidenceSummary?.counts || {};
+  const hasCounts =
+    (counts.experiences ?? 0) > 0 ||
+    (counts.activities ?? 0) > 0 ||
+    (counts.journalEntries ?? 0) > 0;
+
+  if (!hasCounts) {
+    return (
+      <p className="text-sm text-[var(--primary-600)]">
+        {evidenceSummary?.message ||
+          "No experiences yet. Add evidence from the Experiences workspace."}
+      </p>
+    );
+  }
+
+  return (
+    <dl className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+      <div className="rounded-md border border-[var(--neutral-200)] bg-[var(--neutral-000)] px-4 py-3">
+        <dt className="text-xs font-medium uppercase tracking-wide text-[var(--primary-600)]">
+          Experiences
+        </dt>
+        <dd className="mt-1 text-2xl font-semibold text-[var(--primary-900)]">
+          {counts.experiences ?? 0}
+        </dd>
+      </div>
+      <div className="rounded-md border border-[var(--neutral-200)] bg-[var(--neutral-000)] px-4 py-3">
+        <dt className="text-xs font-medium uppercase tracking-wide text-[var(--primary-600)]">
+          Activities
+        </dt>
+        <dd className="mt-1 text-2xl font-semibold text-[var(--primary-900)]">
+          {counts.activities ?? 0}
+        </dd>
+      </div>
+      <div className="rounded-md border border-[var(--neutral-200)] bg-[var(--neutral-000)] px-4 py-3">
+        <dt className="text-xs font-medium uppercase tracking-wide text-[var(--primary-600)]">
+          Journal
+        </dt>
+        <dd className="mt-1 text-2xl font-semibold text-[var(--primary-900)]">
+          {counts.journalEntries ?? 0}
+        </dd>
+      </div>
+    </dl>
+  );
+}
+
+function RecentActivityView({ recentActivity }) {
+  const items = recentActivity?.items || [];
+
+  if (items.length === 0) {
+    return (
+      <p className="text-sm text-[var(--primary-600)]">
+        {recentActivity?.message ||
+          "Your latest captured evidence will appear here."}
+      </p>
+    );
+  }
+
+  return (
+    <ul className="flex flex-col gap-2">
+      {items.map((item) => {
+        const updatedLabel = formatUpdatedAt(item.updatedAt);
+        const entityLabel =
+          item.entityType === "activity" ? "Activity" : "Experience";
+
+        return (
+          <li key={`${item.entityType}-${item.id}`}>
+            {item.href ? (
+              <Link
+                to={item.href}
+                className="block rounded-md border border-transparent px-2 py-2 transition-colors hover:border-[var(--neutral-200)] hover:bg-[var(--neutral-000)]"
+              >
+                <p className="text-sm font-medium text-[var(--primary-900)]">
+                  {item.title}
+                </p>
+                <p className="mt-0.5 text-xs text-[var(--primary-600)]">
+                  {entityLabel}
+                  {updatedLabel ? ` · Updated ${updatedLabel}` : ""}
+                </p>
+              </Link>
+            ) : (
+              <div className="px-2 py-2">
+                <p className="text-sm font-medium text-[var(--primary-900)]">
+                  {item.title}
+                </p>
+              </div>
+            )}
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
 
 export default function EvidencePanel({ evidencePanel }) {
   const [activeView, setActiveView] = useState(
@@ -17,8 +118,6 @@ export default function EvidencePanel({ evidencePanel }) {
     { id: "evidenceSummary", label: "Evidence Summary" },
     { id: "recentActivity", label: "Recent Activity" },
   ];
-
-  const activeContent = evidencePanel?.[activeView];
 
   return (
     <Card className="flex min-h-[220px] flex-col">
@@ -56,18 +155,10 @@ export default function EvidencePanel({ evidencePanel }) {
       </CardHeader>
 
       <CardContent className="flex flex-1 flex-col justify-center pt-4">
-        {activeContent?.items?.length > 0 ? (
-          <ul className="flex flex-col gap-2">
-            {activeContent.items.map((item) => (
-              <li key={item.id} className="text-sm text-[var(--primary-700)]">
-                {item.title}
-              </li>
-            ))}
-          </ul>
+        {activeView === "evidenceSummary" ? (
+          <EvidenceSummaryView evidenceSummary={evidencePanel?.evidenceSummary} />
         ) : (
-          <p className="text-sm text-[var(--primary-600)]">
-            {activeContent?.message}
-          </p>
+          <RecentActivityView recentActivity={evidencePanel?.recentActivity} />
         )}
       </CardContent>
     </Card>

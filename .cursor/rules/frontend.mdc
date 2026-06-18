@@ -1,0 +1,106 @@
+---
+description: CareerContext frontend — React 19, Vite, Router, Tailwind 4, Markdown
+globs: client/**/*
+alwaysApply: false
+---
+
+# CareerContext Frontend Rules
+
+Sources of truth: `docs/core-scope/06_screen_catalogue_and_data_requirements.md`, `docs/core-scope/07_screen_data_matrix.md`, `docs/core-scope/08_api_contract.md`, `docs/design-concept/FigmaOutput_DesignSystem.md`, `docs/devTickets/phase2/`.
+
+## Current Focus : Phase 2 — Evidence Frontend (current)
+
+Backend tickets **200**–**206** are complete. Execute frontend tickets **in order**:
+
+| Ticket | Screen | Route(s) | Primary APIs |
+|--------|--------|----------|--------------|
+| **212** | 6 — Experience Index | `/experiences` | API-009, API-010 |
+| **213** | 7 — Experience Detail | `/experiences/:experienceId` | API-011–016, API-014 workspace |
+| **214** | 8 — Activity Detail | `/activities/:activityId` | API-018–020 |
+| **215** | 4 — Dashboard | `/dashboard` | Extend `GET /api/dashboard` |
+
+**211 complete.** Services: `experienceService.js`, `activityService.js`. Foundation pages replace `ComingSoonPage` on evidence routes.
+
+Copy patterns from **Profile** (form + save status + service calls) and **Dashboard** (cards, evidence panel, loading/error states).
+
+## Stack
+
+- **React 19**, **Vite**, **React Router** (`createBrowserRouter` in `client/src/app/router.jsx`)
+- **Tailwind CSS 4** via `@tailwindcss/vite`
+- **Markdown**: `react-markdown` + `remark-gfm` — never ad-hoc HTML rendering for user content
+- ESM (`"type": "module"`)
+
+## Folder structure
+
+```text
+client/src/
+  app/           # router, app shell wiring
+  components/    # shared UI — ui/, layout/, navigation/, editor/
+  features/      # screen domains — auth/, dashboard/, profile/, experiences/, ...
+  services/      # API clients (apiClient.js + feature services)
+  contexts/      # cross-cutting UI state (e.g. JournalDrawerContext)
+  styles/        # theme, globals, fonts
+  utils/
+```
+
+- New screens go in `features/<domain>/` with colocated `components/`.
+- Shared primitives live in `components/ui/` — reuse `Button`, `Card`, `Input`, `TextArea`, etc.
+- Do not fetch inside presentational components; use feature services.
+
+## Routing & auth
+
+- Public routes under `PublicLayout`; authenticated routes under `ProtectedRoute` + `ProtectedLayout` / `AppShell`.
+- Screen routes must match `06_screen_catalogue` (e.g. `/dashboard`, `/profile`, `/experiences`, `/experiences/:experienceId`, `/activities/:activityId`).
+- Use `ComingSoonPage` only as a temporary placeholder until the screen ticket is implemented.
+
+## API integration
+
+- All HTTP via `client/src/services/apiClient.js` (`apiRequest`, JWT from `AUTH_TOKEN_KEY`).
+- One service file per domain: `profileService.js`, `dashboardService.js`, `experienceService.js`, `activityService.js`.
+- Document response shapes in JSDoc above each exported function (see `profileService.js`).
+- Mirror backend envelopes: `data`, `message`, list `meta` (`count`, `total`, `limit`, `offset`, `hasMore`).
+- Pass list query params for index/workspace pagination — do not assume unbounded lists.
+- Workspace (Screen 7): prefer `GET /api/experiences/:id/workspace` for initial load; use paginated activity endpoint for “load more”.
+
+### Evidence field names (Experience / Activity)
+
+Use canonical names from `05_data_model.md` / `08_api_contract.md` — not Profile's `*Md` suffix pattern:
+
+| Entity | Raw | Polished |
+|--------|-----|----------|
+| Experience overview | `overviewRaw` | `overviewPolished` |
+| Activity description | `rawDescription` | `polishedSummary` |
+
+Profile/Core Context still uses `rawSummaryMd` and `coreResumeMd` — do not rename those.
+
+## Screen state conventions
+
+- Screens that fetch data should handle loading, error, empty, and success states.
+- Prefer feature-level state in screen components before introducing shared state.
+- Keep presentational components prop-driven and API-agnostic.
+- Do not hide API errors silently; show a user-friendly message and keep console detail useful for development.
+
+## Markdown editing
+
+- Use shared **`MarkdownEditor`** (`components/editor/MarkdownEditor.jsx`) for user-authored Markdown.
+- Preview via **`MarkdownPreview`** (`react-markdown` + `remark-gfm`).
+- Used by Profile core context, core resume, Journal drawer, Experience overview (`overviewRaw`), and Activity content (`rawDescription`).
+- AI polish endpoints (API-017, API-021) are **out of scope** for Phase 2 frontend — show disabled/“coming later” affordances only.
+- Do not introduce a second markdown editor pattern without a ticket.
+
+## UX & design
+
+- Career **workspace** feel — Interactive CV dashboard, evidence cards, journal drawer — not generic admin CRUD.
+- Follow design tokens / patterns in `docs/design-concept/FigmaOutput_DesignSystem.md`.
+- Use `cn()` (`utils/cn.js`) for conditional classes; prefer Tailwind utilities over one-off CSS unless editor-specific.
+- Show raw vs polished content where the product theory calls for transparency.
+
+## Do not
+
+- Add global state libraries without justification — prefer local state + services for MVP.
+- Hardcode API Base URLs outside `apiClient` / `VITE_API_BASE_URL`.
+- Call `fetch` directly from React components — use feature services.
+- Build Screen 6–8 UI against undocumented endpoints — check `08_api_contract.md` and phase tickets first.
+- Replace Phase 1 dashboard mocks with unbounded client-side arrays when wiring real evidence (**215** handles this via API).
+- Replace the CareerContext visual language with generic SaaS/admin styling.
+- Implement Journal, Opportunity, or Document screens during Phase 2 unless explicitly scoped.

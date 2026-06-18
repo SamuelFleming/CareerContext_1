@@ -1,0 +1,25 @@
+# Phase 2 Dev Tickets — Experience Evidence
+
+This folder contains lightweight repo-local execution tickets for Phase 2.
+
+Use these tickets with:
+
+- `CLAUDE.md`
+- `.cursor/rules/frontend.mdc`
+- `.cursor/rules/backend.mdc`
+- `.cursor/rules/documentation.mdc`
+- `docs/devTickets/devTickets_next.md`
+
+## Tickets
+
+- [211 — Evidence Frontend Foundation](211-evidence-frontend-foundation.md)
+- [212 — Experience Index Vertical Slice](212-experience-index-vertical-slice.md)
+- [213 — Experience Detail Vertical Slice](213-experience-detail-vertical-slice.md)
+- [214 — Activity Detail Vertical Slice](214-activity-detail-vertical-slice.md)
+- [215 — Dashboard Evidence Integration](215-dashboard-evidence-integration.md)
+
+## Method
+
+The human-authored ticket defines intent, scope, out-of-scope boundaries, and acceptance criteria.
+
+The agent should add current-state implementation notes and completion notes after inspecting the codebase.

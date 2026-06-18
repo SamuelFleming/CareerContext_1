@@ -40,9 +40,8 @@ export const PRIMARY_NAV = [
     id: "experiences",
     label: "Experiences",
     icon: Briefcase,
-    kind: "soon",
+    kind: "link",
     to: "/experiences",
-    soon: true,
   },
   {
     id: "journal",

@@ -17,6 +17,26 @@ Tracks completed backend and full-stack development tickets.
 | 008.4 | Core resume input mode scaffold | Phase 1 | 2026-06-16 | Markdown vs Upload toggle; upload placeholder only |
 | 009 | Shared authenticated app layout polish | Phase 1 | 2026-06-16 | NavItem, mobile shell, user identity, placeholder routes |
 | 010 | Phase 1 stabilisation and QA pass | Phase 1 | 2026-06-16 | API smoke tests passed; checklist reconciled |
+| 200 | Phase 2 planning and data contract review | Phase 2 | 2026-06-18 | Data model and API contract aligned for evidence |
+| 201 | Experience and Activity models | Phase 2 | 2026-06-18 | Mongoose models with raw/polished fields |
+| 202 | Experience backend CRUD | Phase 2 | 2026-06-18 | API-009–013 |
+| 203 | Activity backend CRUD | Phase 2 | 2026-06-18 | API-018–020 |
+| 204 | Experience and Activity middleware and validation | Phase 2 | 2026-06-18 | Evidence middleware chain |
+| 205 | Experience workspace endpoint | Phase 2 | 2026-06-18 | API-014 workspace payload |
+| 206 | List query standard | Phase 2 | 2026-06-18 | Shared pagination/filter/search via `listQuery.js` |
+| 211 | Evidence frontend foundation | Phase 2 | 2026-06-18 | Routes, services, foundation placeholder pages |
+
+## 211 — Summary
+
+- Protected routes: `/experiences`, `/experiences/:experienceId`, `/activities/:activityId`.
+- `experienceService.js` (API-009–016) and `activityService.js` (API-018–020); no polish wrappers.
+- Foundation placeholder pages in `features/experiences/` and `features/activities/`; no API calls in components.
+- Experiences nav item active (removed “Soon” badge).
+
+## Phase 2 backend — Summary
+
+- Experience and Activity CRUD, workspace, and list pagination are implemented and contract-documented.
+- Frontend tickets **211**–**215** are next — see `docs/devTickets/devTickets_next.md`.
 
 ## 010 — Summary
 

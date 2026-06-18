@@ -1,20 +1,30 @@
 # CareerContext — Next Dev Tickets
 
-Phase 1 (Auth and Profile) is **complete**. See [`devCompletion.md`](./devCompletion.md).
+Phase 1 (Auth and Profile) is **complete**. Phase 2 backend (**200**–**206**) is **complete**. See [`devCompletion.md`](./devCompletion.md).
 
-## Phase 2 — Experience Evidence
+## Phase 2 — Experience Evidence (frontend — active)
 
-| Ticket | Title | Priority | Notes |
-|--------|-------|----------|-------|
-| **200** | Phase 2 planning and data contract review | High | Done — `phase2/200-phase-2-planning-and-data-contract-review.md` |
-| **201** | Experience and Activity models | High | Done — `phase2/201-experience-and-activity-models.md` |
-| **202** | Experience backend CRUD | High | Done — `phase2/202-experience-backend-crud.md` |
-| **203** | Activity backend CRUD | High | Done — `phase2/203-activity-backend-crud.md` |
-| **204** | Experience and Activity middleware and validation | Medium | Done — `phase2/204-experience-and-activity-middleware-and-validation.md` |
-| **205** | Experience workspace endpoint | Medium | Done — `phase2/205-experience-workspace-endpoint.md` |
-| **206** | List query standard (filter/search/sort/pagination) | Medium | Done — `phase2/206-list-query-standard.md` |
-| — | Experience Index UI (Screen 6) | High | Wire `/experiences` route — after backend burst |
-| — | Dashboard CV from real data | Medium | Replace `phase1DashboardMocks` — after **201**–**203** |
+Execute in order. Tickets live in `docs/devTickets/phase2/`.
+
+| Ticket | Title | Priority | Status |
+|--------|-------|----------|--------|
+| **211** | Evidence frontend foundation | High | Done — routes, services, foundation placeholders |
+| **212** | Experience Index vertical slice (Screen 6) | High | **Next** — after **211** |
+| **213** | Experience Detail vertical slice (Screen 7) | High | Planned — after **212** |
+| **214** | Activity Detail vertical slice (Screen 8) | High | Planned — after **213** |
+| **215** | Dashboard evidence integration | Medium | Planned — after **214**; replace `phase1DashboardMocks` |
+
+### Phase 2 backend (complete)
+
+| Ticket | Title | Notes |
+|--------|-------|-------|
+| **200** | Phase 2 planning and data contract review | Done |
+| **201** | Experience and Activity models | Done |
+| **202** | Experience backend CRUD | Done |
+| **203** | Activity backend CRUD | Done |
+| **204** | Experience and Activity middleware and validation | Done |
+| **205** | Experience workspace endpoint | Done |
+| **206** | List query standard (filter/search/sort/pagination) | Done |
 
 ## Phase 3 — Opportunities and Documents
 

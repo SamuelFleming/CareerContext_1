@@ -35,12 +35,12 @@ const emptyDashboard = {
   evidencePanel: {
     defaultView: "evidenceSummary",
     evidenceSummary: {
-      status: "placeholder",
-      message: "Experience evidence comes next.",
+      status: "empty",
+      message: "No experiences yet. Add evidence from the Experiences workspace.",
       counts: { experiences: 0, activities: 0, journalEntries: 0 },
     },
     recentActivity: {
-      status: "placeholder",
+      status: "empty",
       message: "Your latest captured evidence will appear here.",
       items: [],
     },
