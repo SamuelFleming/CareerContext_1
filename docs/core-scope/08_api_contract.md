@@ -49,10 +49,30 @@ List responses should generally use:
 {
   "data": [],
   "meta": {
-    "count": 0
+    "count": 0,
+    "total": 0,
+    "limit": 20,
+    "offset": 0,
+    "hasMore": false
   }
 }
 ```
+
+### List Query Conventions
+
+Multi-record `GET` endpoints support bounded result sets. See ticket **206** and `server/src/utils/listQuery.js`.
+
+| Param | Default | Max | Purpose |
+|-------|---------|-----|---------|
+| `limit` | `20` | `100` | Page size |
+| `offset` | `0` | — | Skip (offset pagination) |
+| `sort` | entity default | — | Sort field (allowlisted per endpoint) |
+| `order` | `desc` | — | `asc` or `desc` |
+| `search` | — | — | Case-insensitive match on entity-specific text fields |
+
+Entity-specific filters (e.g. `type`, `status`, `experienceId`) are documented per endpoint.
+
+**Dashboard (`GET /api/dashboard`) is not a list endpoint.** It returns capped previews and aggregate counts only — never full entity collections. See **206** for dashboard caps when wiring real evidence data.
 
 Error responses should generally use:
 
@@ -475,7 +495,7 @@ PUT /api/profile/core-resume
 ## API-009 — List Experiences
 
 ```http
-GET /api/experiences?type=job&search=angular&limit=20&select=id,title
+GET /api/experiences?type=job&search=angular&sort=updatedAt&order=desc&limit=20&offset=0
 ```
 
 ### Success: 200
@@ -496,7 +516,13 @@ GET /api/experiences?type=job&search=angular&limit=20&select=id,title
       "updatedAt": "2026-06-08T00:00:00.000Z"
     }
   ],
-  "meta": { "count": 1 }
+  "meta": {
+    "count": 1,
+    "total": 1,
+    "limit": 20,
+    "offset": 0,
+    "hasMore": false
+  }
 }
 ```
 
@@ -602,7 +628,7 @@ DELETE /api/experiences/:experienceId
 ## API-014 — Get Experience Workspace
 
 ```http
-GET /api/experiences/:experienceId/workspace
+GET /api/experiences/:experienceId/workspace?limit=20&offset=0&sort=updatedAt&order=desc
 ```
 
 ### Success: 200
@@ -612,15 +638,31 @@ GET /api/experiences/:experienceId/workspace
   "data": {
     "experience": {},
     "activities": [],
-    "journalEntries": []
+    "activitiesMeta": {
+      "count": 0,
+      "total": 0,
+      "limit": 20,
+      "offset": 0,
+      "hasMore": false
+    },
+    "journalEntries": [],
+    "journalMeta": {
+      "count": 0,
+      "total": 0,
+      "limit": 20,
+      "offset": 0,
+      "hasMore": false
+    }
   }
 }
 ```
 
+Activities in workspace use the same pagination query params as API-015. Use API-015 directly for additional pages.
+
 ## API-015 — List Activities for Experience
 
 ```http
-GET /api/experiences/:experienceId/activities
+GET /api/experiences/:experienceId/activities?search=angular&sort=updatedAt&order=desc&limit=20&offset=0
 ```
 
 ### Success: 200
@@ -628,7 +670,13 @@ GET /api/experiences/:experienceId/activities
 ```json
 {
   "data": [],
-  "meta": { "count": 0 }
+  "meta": {
+    "count": 0,
+    "total": 0,
+    "limit": 20,
+    "offset": 0,
+    "hasMore": false
+  }
 }
 ```
 

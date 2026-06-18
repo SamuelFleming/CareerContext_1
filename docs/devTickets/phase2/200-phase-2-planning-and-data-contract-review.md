@@ -130,3 +130,17 @@ During the docs reorg review, broken relative links were found and fixed in:
 - `docs/core-scope/00_documentation_index.md`
 
 All now point to `docs/devTickets/phase1/008.2-core-resume-document-refactor-plan.md` and the moved dev ticket index files.
+
+## Backend Implementation Burst (Follow-on Tickets)
+
+Original draft tickets **201**–**203** were reviewed and updated to match this contract. Captured in:
+
+| Ticket | Title |
+|--------|-------|
+| **201** | Experience and Activity models |
+| **202** | Experience backend CRUD |
+| **203** | Activity backend CRUD |
+| **204** | Experience and Activity middleware and validation |
+| **205** | Experience workspace endpoint |
+
+Recommended implementation order: **201 → 202 → 203 → 204 → 205**.

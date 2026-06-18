@@ -1,46 +1,140 @@
 // server/src/controllers/experienceController.js
 
+const experienceService = require('../services/experienceService');
+const activityService = require('../services/activityService');
 const { notImplemented } = require('../utils/notImplemented');
 
-const listExperiences = notImplemented(
-  'GET /api/experiences',
-  'List the current user’s experiences'
-);
+const handleExperienceError = (res, error) => {
+  const statusCode = error.statusCode || 500;
 
-const createExperience = notImplemented(
-  'POST /api/experiences',
-  'Create a new experience'
-);
+  return res.status(statusCode).json({
+    message: error.message || 'Experience error',
+  });
+};
 
-const getExperienceById = notImplemented(
-  'GET /api/experiences/:experienceId',
-  'Load one experience by id'
-);
+const listExperiences = async (req, res) => {
+  try {
+    const { items, meta } = await experienceService.listExperiences(req.user.userId, req.query);
 
-const updateExperience = notImplemented(
-  'PUT /api/experiences/:experienceId',
-  'Update an existing experience'
-);
+    return res.status(200).json({
+      data: items,
+      meta,
+    });
+  } catch (error) {
+    return handleExperienceError(res, error);
+  }
+};
 
-const deleteExperience = notImplemented(
-  'DELETE /api/experiences/:experienceId',
-  'Delete or archive an experience'
-);
+const createExperience = async (req, res) => {
+  try {
+    const experience = await experienceService.createExperience(
+      req.user.userId,
+      req.validatedBody
+    );
 
-const getExperienceWorkspace = notImplemented(
-  'GET /api/experiences/:experienceId/workspace',
-  'Load an experience workspace with related activities and journal entries'
-);
+    return res.status(201).json({
+      message: 'Experience created',
+      data: {
+        experience: {
+          id: experience.id,
+        },
+      },
+    });
+  } catch (error) {
+    return handleExperienceError(res, error);
+  }
+};
 
-const listActivitiesForExperience = notImplemented(
-  'GET /api/experiences/:experienceId/activities',
-  'List activities under a specific experience'
-);
+const getExperienceById = async (req, res) => {
+  try {
+    const experience = await experienceService.getExperienceById(req.experience);
 
-const createActivityForExperience = notImplemented(
-  'POST /api/experiences/:experienceId/activities',
-  'Create an activity under a specific experience'
-);
+    return res.status(200).json({
+      data: { experience },
+    });
+  } catch (error) {
+    return handleExperienceError(res, error);
+  }
+};
+
+const updateExperience = async (req, res) => {
+  try {
+    const experience = await experienceService.updateExperience(
+      req.experience,
+      req.validatedBody
+    );
+
+    return res.status(200).json({
+      message: 'Experience updated',
+      data: { experience },
+    });
+  } catch (error) {
+    return handleExperienceError(res, error);
+  }
+};
+
+const deleteExperience = async (req, res) => {
+  try {
+    await experienceService.archiveExperience(req.experience);
+
+    return res.status(200).json({
+      message: 'Experience archived',
+    });
+  } catch (error) {
+    return handleExperienceError(res, error);
+  }
+};
+
+const getExperienceWorkspace = async (req, res) => {
+  try {
+    const workspace = await experienceService.getExperienceWorkspace(
+      req.experience,
+      req.query
+    );
+
+    return res.status(200).json({
+      data: workspace,
+    });
+  } catch (error) {
+    return handleExperienceError(res, error);
+  }
+};
+
+const listActivitiesForExperience = async (req, res) => {
+  try {
+    const { items, meta } = await activityService.listActivitiesForExperience(
+      req.experience,
+      req.query
+    );
+
+    return res.status(200).json({
+      data: items,
+      meta,
+    });
+  } catch (error) {
+    return handleExperienceError(res, error);
+  }
+};
+
+const createActivityForExperience = async (req, res) => {
+  try {
+    const activity = await activityService.createActivityForExperience(
+      req.experience,
+      req.validatedBody
+    );
+
+    return res.status(201).json({
+      message: 'Activity created',
+      data: {
+        activity: {
+          id: activity.id,
+        },
+      },
+    });
+  } catch (error) {
+    return handleExperienceError(res, error);
+  }
+};
 
 const polishExperience = notImplemented(
   'POST /api/experiences/:experienceId/polish',
