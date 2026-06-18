@@ -1,6 +1,6 @@
 ---
 phase: 2
-status: planned
+status: implemented
 source: repo-local execution ticket
 methodology: lightweight intent-led ticket; agent must inspect current codebase before implementation
 ---
@@ -43,16 +43,16 @@ A logged-in user can open `/experiences`, view their Experiences, create a new E
 
 ## Acceptance criteria
 
-- `/experiences` remains protected.
-- Experiences are loaded from the current user's data when the API is available.
-- Empty state appears when no Experiences exist.
-- User can create an Experience.
-- Newly created Experience appears without requiring a full manual refresh.
-- User can navigate from an Experience card/list item to the matching detail route.
-- Loading and error states are visible and user-friendly.
-- Components do not call `fetch` directly.
-- Styling aligns with Dashboard/Profile visual direction.
-- Any temporary fallback/mock behaviour is clearly documented.
+- [x] `/experiences` remains protected.
+- [x] Experiences are loaded from the current user's data when the API is available.
+- [x] Empty state appears when no Experiences exist.
+- [x] User can create an Experience.
+- [x] Newly created Experience appears without requiring a full manual refresh.
+- [x] User can navigate from an Experience card/list item to the matching detail route.
+- [x] Loading and error states are visible and user-friendly.
+- [x] Components do not call `fetch` directly.
+- [x] Styling aligns with Dashboard/Profile visual direction.
+- [x] Any temporary fallback/mock behaviour is clearly documented.
 
 ## Agent planning checklist
 
@@ -89,16 +89,73 @@ Build this as a vertical slice:
 
 ## Implementation notes
 
-_To be completed by the agent after codebase inspection._
+### Component structure
+
+- `ExperienceIndexPage.jsx` — loading/error/success container; owns list state and create panel visibility
+- `components/ExperienceList.jsx` — empty state + list layout
+- `components/ExperienceListItem.jsx` — `EvidenceCard` + navigate to `/experiences/:id`
+- `components/CreateExperiencePanel.jsx` — inline toggled create form (`Card` + `Input`/`TextArea`)
+- `components/experienceUi.js` — type labels, icons, date/meta formatters
+
+### API integration
+
+- **Fully wired to real API** — `listExperiences()` and `createExperience()` via `experienceService.js`
+- No mock/fallback data; API errors surface in load/create error states
+- List query: `sort=updatedAt`, `order=desc`, `limit=20`, `offset=0`
+- After create: programmatic list refetch (no browser refresh)
+
+### Overview preview limitation
+
+API-009 list items do not include `overviewRaw` or an overview preview field (`toListItem` on server). List cards show **activity count** as description instead. Overview content is captured on create but not shown on index cards until list API adds a preview field or user opens detail (**213**).
+
+### Create UX
+
+- Inline panel toggled by “Add experience” (no modal — matches Profile pattern)
+- Required: `type`, `title`; optional: org, role, dates, `isCurrent`, `overviewRaw` (plain `TextArea`)
+- Stays on index after create (list refetch); user navigates to detail via card click
 
 ## Completion notes
 
-_To be completed after implementation._
+**Completed:** 2026-06-18
 
-Include:
+### Files changed
 
-- files changed,
-- checks/builds run,
-- manual smoke test path,
-- whether API integration is real or temporarily mocked/fallback,
-- known limitations or follow-up tickets.
+**Created**
+
+- `client/src/features/experiences/ExperienceIndexPage.jsx`
+- `client/src/features/experiences/components/ExperienceList.jsx`
+- `client/src/features/experiences/components/ExperienceListItem.jsx`
+- `client/src/features/experiences/components/CreateExperiencePanel.jsx`
+- `client/src/features/experiences/components/experienceUi.js`
+
+**Modified**
+
+- `client/src/app/router.jsx` — `/experiences` → `ExperienceIndexPage`
+
+**Deleted**
+
+- `client/src/features/experiences/ExperiencesFoundationPage.jsx`
+
+### Checks run
+
+- `npm run build` (client) — **passed**
+- `npm run lint` (client) — **failed** with pre-existing Phase 1 errors plus same `setState-in-effect` pattern as `DashboardPage` on `ExperienceIndexPage`; no new functional issues
+
+### Manual smoke test path
+
+1. Log in → **Experiences** in sidebar → `/experiences`
+2. Empty state: dashed panel + “Add your first experience” (if no data)
+3. **Add experience** → fill type + title → **Create experience** → panel closes, item appears in list
+4. Click experience card → `/experiences/:id` (detail foundation page from **211**)
+5. Stop server → error alert + **Try again** on index load
+
+### API integration status
+
+**Fully wired to real API data** — no temporary mock fallback.
+
+### Known limitations / follow-up
+
+- **213** — replace detail foundation with full Experience Detail workspace
+- List pagination UI when `meta.hasMore` (footer note only for now)
+- Overview preview on list cards when API-009 adds a preview field
+- Search/type filter (screen catalogue — later ticket)

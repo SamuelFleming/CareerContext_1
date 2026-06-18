@@ -10,7 +10,7 @@ import RegisterPage from "../features/auth/RegisterPage";
 import ProtectedRoute from "../features/auth/ProtectedRoute";
 import DashboardPage from "../features/dashboard/DashboardPage";
 import ProfilePage from "../features/profile/ProfilePage";
-import ExperiencesFoundationPage from "../features/experiences/ExperiencesFoundationPage";
+import ExperienceIndexPage from "../features/experiences/ExperienceIndexPage";
 import ExperienceDetailFoundationPage from "../features/experiences/ExperienceDetailFoundationPage";
 import ActivityDetailFoundationPage from "../features/activities/ActivityDetailFoundationPage";
 import ComingSoonPage from "../features/placeholders/ComingSoonPage";
@@ -50,7 +50,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/experiences",
-        element: <ExperiencesFoundationPage />,
+        element: <ExperienceIndexPage />,
       },
       {
         path: "/experiences/:experienceId",
