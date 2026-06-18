@@ -14,17 +14,12 @@ Backend tickets **200**–**206** are complete. Execute frontend tickets **in or
 
 | Ticket | Screen | Route(s) | Primary APIs |
 |--------|--------|----------|--------------|
-| **211** | Foundation | `/experiences`, `/experiences/:experienceId`, `/activities/:activityId` | Service layer setup |
 | **212** | 6 — Experience Index | `/experiences` | API-009, API-010 |
 | **213** | 7 — Experience Detail | `/experiences/:experienceId` | API-011–016, API-014 workspace |
 | **214** | 8 — Activity Detail | `/activities/:activityId` | API-018–020 |
 | **215** | 4 — Dashboard | `/dashboard` | Extend `GET /api/dashboard` |
 
-**Current codebase gaps (as of Phase 2 frontend start):**
-
-- `/experiences` is a `ComingSoonPage` placeholder — no `:experienceId` or `:activityId` routes yet.
-- No `experienceService.js` or `activityService.js` — create following `profileService.js` pattern.
-- No `features/experiences/` or `features/activities/` folders yet.
+**211 complete.** Services: `experienceService.js`, `activityService.js`. Foundation pages replace `ComingSoonPage` on evidence routes.
 
 Copy patterns from **Profile** (form + save status + service calls) and **Dashboard** (cards, evidence panel, loading/error states).
 

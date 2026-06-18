@@ -8,8 +8,8 @@ Execute in order. Tickets live in `docs/devTickets/phase2/`.
 
 | Ticket | Title | Priority | Status |
 |--------|-------|----------|--------|
-| **211** | Evidence frontend foundation | High | **Next** — routes, services, safe placeholders |
-| **212** | Experience Index vertical slice (Screen 6) | High | Planned — after **211** |
+| **211** | Evidence frontend foundation | High | Done — routes, services, foundation placeholders |
+| **212** | Experience Index vertical slice (Screen 6) | High | **Next** — after **211** |
 | **213** | Experience Detail vertical slice (Screen 7) | High | Planned — after **212** |
 | **214** | Activity Detail vertical slice (Screen 8) | High | Planned — after **213** |
 | **215** | Dashboard evidence integration | Medium | Planned — after **214**; replace `phase1DashboardMocks` |

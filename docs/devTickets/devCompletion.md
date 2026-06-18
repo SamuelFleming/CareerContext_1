@@ -24,6 +24,14 @@ Tracks completed backend and full-stack development tickets.
 | 204 | Experience and Activity middleware and validation | Phase 2 | 2026-06-18 | Evidence middleware chain |
 | 205 | Experience workspace endpoint | Phase 2 | 2026-06-18 | API-014 workspace payload |
 | 206 | List query standard | Phase 2 | 2026-06-18 | Shared pagination/filter/search via `listQuery.js` |
+| 211 | Evidence frontend foundation | Phase 2 | 2026-06-18 | Routes, services, foundation placeholder pages |
+
+## 211 — Summary
+
+- Protected routes: `/experiences`, `/experiences/:experienceId`, `/activities/:activityId`.
+- `experienceService.js` (API-009–016) and `activityService.js` (API-018–020); no polish wrappers.
+- Foundation placeholder pages in `features/experiences/` and `features/activities/`; no API calls in components.
+- Experiences nav item active (removed “Soon” badge).
 
 ## Phase 2 backend — Summary
 
