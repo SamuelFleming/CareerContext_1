@@ -38,6 +38,7 @@ export default function ExperienceActivitySection({
   onDateToChange,
   onClearDateFilter,
   onPageChange,
+  showFilters = false,
 }) {
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
   const showingFrom = total === 0 ? 0 : page * pageSize + 1;
@@ -46,80 +47,98 @@ export default function ExperienceActivitySection({
 
   return (
     <section className="flex flex-col gap-4">
-      <Card className="flex flex-col gap-4">
-        <CardHeader className="mb-0 flex-row items-start justify-between gap-4">
-          <div className="flex flex-col gap-1">
-            <CardTitle>Activities</CardTitle>
-            <CardDescription>
-              Reusable evidence items linked to this experience.
-            </CardDescription>
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between lg:gap-6">
+        <Card className="lg:shrink-0">
+          <CardHeader className="mb-0 flex-row items-start justify-between gap-4">
+            <div className="flex flex-col gap-1">
+              <CardTitle>Activities</CardTitle>
+              <CardDescription>
+                Reusable evidence items linked to this experience.
+              </CardDescription>
+            </div>
+            {!isCreateOpen && (
+              <Button type="button" size="sm" onClick={onOpenCreate}>
+                Add activity
+              </Button>
+            )}
+          </CardHeader>
+        </Card>
+
+        {showFilters && (
+          <div className="flex min-w-0 flex-1 flex-col gap-3 rounded-lg border border-[var(--neutral-200)] bg-[var(--neutral-000)] p-4">
+            <div className="flex flex-col gap-3 lg:flex-row lg:flex-wrap lg:items-end">
+              <div className="flex flex-col gap-1.5">
+                <label
+                  htmlFor="activity-sort"
+                  className="text-sm font-medium text-[var(--primary-800)]"
+                >
+                  Sort
+                </label>
+                <select
+                  id="activity-sort"
+                  className={selectClass}
+                  value={sortValue}
+                  onChange={(event) => onSortChange(event.target.value)}
+                >
+                  {SORT_OPTIONS.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label
+                  htmlFor="activity-date-from"
+                  className="text-sm font-medium text-[var(--primary-800)]"
+                >
+                  Updated from
+                </label>
+                <input
+                  id="activity-date-from"
+                  type="date"
+                  className={selectClass}
+                  value={dateFrom}
+                  onChange={(event) => onDateFromChange(event.target.value)}
+                />
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label
+                  htmlFor="activity-date-to"
+                  className="text-sm font-medium text-[var(--primary-800)]"
+                >
+                  Updated to
+                </label>
+                <input
+                  id="activity-date-to"
+                  type="date"
+                  className={selectClass}
+                  value={dateTo}
+                  onChange={(event) => onDateToChange(event.target.value)}
+                />
+              </div>
+
+              {isDateFilterActive && (
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="secondary"
+                  onClick={onClearDateFilter}
+                >
+                  Clear dates
+                </Button>
+              )}
+            </div>
+
+            {isDateFilterActive && (
+              <p className="text-xs text-[var(--primary-500)]">
+                Date filter applies to loaded activities by last updated date. Server-side
+                date-range querying is planned for a future ticket.
+              </p>
+            )}
           </div>
-          {!isCreateOpen && (
-            <Button type="button" size="sm" onClick={onOpenCreate}>
-              Add activity
-            </Button>
-          )}
-        </CardHeader>
-      </Card>
-
-      <div className="flex flex-col gap-3 rounded-lg border border-[var(--neutral-200)] bg-[var(--neutral-000)] p-4">
-        <div className="flex flex-col gap-3 lg:flex-row lg:flex-wrap lg:items-end">
-          <div className="flex flex-col gap-1.5">
-            <label htmlFor="activity-sort" className="text-sm font-medium text-[var(--primary-800)]">
-              Sort
-            </label>
-            <select
-              id="activity-sort"
-              className={selectClass}
-              value={sortValue}
-              onChange={(event) => onSortChange(event.target.value)}
-            >
-              {SORT_OPTIONS.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="flex flex-col gap-1.5">
-            <label htmlFor="activity-date-from" className="text-sm font-medium text-[var(--primary-800)]">
-              Updated from
-            </label>
-            <input
-              id="activity-date-from"
-              type="date"
-              className={selectClass}
-              value={dateFrom}
-              onChange={(event) => onDateFromChange(event.target.value)}
-            />
-          </div>
-
-          <div className="flex flex-col gap-1.5">
-            <label htmlFor="activity-date-to" className="text-sm font-medium text-[var(--primary-800)]">
-              Updated to
-            </label>
-            <input
-              id="activity-date-to"
-              type="date"
-              className={selectClass}
-              value={dateTo}
-              onChange={(event) => onDateToChange(event.target.value)}
-            />
-          </div>
-
-          {isDateFilterActive && (
-            <Button type="button" size="sm" variant="secondary" onClick={onClearDateFilter}>
-              Clear dates
-            </Button>
-          )}
-        </div>
-
-        {isDateFilterActive && (
-          <p className="text-xs text-[var(--primary-500)]">
-            Date filter applies to loaded activities by last updated date. Server-side
-            date-range querying is planned for a future ticket.
-          </p>
         )}
       </div>
 

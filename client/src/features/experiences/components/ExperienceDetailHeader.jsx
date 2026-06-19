@@ -28,7 +28,7 @@ export default function ExperienceDetailHeader({
   return (
     <header
       className={cn(
-        "flex flex-col gap-4 border-b border-[var(--neutral-200)] pb-6 sm:flex-row sm:items-end sm:justify-between",
+        "flex flex-col gap-4 border-b border-[var(--neutral-200)] pb-6",
         className
       )}
     >
@@ -70,15 +70,17 @@ export default function ExperienceDetailHeader({
             <p className="text-base text-[var(--primary-700)]">{activityLine}</p>
           </div>
 
-          <p className="max-w-md text-base italic leading-relaxed text-[var(--primary-500)] sm:shrink-0">
-            {AI_ONE_LINE_PLACEHOLDER}
-          </p>
+          <div className="flex flex-col gap-3 sm:max-w-md sm:shrink-0">
+            <p className="text-base italic leading-relaxed text-[var(--primary-500)]">
+              {AI_ONE_LINE_PLACEHOLDER}
+            </p>
+
+            {actions && (
+              <div className="flex flex-wrap items-center gap-3">{actions}</div>
+            )}
+          </div>
         </div>
       </div>
-
-      {actions && (
-        <div className="flex flex-wrap items-center gap-3">{actions}</div>
-      )}
     </header>
   );
 }

@@ -73,6 +73,7 @@ export default function ExperienceDetailPage() {
   const [form, setForm] = useState(experienceToForm());
   const [activities, setActivities] = useState([]);
   const [activitiesTotal, setActivitiesTotal] = useState(0);
+  const [hasAnyActivities, setHasAnyActivities] = useState(false);
 
   const [activityPage, setActivityPage] = useState(0);
   const [activitySort, setActivitySort] = useState("updatedAt");
@@ -121,6 +122,11 @@ export default function ExperienceDetailPage() {
         paginateActivities(filtered, activityPage, ACTIVITY_PAGE_SIZE)
       );
       setActivitiesTotal(filtered.length);
+
+      const unfilteredTotal = response.meta?.total ?? response.data?.length ?? 0;
+      if (unfilteredTotal > 0) {
+        setHasAnyActivities(true);
+      }
       return;
     }
 
@@ -131,8 +137,13 @@ export default function ExperienceDetailPage() {
       offset: activityPage * ACTIVITY_PAGE_SIZE,
     });
 
+    const total = response.meta?.total ?? response.data?.length ?? 0;
+
     setActivities(response.data || []);
-    setActivitiesTotal(response.meta?.total ?? response.data?.length ?? 0);
+    setActivitiesTotal(total);
+    if (total > 0) {
+      setHasAnyActivities(true);
+    }
   }, [
     experienceId,
     isDateFilterActive,
@@ -468,6 +479,7 @@ export default function ExperienceDetailPage() {
         onDateToChange={handleDateToChange}
         onClearDateFilter={handleClearDateFilter}
         onPageChange={setActivityPage}
+        showFilters={hasAnyActivities}
       />
     </div>
   );
