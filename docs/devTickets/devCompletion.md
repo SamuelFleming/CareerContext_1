@@ -30,6 +30,15 @@ Tracks completed backend and full-stack development tickets.
 | 214 | Activity Detail vertical slice | Phase 2 | 2026-06-18 | Screen 8 — edit/delete, parent context, polish scaffold |
 | 215 | Dashboard evidence integration | Phase 2 | 2026-06-18 | Real evidence counts + recent activity in Evidence Panel |
 | 231 | Experience card visual polish + AI scaffold | Phase 2 | 2026-06-19 | `TypeChip`, `ExperienceSummaryCard` on index; `skillChipVariantsMock` |
+| 232 | Experience Detail page redesign | Phase 2 | 2026-06-19 | Header topology, overview/skills widgets, modal edit, activity grid |
+
+## 232 — Summary
+
+- `ExperienceDetailHeader` with **231** topology and PageHeader styling.
+- Skills/technologies widget (top 5 ranked) + overview Markdown preview widget.
+- **Edit** opens modal with `ExperienceEditorCard`; inline details card removed.
+- Activities: 2-column grid, 8 per page, sort + client-side date filter on `updatedAt`.
+- Backlog **233** for AI overview display priority.
 
 ## 231 — Summary
 
@@ -67,9 +76,9 @@ Tracks completed backend and full-stack development tickets.
 
 ## Phase 2 — Summary
 
-- Backend **200**–**206** and frontend **211**–**215**, **231** are complete.
-- Screens 6–8 and dashboard evidence panel are wired to real APIs.
-- Next phase: Opportunities, Documents, Journal — see `docs/devTickets/devTickets_next.md`.
+- Backend **200**–**206** complete; frontend **211**–**215**, **231**, **232** complete.
+- **233** (overview AI priority) is next backlog item within Phase 2 evidence UX.
+- Broader next phase: Opportunities, Documents, Journal — see `docs/devTickets/devTickets_next.md`.
 
 ## Phase 2 backend — Summary
 
