@@ -57,19 +57,23 @@ export default function ExperienceDetailHeader({
           <TypeChip>{formatExperienceType(experience.type)}</TypeChip>
         </div>
 
-        {dateRange && (
-          <p className="text-base text-[var(--primary-600)]">{dateRange}</p>
-        )}
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-8">
+          <div className="flex min-w-0 flex-1 flex-col gap-1">
+            {dateRange && (
+              <p className="text-base text-[var(--primary-600)]">{dateRange}</p>
+            )}
 
-        {roleLine && (
-          <p className="text-base text-[var(--primary-700)]">{roleLine}</p>
-        )}
+            {roleLine && (
+              <p className="text-base text-[var(--primary-700)]">{roleLine}</p>
+            )}
 
-        <p className="max-w-2xl text-base italic leading-relaxed text-[var(--primary-500)]">
-          {AI_ONE_LINE_PLACEHOLDER}
-        </p>
+            <p className="text-base text-[var(--primary-700)]">{activityLine}</p>
+          </div>
 
-        <p className="text-base text-[var(--primary-700)]">{activityLine}</p>
+          <p className="max-w-md text-base italic leading-relaxed text-[var(--primary-500)] sm:shrink-0">
+            {AI_ONE_LINE_PLACEHOLDER}
+          </p>
+        </div>
       </div>
 
       {actions && (
