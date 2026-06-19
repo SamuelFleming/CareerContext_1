@@ -25,13 +25,38 @@ Tracks completed backend and full-stack development tickets.
 | 205 | Experience workspace endpoint | Phase 2 | 2026-06-18 | API-014 workspace payload |
 | 206 | List query standard | Phase 2 | 2026-06-18 | Shared pagination/filter/search via `listQuery.js` |
 | 211 | Evidence frontend foundation | Phase 2 | 2026-06-18 | Routes, services, foundation placeholder pages |
-| 231 | Experience card visual polish + AI scaffold | Phase 2 | 2026-06-19 | `TypeChip`, `ExperienceSummaryCard`, AI/skill scaffolds on Screens 6–7 |
+| 212 | Experience Index vertical slice | Phase 2 | 2026-06-18 | Screen 6 — list, create, navigate to detail |
+| 213 | Experience Detail vertical slice | Phase 2 | 2026-06-18 | Screen 7 — workspace, edit/delete, activity create |
+| 214 | Activity Detail vertical slice | Phase 2 | 2026-06-18 | Screen 8 — edit/delete, parent context, polish scaffold |
+| 215 | Dashboard evidence integration | Phase 2 | 2026-06-18 | Real evidence counts + recent activity in Evidence Panel |
+| 231 | Experience card visual polish + AI scaffold | Phase 2 | 2026-06-19 | `TypeChip`, `ExperienceSummaryCard` on index; `skillChipVariantsMock` |
 
 ## 231 — Summary
 
-- Shared `ExperienceSummaryCard` on Experience Index and Detail with topology: title + `TypeChip`, dates, role/org, AI one-line placeholder, activity count, scaffold `SkillChip` variants.
-- `TypeChip` UI primitive separate from `SkillChip`; scaffold data in `experienceAiScaffold.js` (no API changes).
-- Detail `PageHeader` no longer duplicates meta line; summary card is the canonical read surface.
+- `ExperienceSummaryCard` on Experience Index with topology: title + `TypeChip`, dates, role/org, AI one-line placeholder, activity count, scaffold `SkillChip` variants.
+- `TypeChip` UI primitive separate from `SkillChip`; mock chip data in `skillChipVariantsMock.js` (no API changes).
+- Experience Detail unchanged — summary card deferred to backlog.
+
+## 215 — Summary
+
+- `dashboardService.buildEvidencePanel()` — real experience/activity counts and merged recent-activity feed (up to 10 items).
+- `EvidencePanel.jsx` — Evidence Summary count cards and Recent Activity linked list.
+- Interactive CV competencies/highlights still use Phase 1 mocks (`phase1DashboardMocks`) by design.
+
+## 214 — Summary
+
+- `ActivityDetailPage` at `/activities/:activityId` — get/update/delete via `activityService`.
+- Parent experience context card, raw Markdown editor, polished summary empty state, disabled AI polish affordance.
+
+## 213 — Summary
+
+- `ExperienceDetailPage` at `/experiences/:experienceId` — workspace load, metadata edit, delete with confirm.
+- Activity list/create under experience; navigation to Activity Detail.
+
+## 212 — Summary
+
+- `ExperienceIndexPage` at `/experiences` — list/create experiences via `experienceService`.
+- `ExperienceListItem` + `ExperienceSummaryCard` (after **231**); loading, error, and empty states.
 
 ## 211 — Summary
 
@@ -40,10 +65,13 @@ Tracks completed backend and full-stack development tickets.
 - Foundation placeholder pages in `features/experiences/` and `features/activities/`; no API calls in components.
 - Experiences nav item active (removed “Soon” badge).
 
-## Phase 2 backend — Summary
+## Phase 2 — Summary
 
-- Experience and Activity CRUD, workspace, and list pagination are implemented and contract-documented.
-- Frontend tickets **211**–**215** are next — see `docs/devTickets/devTickets_next.md`.
+- Backend **200**–**206** and frontend **211**–**215**, **231** are complete.
+- Screens 6–8 and dashboard evidence panel are wired to real APIs.
+- Next phase: Opportunities, Documents, Journal — see `docs/devTickets/devTickets_next.md`.
+
+## Phase 2 backend — Summary
 
 ## 010 — Summary
 

@@ -1,19 +1,19 @@
 # CareerContext — Next Dev Tickets
 
-Phase 1 (Auth and Profile) is **complete**. Phase 2 backend (**200**–**206**) is **complete**. See [`devCompletion.md`](./devCompletion.md).
+Phase 1 (Auth and Profile) is **complete**. Phase 2 (**200**–**206**, **211**–**215**, **231**) is **complete**. See [`devCompletion.md`](./devCompletion.md).
 
-## Phase 2 — Experience Evidence (frontend — active)
+## Phase 2 — Experience Evidence (complete)
 
-Execute in order. Tickets live in `docs/devTickets/phase2/`.
+Tickets live in `docs/devTickets/phase2/`.
 
 | Ticket | Title | Priority | Status |
 |--------|-------|----------|--------|
 | **211** | Evidence frontend foundation | High | Done — routes, services, foundation placeholders |
-| **212** | Experience Index vertical slice (Screen 6) | High | **Next** — after **211** |
-| **213** | Experience Detail vertical slice (Screen 7) | High | Planned — after **212** |
-| **214** | Activity Detail vertical slice (Screen 8) | High | Planned — after **213** |
-| **215** | Dashboard evidence integration | Medium | Planned — after **214**; replace `phase1DashboardMocks` |
-| **231** | Experience card visual polish + AI scaffold | Medium | Done — shared `ExperienceSummaryCard` on index + detail |
+| **212** | Experience Index vertical slice (Screen 6) | High | Done — list, create, navigate to detail |
+| **213** | Experience Detail vertical slice (Screen 7) | High | Done — workspace, edit/delete, activity create |
+| **214** | Activity Detail vertical slice (Screen 8) | High | Done — edit/delete, parent context, polish scaffold |
+| **215** | Dashboard evidence integration | Medium | Done — real evidence counts + recent activity in Evidence Panel |
+| **231** | Experience card visual polish + AI scaffold | Medium | Done — `ExperienceSummaryCard` on index only; detail deferred |
 
 ### Phase 2 backend (complete)
 
