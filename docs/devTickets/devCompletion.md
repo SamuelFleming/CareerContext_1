@@ -25,6 +25,13 @@ Tracks completed backend and full-stack development tickets.
 | 205 | Experience workspace endpoint | Phase 2 | 2026-06-18 | API-014 workspace payload |
 | 206 | List query standard | Phase 2 | 2026-06-18 | Shared pagination/filter/search via `listQuery.js` |
 | 211 | Evidence frontend foundation | Phase 2 | 2026-06-18 | Routes, services, foundation placeholder pages |
+| 231 | Experience card visual polish + AI scaffold | Phase 2 | 2026-06-19 | `TypeChip`, `ExperienceSummaryCard`, AI/skill scaffolds on Screens 6–7 |
+
+## 231 — Summary
+
+- Shared `ExperienceSummaryCard` on Experience Index and Detail with topology: title + `TypeChip`, dates, role/org, AI one-line placeholder, activity count, scaffold `SkillChip` variants.
+- `TypeChip` UI primitive separate from `SkillChip`; scaffold data in `experienceAiScaffold.js` (no API changes).
+- Detail `PageHeader` no longer duplicates meta line; summary card is the canonical read surface.
 
 ## 211 — Summary
 

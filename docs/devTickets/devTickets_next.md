@@ -13,7 +13,7 @@ Execute in order. Tickets live in `docs/devTickets/phase2/`.
 | **213** | Experience Detail vertical slice (Screen 7) | High | Planned — after **212** |
 | **214** | Activity Detail vertical slice (Screen 8) | High | Planned — after **213** |
 | **215** | Dashboard evidence integration | Medium | Planned — after **214**; replace `phase1DashboardMocks` |
-| **231** | Experience card visual polish + AI scaffold | Medium | **Planned** — after **212**/**213**; index + detail summary topology |
+| **231** | Experience card visual polish + AI scaffold | Medium | Done — shared `ExperienceSummaryCard` on index + detail |
 
 ### Phase 2 backend (complete)
 
