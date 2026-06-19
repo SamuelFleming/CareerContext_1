@@ -9,23 +9,24 @@ import {
   updateExperience,
   createActivityForExperience,
 } from "../../services/experienceService";
-import ExperienceEditorCard from "./components/ExperienceEditorCard";
-import ExperiencePolishedOverview from "./components/ExperiencePolishedOverview";
 import ExperienceDeleteConfirm from "./components/ExperienceDeleteConfirm";
 import ExperienceActivitySection from "./components/ExperienceActivitySection";
+import ExperienceDetailHeader from "./components/ExperienceDetailHeader";
+import ExperienceEditModal from "./components/ExperienceEditModal";
+import ExperienceSkillsTechnologiesWidget from "./components/ExperienceSkillsTechnologiesWidget";
+import ExperienceOverviewWidget from "./components/ExperienceOverviewWidget";
+import {
+  ACTIVITY_PAGE_SIZE,
+  filterActivitiesByUpdatedDateRange,
+  paginateActivities,
+} from "./components/activityListUtils";
 import {
   buildExperiencePayload,
   experienceToForm,
   emptyActivityForm,
 } from "./components/experienceFormUtils";
-import { formatExperienceMeta } from "./components/experienceUi";
 
-const WORKSPACE_QUERY = {
-  limit: 20,
-  offset: 0,
-  sort: "updatedAt",
-  order: "desc",
-};
+const DATE_FILTER_FETCH_LIMIT = 100;
 
 function useSaveStatus() {
   const [status, setStatus] = useState("idle");
@@ -59,6 +60,11 @@ function isNotFoundError(error) {
   return message.includes("not found") || message.includes("invalid experience");
 }
 
+function parseSortValue(value) {
+  const [sort, order] = value.split(":");
+  return { sort, order };
+}
+
 export default function ExperienceDetailPage() {
   const { experienceId } = useParams();
   const navigate = useNavigate();
@@ -66,7 +72,13 @@ export default function ExperienceDetailPage() {
   const [experience, setExperience] = useState(null);
   const [form, setForm] = useState(experienceToForm());
   const [activities, setActivities] = useState([]);
-  const [activitiesHasMore, setActivitiesHasMore] = useState(false);
+  const [activitiesTotal, setActivitiesTotal] = useState(0);
+
+  const [activityPage, setActivityPage] = useState(0);
+  const [activitySort, setActivitySort] = useState("updatedAt");
+  const [activityOrder, setActivityOrder] = useState("desc");
+  const [dateFrom, setDateFrom] = useState("");
+  const [dateTo, setDateTo] = useState("");
 
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
@@ -74,6 +86,7 @@ export default function ExperienceDetailPage() {
 
   const experienceSave = useSaveStatus();
 
+  const [isEditOpen, setIsEditOpen] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState("");
@@ -82,6 +95,53 @@ export default function ExperienceDetailPage() {
   const [activityForm, setActivityForm] = useState(emptyActivityForm);
   const [isCreatingActivity, setIsCreatingActivity] = useState(false);
   const [createActivityError, setCreateActivityError] = useState("");
+
+  const isDateFilterActive = Boolean(dateFrom || dateTo);
+
+  const loadActivities = useCallback(async () => {
+    if (!experienceId) {
+      return;
+    }
+
+    if (isDateFilterActive) {
+      const response = await listActivitiesForExperience(experienceId, {
+        sort: activitySort,
+        order: activityOrder,
+        limit: DATE_FILTER_FETCH_LIMIT,
+        offset: 0,
+      });
+
+      const filtered = filterActivitiesByUpdatedDateRange(
+        response.data || [],
+        dateFrom,
+        dateTo
+      );
+
+      setActivities(
+        paginateActivities(filtered, activityPage, ACTIVITY_PAGE_SIZE)
+      );
+      setActivitiesTotal(filtered.length);
+      return;
+    }
+
+    const response = await listActivitiesForExperience(experienceId, {
+      sort: activitySort,
+      order: activityOrder,
+      limit: ACTIVITY_PAGE_SIZE,
+      offset: activityPage * ACTIVITY_PAGE_SIZE,
+    });
+
+    setActivities(response.data || []);
+    setActivitiesTotal(response.meta?.total ?? response.data?.length ?? 0);
+  }, [
+    experienceId,
+    isDateFilterActive,
+    dateFrom,
+    dateTo,
+    activityPage,
+    activitySort,
+    activityOrder,
+  ]);
 
   const loadWorkspace = useCallback(async () => {
     if (!experienceId) {
@@ -93,13 +153,16 @@ export default function ExperienceDetailPage() {
     setIsNotFound(false);
 
     try {
-      const response = await getExperienceWorkspace(experienceId, WORKSPACE_QUERY);
+      const response = await getExperienceWorkspace(experienceId, {
+        limit: ACTIVITY_PAGE_SIZE,
+        offset: 0,
+        sort: activitySort,
+        order: activityOrder,
+      });
       const data = response.data || {};
 
       setExperience(data.experience || null);
       setForm(experienceToForm(data.experience));
-      setActivities(data.activities || []);
-      setActivitiesHasMore(Boolean(data.activitiesMeta?.hasMore));
     } catch (error) {
       if (isNotFoundError(error)) {
         setIsNotFound(true);
@@ -109,25 +172,17 @@ export default function ExperienceDetailPage() {
     } finally {
       setIsLoading(false);
     }
-  }, [experienceId]);
-
-  const reloadActivities = useCallback(async () => {
-    if (!experienceId) {
-      return;
-    }
-
-    const response = await listActivitiesForExperience(
-      experienceId,
-      WORKSPACE_QUERY
-    );
-
-    setActivities(response.data || []);
-    setActivitiesHasMore(Boolean(response.meta?.hasMore));
-  }, [experienceId]);
+  }, [experienceId, activitySort, activityOrder]);
 
   useEffect(() => {
     loadWorkspace();
   }, [loadWorkspace]);
+
+  useEffect(() => {
+    if (!isLoading && !loadError && !isNotFound) {
+      loadActivities();
+    }
+  }, [loadActivities, isLoading, loadError, isNotFound]);
 
   useEffect(() => {
     if (experienceSave.status === "saved") {
@@ -147,12 +202,26 @@ export default function ExperienceDetailPage() {
     });
   };
 
+  const handleOpenEdit = () => {
+    setForm(experienceToForm(experience));
+    setIsEditOpen(true);
+  };
+
+  const handleCloseEdit = () => {
+    if (experienceSave.status === "saving") {
+      return;
+    }
+
+    setIsEditOpen(false);
+    setForm(experienceToForm(experience));
+  };
+
   const handleSave = async () => {
     if (!experienceId || !form.title.trim()) {
-      experienceSave.runSave(async () => {
+      await experienceSave.runSave(async () => {
         throw new Error("Title is required.");
       });
-      return;
+      return false;
     }
 
     const saved = await experienceSave.runSave(async () => {
@@ -167,6 +236,10 @@ export default function ExperienceDetailPage() {
         setForm(experienceToForm(updated));
       }
     });
+
+    if (saved) {
+      setIsEditOpen(false);
+    }
 
     return saved;
   };
@@ -221,12 +294,36 @@ export default function ExperienceDetailPage() {
 
       setIsCreateActivityOpen(false);
       setActivityForm(emptyActivityForm);
-      await reloadActivities();
+      setActivityPage(0);
+      await loadActivities();
     } catch (error) {
       setCreateActivityError(error.message || "Unable to create activity.");
     } finally {
       setIsCreatingActivity(false);
     }
+  };
+
+  const handleSortChange = (value) => {
+    const { sort, order } = parseSortValue(value);
+    setActivitySort(sort);
+    setActivityOrder(order);
+    setActivityPage(0);
+  };
+
+  const handleDateFromChange = (value) => {
+    setDateFrom(value);
+    setActivityPage(0);
+  };
+
+  const handleDateToChange = (value) => {
+    setDateTo(value);
+    setActivityPage(0);
+  };
+
+  const handleClearDateFilter = () => {
+    setDateFrom("");
+    setDateTo("");
+    setActivityPage(0);
   };
 
   if (isLoading) {
@@ -282,23 +379,17 @@ export default function ExperienceDetailPage() {
 
   return (
     <div className="flex flex-col gap-8">
-      <PageHeader
-        eyebrow="Evidence"
-        title={experience?.title || "Experience"}
-        description={experience ? formatExperienceMeta(experience) : undefined}
+      <ExperienceDetailHeader
+        experience={experience}
+        activityCount={activitiesTotal}
         breadcrumbs={[
           { label: "Experiences" },
           { label: experience?.title || "Detail" },
         ]}
         actions={
           <div className="flex flex-wrap gap-3">
-            <Button
-              type="button"
-              size="sm"
-              onClick={handleSave}
-              disabled={experienceSave.status === "saving" || !form.title.trim()}
-            >
-              {experienceSave.status === "saving" ? "Saving…" : "Save changes"}
+            <Button type="button" size="sm" onClick={handleOpenEdit}>
+              Edit
             </Button>
             {!showDeleteConfirm && (
               <Button
@@ -322,6 +413,16 @@ export default function ExperienceDetailPage() {
         }
       />
 
+      <ExperienceEditModal
+        isOpen={isEditOpen}
+        form={form}
+        onChange={handleFormChange}
+        onClose={handleCloseEdit}
+        onSave={handleSave}
+        saveStatus={experienceSave.status}
+        saveError={experienceSave.error}
+      />
+
       {showDeleteConfirm && (
         <ExperienceDeleteConfirm
           experienceTitle={experience?.title}
@@ -335,32 +436,39 @@ export default function ExperienceDetailPage() {
         />
       )}
 
-      <div className="flex flex-col gap-6">
-        <ExperienceEditorCard
-          form={form}
-          onChange={handleFormChange}
-          saveStatus={experienceSave.status}
-          saveError={experienceSave.error}
-          disabled={experienceSave.status === "saving"}
-        />
-
-        <ExperiencePolishedOverview
-          overviewPolished={experience?.overviewPolished}
-        />
-
-        <ExperienceActivitySection
-          activities={activities}
-          hasMore={activitiesHasMore}
-          isCreateOpen={isCreateActivityOpen}
-          createForm={activityForm}
-          onCreateFieldChange={handleActivityFieldChange}
-          onOpenCreate={handleOpenCreateActivity}
-          onCloseCreate={handleCloseCreateActivity}
-          onCreateSubmit={handleCreateActivity}
-          isCreating={isCreatingActivity}
-          createError={createActivityError}
-        />
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div className="lg:col-span-1">
+          <ExperienceSkillsTechnologiesWidget experience={experience} />
+        </div>
+        <div className="lg:col-span-2">
+          <ExperienceOverviewWidget overviewRaw={experience?.overviewRaw} />
+        </div>
       </div>
+
+      <ExperienceActivitySection
+        activities={activities}
+        total={activitiesTotal}
+        page={activityPage}
+        pageSize={ACTIVITY_PAGE_SIZE}
+        sort={activitySort}
+        order={activityOrder}
+        dateFrom={dateFrom}
+        dateTo={dateTo}
+        isDateFilterActive={isDateFilterActive}
+        isCreateOpen={isCreateActivityOpen}
+        createForm={activityForm}
+        onCreateFieldChange={handleActivityFieldChange}
+        onOpenCreate={handleOpenCreateActivity}
+        onCloseCreate={handleCloseCreateActivity}
+        onCreateSubmit={handleCreateActivity}
+        isCreating={isCreatingActivity}
+        createError={createActivityError}
+        onSortChange={handleSortChange}
+        onDateFromChange={handleDateFromChange}
+        onDateToChange={handleDateToChange}
+        onClearDateFilter={handleClearDateFilter}
+        onPageChange={setActivityPage}
+      />
     </div>
   );
 }
