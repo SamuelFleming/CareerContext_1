@@ -101,7 +101,7 @@ Scaffold data lives in **client constants** keyed by experience `type` (or a sin
 - [x] Type chip is **on** the card, adjacent to title (not below the card).
 - [x] Role line shows `{role} at {organisation}` or `{role}` only when organisation is empty.
 - [x] AI one-line and SkillChip sections clearly indicate future implementation (helper text or muted placeholder styling).
-- [x] Experience Detail page shows the **same topology** in a summary section above the editor.
+- [ ] ~~Experience Detail page shows the **same topology** in a summary section above the editor.~~ **Deferred** — reverted; separate backlog.
 - [x] `TypeChip` is separate from `SkillChip` in `components/ui/`.
 - [x] No `fetch` in presentational components; no API contract changes.
 - [x] Client build passes (`npm run build` in `client/`).
@@ -223,14 +223,15 @@ export function getScaffoldSkillChips(experience) {
 **Created**
 
 - `client/src/components/ui/TypeChip.jsx` — categorical pill for experience type
-- `client/src/features/experiences/components/experienceAiScaffold.js` — placeholder AI line + per-type SkillChip sets
-- `client/src/features/experiences/components/ExperienceSummaryCard.jsx` — shared summary topology for index and detail
+- `client/src/features/experiences/components/skillChipVariantsMock.js` — placeholder AI line + per-type SkillChip sets
+- `client/src/features/experiences/components/ExperienceSummaryCard.jsx` — summary topology for index cards
 
 **Modified**
 
 - `client/src/features/experiences/components/experienceUi.js` — `formatExperienceRoleLine`, `formatExperienceActivityLine`
 - `client/src/features/experiences/components/ExperienceListItem.jsx` — uses `ExperienceSummaryCard`
-- `client/src/features/experiences/ExperienceDetailPage.jsx` — summary card above editor; `PageHeader` description removed
+
+**Note:** Experience Detail summary card was added then reverted — detail layout left for separate backlog work.
 
 ### Checks run
 
@@ -239,11 +240,18 @@ export function getScaffoldSkillChips(experience) {
 ### Manual smoke test path
 
 1. Log in → **Experiences** → cards show title + inline type chip, dates, role line, AI placeholder, activity count, scaffold chips
-2. Click card → detail page shows matching summary above **Experience details** editor
+2. Click card → detail page uses original `PageHeader` meta layout (no summary card)
 3. Keyboard Enter/Space on index card navigates to detail
 
 ### Known limitations / follow-up
 
 - Scaffold chips and one-line summary are static client placeholders — Phase 4 AI should wire `skills`, `technologies`, and generated summary from API
-- Detail activity count uses loaded `activities.length` (first workspace page), not `activitiesMeta.total` when paginated
-- `formatExperienceMeta` retained for any legacy use but no longer used on experience summary surfaces
+- Experience Detail summary topology deferred to user backlog
+- `formatExperienceMeta` still used on detail `PageHeader.description`
+
+## Follow-up (post-completion)
+
+### Detail page reverted (2026-06-19)
+
+- `ExperienceSummaryCard` removed from `ExperienceDetailPage`; index-only scope retained.
+- Mock file renamed `experienceAiScaffold.js` → `skillChipVariantsMock.js`.

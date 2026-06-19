@@ -44,3 +44,43 @@ const DEFAULT_SCAFFOLD_CHIPS = [
 export function getScaffoldSkillChips(experience) {
   return SCAFFOLD_CHIPS_BY_TYPE[experience?.type] || DEFAULT_SCAFFOLD_CHIPS;
 }
+
+const TECH_VARIANTS = new Set(["accent", "success"]);
+
+function toRankedItem(label, kind, rank) {
+  const variant =
+    kind === "technology"
+      ? rank === 1
+        ? "success"
+        : "accent"
+      : rank === 1
+        ? "warning"
+        : "neutral";
+
+  return { label, kind, rank, variant };
+}
+
+export function getTopRankedSkillsAndTechnologies(experience, limit = 5) {
+  const technologies = (experience?.technologies || [])
+    .filter(Boolean)
+    .map((label, index) => toRankedItem(label, "technology", index + 1));
+
+  const skills = (experience?.skills || [])
+    .filter(Boolean)
+    .map((label, index) => toRankedItem(label, "skill", index + 1));
+
+  const fromEntity = [...technologies, ...skills].slice(0, limit);
+
+  if (fromEntity.length > 0) {
+    return fromEntity;
+  }
+
+  return getScaffoldSkillChips(experience)
+    .slice(0, limit)
+    .map((chip, index) => ({
+      label: chip.label,
+      kind: TECH_VARIANTS.has(chip.variant) ? "technology" : "skill",
+      rank: index + 1,
+      variant: chip.variant,
+    }));
+}

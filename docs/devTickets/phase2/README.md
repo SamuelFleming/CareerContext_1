@@ -18,6 +18,8 @@ Use these tickets with:
 - [214 — Activity Detail Vertical Slice](214-activity-detail-vertical-slice.md)
 - [215 — Dashboard Evidence Integration](215-dashboard-evidence-integration.md)
 - [231 — Experience Card Visual Polish and AI Scaffold](231-experience-card-visual-polish.md)
+- [232 — Experience Detail Page Redesign](232-experience-detail-page-redesign.md)
+- [233 — Experience Overview AI Priority Display](233-experience-overview-ai-priority-display.md) *(backlog)*
 
 ## Method
 
