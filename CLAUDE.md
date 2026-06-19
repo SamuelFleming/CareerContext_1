@@ -66,6 +66,7 @@ The first MVP will not focus on:
 - Do not replace established architecture unless the user explicitly asks for a refactor.
 - Avoid implementing future phases early.
 - If the codebase differs from the ticket, pause and report the mismatch in the response.
+- Do not run git operations (commit, push, branch, stash, etc.) unless the user explicitly requests them.
 - Apply the relevant Cursor rules when editing code:
   - `client/**/*` → `.cursor/rules/frontend.mdc`
   - `server/**/*` → `.cursor/rules/backend.mdc`
@@ -75,13 +76,13 @@ The first MVP will not focus on:
 
 Before acting, classify the task:
 
-1. **Plan Large Feature** — inspect repo/docs, propose ticket sequence, no code changes.
-2. **Develop Large Feature** — plan first, then implement in small documented steps.
+1. **Plan Large Feature** — inspect repo/docs, create or update repo-local tickets, no application code changes.
+2. **Develop Large Feature** — create tickets first, get plan approval, then implement one ticket at a time with completion notes.
 3. **Implement Dev Ticket** — read the repo-local ticket, inspect code, plan, implement, update completion notes.
 4. **Small Change** — make the smallest safe change.
 5. **Audit / Diagnose** — inspect and report findings before changing code.
 
-For multi-file work, plan first. If docs, tickets, and code disagree, report the mismatch before broad edits. If highly uncertain on task classification, indicate to the user to specify/
+For multi-file work, plan first. Large-feature work must be ticket-scoped before application code changes. If docs, tickets, and code disagree, report the mismatch before broad edits. If highly uncertain on task classification, ask the user to specify the workflow mode.
 
 ## Sources of Truth
 

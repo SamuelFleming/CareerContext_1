@@ -12,7 +12,8 @@ Use for tiny, obvious, low-risk edits.
 4. Do not create dev tickets unless the change affects API behaviour, data model, routing, or multiple features.
 5. Use existing project conventions.
 6. Run a quick relevant check if practical.
-7. Report:
+7. Do not run git operations unless the user explicitly requests them.
+8. Report:
    - files changed
    - what changed
    - whether any checks were run

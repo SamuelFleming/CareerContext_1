@@ -26,3 +26,5 @@ If the request is a tiny isolated edit, infer **Small Change**.
 If the task could fit multiple modes, ask the user to choose before making code changes.
 
 Do not use this rule to replace frontend, backend, or documentation rules. This rule only selects the operating mode.
+
+Do not run git operations unless the user explicitly requests them.
