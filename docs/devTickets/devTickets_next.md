@@ -15,7 +15,7 @@ Tickets live in `docs/devTickets/phase2/`.
 | **215** | Dashboard evidence integration | Medium | Done |
 | **231** | Experience card visual polish + AI scaffold | Medium | Done — index cards only |
 | **232** | Experience Detail page redesign | Medium | Done — header, widgets, modal edit, activity grid |
-| **233** | Experience overview AI priority display | Low | **Planned** — backlog from **232** |
+| **233** | Experience overview AI priority display | Low | Done — polished over raw in overview widget |
 
 ### Phase 2 backend (complete)
 

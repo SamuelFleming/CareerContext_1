@@ -1,13 +1,13 @@
 ---
 phase: 2
-status: planned
+status: implemented
 source: backlog from ticket 232
 ---
 # Ticket 233 — Experience Overview AI Priority Display
 
 ## Status
 
-**Planned** — backlog from **232**
+**Implemented** — 2026-06-19
 
 ## Depends on
 
@@ -35,11 +35,24 @@ Define and implement display priority for the Experience Detail **Overview** wid
 
 ## Acceptance criteria
 
-- [ ] Widget shows `overviewPolished` when present
-- [ ] Widget falls back to `overviewRaw` when polished is empty
-- [ ] Empty state when both are empty
-- [ ] Label or helper text indicates which source is displayed
+- [x] Widget shows `overviewPolished` when present
+- [x] Widget falls back to `overviewRaw` when polished is empty
+- [x] Empty state when both are empty
+- [x] Label or helper text indicates which source is displayed
 
-## Notes
+## Completion notes
 
-Current **232** implementation shows `overviewRaw` only and references this ticket in widget copy.
+**Completed:** 2026-06-19
+
+### Files changed
+
+- `client/src/features/experiences/components/ExperienceOverviewWidget.jsx` — `resolveOverviewDisplay` priority logic, source label badge, helper copy
+- `client/src/features/experiences/ExperienceDetailPage.jsx` — passes `overviewPolished`
+
+### Checks run
+
+- `npm run build` (client) — **passed**
+
+### Follow-up
+
+- Phase 4: wire AI polish endpoint to populate `overviewPolished` and refresh widget after generation

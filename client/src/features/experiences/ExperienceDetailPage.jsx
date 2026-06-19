@@ -452,7 +452,10 @@ export default function ExperienceDetailPage() {
           <ExperienceSkillsTechnologiesWidget experience={experience} />
         </div>
         <div className="lg:col-span-2">
-          <ExperienceOverviewWidget overviewRaw={experience?.overviewRaw} />
+          <ExperienceOverviewWidget
+            overviewRaw={experience?.overviewRaw}
+            overviewPolished={experience?.overviewPolished}
+          />
         </div>
       </div>
 
