@@ -73,13 +73,41 @@ export function formatExperienceMeta(experience) {
   return parts.join(" · ");
 }
 
-export function formatExperienceDescription(experience) {
-  if (experience.activityCount > 0) {
-    const count = experience.activityCount;
+export function formatExperienceRoleLine({ role, organisation }) {
+  const trimmedRole = role?.trim();
+  const trimmedOrg = organisation?.trim();
+
+  if (trimmedRole && trimmedOrg) {
+    return `${trimmedRole} at ${trimmedOrg}`;
+  }
+
+  if (trimmedRole) {
+    return trimmedRole;
+  }
+
+  if (trimmedOrg) {
+    return trimmedOrg;
+  }
+
+  return null;
+}
+
+export function formatExperienceActivityLine(experience, activityCountOverride) {
+  const count =
+    typeof activityCountOverride === "number"
+      ? activityCountOverride
+      : experience?.activityCount ?? 0;
+
+  if (count > 0) {
     return `${count} ${count === 1 ? "activity" : "activities"}`;
   }
 
   return "No activities yet";
+}
+
+/** @deprecated Use split formatters on summary card surfaces. */
+export function formatExperienceDescription(experience) {
+  return formatExperienceActivityLine(experience);
 }
 
 export const emptyCreateForm = {
