@@ -1,0 +1,28 @@
+---
+description: Agent workflow router for CareerContext tasks
+alwaysApply: true
+---
+
+# CareerContext Workflow Router
+
+Before editing files, classify the task:
+
+- Plan Large Feature
+- Develop Large Feature
+- Implement Dev Ticket
+- Small Change
+- Audit / Diagnose
+
+If the user explicitly provides a mode, follow it.
+
+If the user references `docs/devTickets/`, infer **Implement Dev Ticket**.
+
+If the user asks to plan a phase, feature set, design refinement batch, or unclear major feature, infer **Plan Large Feature** unless they explicitly request implementation.
+
+If the user provides an error, failing build, regression, or uncertainty, infer **Audit / Diagnose** and do not edit code until findings are reported.
+
+If the request is a tiny isolated edit, infer **Small Change**.
+
+If the task could fit multiple modes, ask the user to choose before making code changes.
+
+Do not use this rule to replace frontend, backend, or documentation rules. This rule only selects the operating mode.
