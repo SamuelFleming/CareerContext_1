@@ -677,10 +677,20 @@ GET /api/experiences/:experienceId/activities?search=angular&sort=updatedAt&orde
 
 ```json
 {
-  "data": [],
+  "data": [
+    {
+      "id": "activityId",
+      "experienceId": "experienceId",
+      "title": "OMS Joint Applicant Unlink Screen",
+      "rawDescription": "Built Angular frontend components...",
+      "technologies": ["Angular", ".NET"],
+      "skills": ["Full-stack development"],
+      "updatedAt": "2026-06-08T00:00:00.000Z"
+    }
+  ],
   "meta": {
-    "count": 0,
-    "total": 0,
+    "count": 1,
+    "total": 1,
     "limit": 20,
     "offset": 0,
     "hasMore": false

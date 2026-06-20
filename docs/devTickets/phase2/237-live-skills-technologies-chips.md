@@ -1,13 +1,13 @@
 ---
 phase: 2
-status: planned
+status: implemented
 source: large-feature plan — enterable skills & technologies
 ---
 # Ticket 237 — Live Skills & Technologies Chips in Evidence UI
 
 ## Status
 
-**Planned**
+**Implemented** — 2026-06-20
 
 ## Phase
 
@@ -71,11 +71,43 @@ Chips on experience cards and widgets reflect what the user entered — not stat
 
 ## Acceptance criteria
 
-- [ ] Experience index cards show user's technologies/skills when present; no mock chips
-- [ ] Experience detail skills widget shows live top 5 by array order; empty state when none
-- [ ] API-009 list items include `skills` and `technologies` (if index cards depend on list endpoint)
-- [ ] Activity surfaces show live chips where scoped (if implemented in ticket)
-- [ ] `npm run build` passes
+- [x] Experience index cards show user's technologies/skills when present; no mock chips
+- [x] Experience detail skills widget shows live top 5 by array order; empty state when none
+- [x] API-009 list items include `skills` and `technologies` (if index cards depend on list endpoint)
+- [x] Activity surfaces show live chips where scoped (if implemented in ticket)
+- [x] `npm run build` passes
+
+## Completion notes
+
+**Completed:** 2026-06-20
+
+### Files changed
+
+**Created**
+
+- `client/src/features/activities/components/ActivitySkillsTechnologiesSummary.jsx` — read-only chip card on activity detail
+
+**Modified**
+
+- `client/src/features/experiences/components/ExperienceSummaryCard.jsx` — live chips via `SkillTechnologyChipList`; no mock fallback
+- `client/src/features/experiences/components/ExperienceSkillsTechnologiesWidget.jsx` — live ranked list from `toDisplayChips`
+- `client/src/features/experiences/components/ExperienceActivityListItem.jsx` — up to 3 technology tags on list cards
+- `client/src/features/activities/ActivityDetailPage.jsx` — skills/technologies summary above editor
+- `client/src/features/experiences/components/skillChipVariantsMock.js` — mock chip data removed; `AI_ONE_LINE_PLACEHOLDER` retained
+- `docs/core-scope/08_api_contract.md` — API-015 list item example includes skills/technologies
+
+**Verified unchanged (from **235**)**
+
+- `server/src/services/experienceService.js` — `toListItem` already includes skills/technologies
+- API-009 list example already documented
+
+### Checks run
+
+- `npm run build` (client) — **passed**
+
+### Follow-up
+
+- **238** (Phase 4) — AI-derived skills and technologies
 
 ## Likely files
 

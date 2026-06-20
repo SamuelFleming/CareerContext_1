@@ -32,6 +32,13 @@ Tracks completed backend and full-stack development tickets.
 | 231 | Experience card visual polish + AI scaffold | Phase 2 | 2026-06-19 | `TypeChip`, `ExperienceSummaryCard` on index; `skillChipVariantsMock` |
 | 235 | Experience skills & technologies CRUD | Phase 2 | 2026-06-19 | `TermChipInput` on create/edit; API-009 list includes fields |
 | 236 | Activity skills & technologies CRUD | Phase 2 | 2026-06-20 | `TermChipInput` on create/edit; API-016/018/019 doc sync |
+| 237 | Live skills & technologies chips | Phase 2 | 2026-06-20 | Live chips on index/detail/activity surfaces; mock fallback removed |
+
+## 237 — Summary
+
+- Experience index cards and detail widget show persisted `skills` / `technologies` via shared chip utils — no mock fallback.
+- Activity list items show up to 3 technology tags; activity detail has read-only chip summary when terms exist.
+- `skillChipVariantsMock.js` retains only `AI_ONE_LINE_PLACEHOLDER`; API-015 list example documented.
 
 ## 236 — Summary
 
