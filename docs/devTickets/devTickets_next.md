@@ -16,8 +16,8 @@ Tickets live in `docs/devTickets/phase2/`.
 | **231** | Experience card visual polish + AI scaffold | Medium | Done — index cards only |
 | **232** | Experience Detail page redesign | Medium | Done — header, widgets, modal edit, activity grid |
 | **233** | Experience overview AI priority display | Low | Done — polished over raw in overview widget |
-| **234** | Skills & technologies UI foundation | High | **Next** — `TermChipInput`, chip utils |
-| **235** | Experience skills & technologies CRUD | High | Planned — after **234** |
+| **234** | Skills & technologies UI foundation | High | Done — `TermChipInput`, chip utils, `SkillTechnologyChipList` |
+| **235** | Experience skills & technologies CRUD | High | **Next** — after **234** |
 | **236** | Activity skills & technologies CRUD | High | Planned — after **234** |
 | **237** | Live skills & technologies chips | Medium | Planned — after **235**, **236**; remove mocks |
 

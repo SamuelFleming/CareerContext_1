@@ -1,13 +1,13 @@
 ---
 phase: 2
-status: planned
+status: implemented
 source: large-feature plan — enterable skills & technologies
 ---
 # Ticket 234 — Skills & Technologies UI Foundation
 
 ## Status
 
-**Planned**
+**Implemented** — 2026-06-19
 
 ## Phase
 
@@ -82,11 +82,47 @@ Landing mock and **231** scaffold already follow this pattern. Formalise in a sh
 
 ## Acceptance criteria
 
-- [ ] `TermChipInput` supports add/remove of string terms with accessible labels
-- [ ] Technology chips use `accent`; skill chips use `neutral` in entry preview
-- [ ] Shared util maps entity `{ technologies, skills }` to display chips with correct variants
-- [ ] No new global state libraries
-- [ ] Component follows existing `Button` / `Input` / `SkillChip` patterns
+- [x] `TermChipInput` supports add/remove of string terms with accessible labels
+- [x] Technology chips use `accent`; skill chips use `neutral` in entry preview
+- [x] Shared util maps entity `{ technologies, skills }` to display chips with correct variants
+- [x] No new global state libraries
+- [x] Component follows existing `Button` / `Input` / `SkillChip` patterns
+
+## Chip variant semantics (documented)
+
+| Kind | Default variant | First item (ranked lists) |
+|------|-----------------|---------------------------|
+| Technology | `accent` | `success` |
+| Skill | `neutral` | `warning` |
+
+Entry forms use flat `accent` / `neutral` (no rank emphasis).
+
+## Completion notes
+
+**Completed:** 2026-06-19
+
+### Files changed
+
+**Created**
+
+- `client/src/utils/skillTechnologyChipUtils.js`
+- `client/src/components/ui/TermChipInput.jsx`
+- `client/src/components/ui/SkillTechnologyChipList.jsx`
+
+**Modified**
+
+- `client/src/features/experiences/components/skillChipVariantsMock.js` — delegates to utils; scaffold fallback retained until **237**
+- `client/src/features/experiences/components/ExperienceSummaryCard.jsx` — uses `getSummaryCardChips`
+
+### Checks run
+
+- `npm run build` (client) — **passed**
+
+### Follow-up
+
+- **235** — wire `TermChipInput` into Experience create/edit forms
+- **236** — wire into Activity forms
+- **237** — remove scaffold mock fallback from product surfaces
 
 ## Likely files
 

@@ -30,7 +30,13 @@ Tracks completed backend and full-stack development tickets.
 | 214 | Activity Detail vertical slice | Phase 2 | 2026-06-18 | Screen 8 — edit/delete, parent context, polish scaffold |
 | 215 | Dashboard evidence integration | Phase 2 | 2026-06-18 | Real evidence counts + recent activity in Evidence Panel |
 | 231 | Experience card visual polish + AI scaffold | Phase 2 | 2026-06-19 | `TypeChip`, `ExperienceSummaryCard` on index; `skillChipVariantsMock` |
-| 233 | Experience overview AI priority display | Phase 2 | 2026-06-19 | Overview widget prefers `overviewPolished`, falls back to `overviewRaw` |
+| 234 | Skills & technologies UI foundation | Phase 2 | 2026-06-19 | `TermChipInput`, `skillTechnologyChipUtils`, `SkillTechnologyChipList` |
+
+## 234 — Summary
+
+- Shared chip utils: variant by kind/rank, `normalizeTermList`, `toDisplayChips`.
+- `TermChipInput` — add/remove terms with accent (tech) and neutral (skill) preview chips.
+- Mock module refactored to delegate to utils; scaffold fallback kept until **237**.
 
 ## 233 — Summary
 
