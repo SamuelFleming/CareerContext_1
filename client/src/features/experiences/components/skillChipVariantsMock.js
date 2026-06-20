@@ -1,6 +1,16 @@
+import {
+  hasSkillTechnologyTerms,
+  toDisplayChips,
+  TERM_KIND,
+} from "../../../utils/skillTechnologyChipUtils";
+
 export const AI_ONE_LINE_PLACEHOLDER =
   "AI one-line summary will be generated from your overview and activities — coming in a later phase.";
 
+/**
+ * @deprecated Scaffold-only — removed in ticket **237** when live chips ship.
+ * Use `toDisplayChips` from `utils/skillTechnologyChipUtils.js` for persisted data.
+ */
 const SCAFFOLD_CHIPS_BY_TYPE = {
   job: [
     { label: "React", variant: "accent" },
@@ -41,46 +51,45 @@ const DEFAULT_SCAFFOLD_CHIPS = [
   { label: "MongoDB", variant: "success" },
 ];
 
+const TECH_VARIANTS = new Set(["accent", "success"]);
+
+/** @deprecated Scaffold fallback until **237** */
 export function getScaffoldSkillChips(experience) {
   return SCAFFOLD_CHIPS_BY_TYPE[experience?.type] || DEFAULT_SCAFFOLD_CHIPS;
 }
 
-const TECH_VARIANTS = new Set(["accent", "success"]);
-
-function toRankedItem(label, kind, rank) {
-  const variant =
-    kind === "technology"
-      ? rank === 1
-        ? "success"
-        : "accent"
-      : rank === 1
-        ? "warning"
-        : "neutral";
-
-  return { label, kind, rank, variant };
-}
-
-export function getTopRankedSkillsAndTechnologies(experience, limit = 5) {
-  const technologies = (experience?.technologies || [])
-    .filter(Boolean)
-    .map((label, index) => toRankedItem(label, "technology", index + 1));
-
-  const skills = (experience?.skills || [])
-    .filter(Boolean)
-    .map((label, index) => toRankedItem(label, "skill", index + 1));
-
-  const fromEntity = [...technologies, ...skills].slice(0, limit);
-
-  if (fromEntity.length > 0) {
-    return fromEntity;
-  }
-
+function scaffoldToRankedItems(experience, limit) {
   return getScaffoldSkillChips(experience)
     .slice(0, limit)
     .map((chip, index) => ({
       label: chip.label,
-      kind: TECH_VARIANTS.has(chip.variant) ? "technology" : "skill",
+      kind: TECH_VARIANTS.has(chip.variant) ? TERM_KIND.TECHNOLOGY : TERM_KIND.SKILL,
       rank: index + 1,
       variant: chip.variant,
     }));
+}
+
+/**
+ * Ranked display items for detail widget. Uses live entity data when present;
+ * falls back to scaffold mocks until **237** removes mock fallback.
+ */
+export function getTopRankedSkillsAndTechnologies(experience, limit = 5) {
+  if (hasSkillTechnologyTerms(experience)) {
+    return toDisplayChips(experience, { limit });
+  }
+
+  return scaffoldToRankedItems(experience, limit);
+}
+
+/**
+ * Summary card chips: live data when present, else scaffold.
+ */
+export function getSummaryCardChips(experience) {
+  const live = toDisplayChips(experience);
+
+  if (live.length > 0) {
+    return live.map(({ label, variant }) => ({ label, variant }));
+  }
+
+  return getScaffoldSkillChips(experience);
 }

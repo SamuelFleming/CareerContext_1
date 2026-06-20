@@ -3,7 +3,7 @@ import SkillChip from "../../../components/ui/SkillChip";
 import TypeChip from "../../../components/ui/TypeChip";
 import {
   AI_ONE_LINE_PLACEHOLDER,
-  getScaffoldSkillChips,
+  getSummaryCardChips,
 } from "./skillChipVariantsMock";
 import {
   EXPERIENCE_TYPE_ICONS,
@@ -24,7 +24,7 @@ export default function ExperienceSummaryCard({
   const dateRange = formatExperienceDateRange(experience);
   const roleLine = formatExperienceRoleLine(experience);
   const activityLine = formatExperienceActivityLine(experience, activityCount);
-  const scaffoldChips = getScaffoldSkillChips(experience);
+  const scaffoldChips = getSummaryCardChips(experience);
   const isClickable = typeof onClick === "function";
 
   return (
