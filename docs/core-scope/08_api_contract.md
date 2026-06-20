@@ -513,6 +513,8 @@ GET /api/experiences?type=job&search=angular&sort=updatedAt&order=desc&limit=20&
       "dateEnd": null,
       "isCurrent": true,
       "activityCount": 4,
+      "technologies": ["Angular", ".NET", "SQL"],
+      "skills": ["Full-stack development", "Stakeholder communication"],
       "updatedAt": "2026-06-08T00:00:00.000Z"
     }
   ],
@@ -543,7 +545,9 @@ POST /api/experiences
   "dateStart": "2025-01-01",
   "dateEnd": null,
   "isCurrent": true,
-  "overviewRaw": "Working across Angular, .NET and SQL..."
+  "overviewRaw": "Working across Angular, .NET and SQL...",
+  "technologies": ["Angular", ".NET", "SQL"],
+  "skills": ["Full-stack development", "Stakeholder communication"]
 }
 ```
 
@@ -578,7 +582,9 @@ GET /api/experiences/:experienceId
       "organisation": "Blue Card Services",
       "role": "Full Stack Developer",
       "overviewRaw": "Working across Angular, .NET and SQL...",
-      "overviewPolished": "Contributed to public sector systems..."
+      "overviewPolished": "Contributed to public sector systems...",
+      "technologies": ["Angular", ".NET", "SQL"],
+      "skills": ["Full-stack development", "Stakeholder communication"]
     }
   }
 }
@@ -596,7 +602,9 @@ PUT /api/experiences/:experienceId
 {
   "title": "QLD Digital Graduate Developer",
   "overviewRaw": "Updated raw overview...",
-  "overviewPolished": "Updated polished overview..."
+  "overviewPolished": "Updated polished overview...",
+  "technologies": ["Angular", ".NET"],
+  "skills": ["Leadership"]
 }
 ```
 
