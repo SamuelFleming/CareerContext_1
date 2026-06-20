@@ -8,6 +8,7 @@ import {
   updateActivity,
 } from "../../services/activityService";
 import ActivityParentContext from "./components/ActivityParentContext";
+import ActivitySkillsTechnologiesSummary from "./components/ActivitySkillsTechnologiesSummary";
 import ActivityEditorCard from "./components/ActivityEditorCard";
 import ActivityPolishedSummary from "./components/ActivityPolishedSummary";
 import ActivityDeleteConfirm from "./components/ActivityDeleteConfirm";
@@ -253,6 +254,8 @@ export default function ActivityDetailPage() {
 
       <div className="flex flex-col gap-6">
         <ActivityParentContext parentExperience={parentExperience} />
+
+        <ActivitySkillsTechnologiesSummary activity={activity} />
 
         <ActivityEditorCard
           form={form}
