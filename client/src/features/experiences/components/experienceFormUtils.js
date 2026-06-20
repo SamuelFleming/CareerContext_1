@@ -60,6 +60,8 @@ export function buildExperiencePayload(form) {
 export const emptyActivityForm = {
   title: "",
   rawDescription: "",
+  technologies: [],
+  skills: [],
 };
 
 export function truncateText(value, maxLength = 160) {

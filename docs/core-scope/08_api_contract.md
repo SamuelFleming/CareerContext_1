@@ -699,7 +699,9 @@ POST /api/experiences/:experienceId/activities
 ```json
 {
   "title": "OMS Joint Applicant Unlink Screen",
-  "rawDescription": "Built Angular frontend components and .NET endpoints..."
+  "rawDescription": "Built Angular frontend components and .NET endpoints...",
+  "technologies": ["Angular", ".NET"],
+  "skills": ["Full-stack development"]
 }
 ```
 
@@ -710,7 +712,9 @@ POST /api/experiences/:experienceId/activities
   "message": "Activity created",
   "data": {
     "activity": {
-      "id": "activityId"
+      "id": "activityId",
+      "technologies": ["Angular", ".NET"],
+      "skills": ["Full-stack development"]
     }
   }
 }
@@ -761,7 +765,9 @@ GET /api/activities/:activityId
       "experienceId": "experienceId",
       "title": "OMS Joint Applicant Unlink Screen",
       "rawDescription": "Built Angular frontend components...",
-      "polishedSummary": "Implemented an internal operational workflow..."
+      "polishedSummary": "Implemented an internal operational workflow...",
+      "technologies": ["Angular", ".NET"],
+      "skills": ["Full-stack development"]
     },
     "parentExperience": {
       "id": "experienceId",
@@ -783,7 +789,9 @@ PUT /api/activities/:activityId
 {
   "title": "OMS Joint Applicant Unlink Screen",
   "rawDescription": "Updated raw notes...",
-  "polishedSummary": "Updated polished summary..."
+  "polishedSummary": "Updated polished summary...",
+  "technologies": ["Angular", ".NET", "SQL"],
+  "skills": ["Full-stack development", "Stakeholder communication"]
 }
 ```
 
@@ -793,7 +801,11 @@ PUT /api/activities/:activityId
 {
   "message": "Activity updated",
   "data": {
-    "activity": {}
+    "activity": {
+      "id": "activityId",
+      "technologies": ["Angular", ".NET", "SQL"],
+      "skills": ["Full-stack development", "Stakeholder communication"]
+    }
   }
 }
 ```
