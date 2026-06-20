@@ -1,3 +1,5 @@
+import { normalizeTermList } from "../../../utils/skillTechnologyChipUtils";
+
 export const emptyExperienceForm = {
   type: "job",
   title: "",
@@ -7,6 +9,8 @@ export const emptyExperienceForm = {
   dateEnd: "",
   isCurrent: false,
   overviewRaw: "",
+  technologies: [],
+  skills: [],
 };
 
 export function toDateInputValue(value) {
@@ -33,6 +37,8 @@ export function experienceToForm(experience = {}) {
     dateEnd: toDateInputValue(experience.dateEnd),
     isCurrent: Boolean(experience.isCurrent),
     overviewRaw: experience.overviewRaw || "",
+    technologies: normalizeTermList(experience.technologies),
+    skills: normalizeTermList(experience.skills),
   };
 }
 
@@ -46,6 +52,8 @@ export function buildExperiencePayload(form) {
     dateEnd: form.isCurrent ? null : form.dateEnd || null,
     isCurrent: form.isCurrent,
     overviewRaw: form.overviewRaw,
+    technologies: normalizeTermList(form.technologies),
+    skills: normalizeTermList(form.skills),
   };
 }
 
