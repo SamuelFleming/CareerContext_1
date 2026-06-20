@@ -1,13 +1,13 @@
 ---
 phase: 2
-status: planned
+status: implemented
 source: large-feature plan — enterable skills & technologies
 ---
 # Ticket 235 — Experience Skills & Technologies CRUD
 
 ## Status
 
-**Planned**
+**Implemented** — 2026-06-19
 
 ## Phase
 
@@ -74,12 +74,38 @@ A user can add technologies (e.g. React, .NET) and skills (e.g. Stakeholder mana
 
 ## Acceptance criteria
 
-- [ ] User can add/remove technologies and skills on Experience create (index)
-- [ ] User can add/remove technologies and skills on Experience edit (detail modal)
-- [ ] Save persists via existing PUT/POST; reload shows saved values
-- [ ] Empty arrays allowed; invalid payloads rejected by existing server validation
-- [ ] `08_api_contract.md` examples updated for experience endpoints
-- [ ] `npm run build` passes
+- [x] User can add/remove technologies and skills on Experience create (index)
+- [x] User can add/remove technologies and skills on Experience edit (detail modal)
+- [x] Save persists via existing PUT/POST; reload shows saved values
+- [x] Empty arrays allowed; invalid payloads rejected by existing server validation
+- [x] `08_api_contract.md` examples updated for experience endpoints
+- [x] `npm run build` passes
+
+## Completion notes
+
+**Completed:** 2026-06-19
+
+### Files changed
+
+**Modified**
+
+- `client/src/features/experiences/components/experienceFormUtils.js` — form fields + payload
+- `client/src/features/experiences/components/experienceUi.js` — `emptyCreateForm`
+- `client/src/features/experiences/components/ExperienceEditorCard.jsx` — `TermChipInput` fields
+- `client/src/features/experiences/components/CreateExperiencePanel.jsx` — `TermChipInput` fields
+- `client/src/features/experiences/ExperienceIndexPage.jsx` — uses `buildExperiencePayload`
+- `client/src/services/experienceService.js` — JSDoc
+- `server/src/services/experienceService.js` — `toListItem` includes skills/technologies
+- `docs/core-scope/08_api_contract.md` — API-009/010/011/012 examples
+
+### Checks run
+
+- `npm run build` (client) — **passed**
+
+### Follow-up
+
+- **236** — Activity skills/technologies CRUD
+- **237** — remove mock chip fallback; detail widget reads live data from entity
 
 ## Likely files
 

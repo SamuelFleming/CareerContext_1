@@ -30,7 +30,13 @@ Tracks completed backend and full-stack development tickets.
 | 214 | Activity Detail vertical slice | Phase 2 | 2026-06-18 | Screen 8 — edit/delete, parent context, polish scaffold |
 | 215 | Dashboard evidence integration | Phase 2 | 2026-06-18 | Real evidence counts + recent activity in Evidence Panel |
 | 231 | Experience card visual polish + AI scaffold | Phase 2 | 2026-06-19 | `TypeChip`, `ExperienceSummaryCard` on index; `skillChipVariantsMock` |
-| 234 | Skills & technologies UI foundation | Phase 2 | 2026-06-19 | `TermChipInput`, `skillTechnologyChipUtils`, `SkillTechnologyChipList` |
+| 235 | Experience skills & technologies CRUD | Phase 2 | 2026-06-19 | `TermChipInput` on create/edit; API-009 list includes fields |
+
+## 235 — Summary
+
+- Experience create (index) and edit (detail modal) support `technologies` and `skills` via `TermChipInput`.
+- `buildExperiencePayload` sends normalized string arrays; backend validation unchanged.
+- API-009 `toListItem` now includes skills/technologies for index card live chips.
 
 ## 234 — Summary
 
