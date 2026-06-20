@@ -31,6 +31,13 @@ Tracks completed backend and full-stack development tickets.
 | 215 | Dashboard evidence integration | Phase 2 | 2026-06-18 | Real evidence counts + recent activity in Evidence Panel |
 | 231 | Experience card visual polish + AI scaffold | Phase 2 | 2026-06-19 | `TypeChip`, `ExperienceSummaryCard` on index; `skillChipVariantsMock` |
 | 235 | Experience skills & technologies CRUD | Phase 2 | 2026-06-19 | `TermChipInput` on create/edit; API-009 list includes fields |
+| 236 | Activity skills & technologies CRUD | Phase 2 | 2026-06-20 | `TermChipInput` on create/edit; API-016/018/019 doc sync |
+
+## 236 — Summary
+
+- Activity create (experience detail) and edit (activity detail) support `technologies` and `skills` via `TermChipInput`.
+- `buildActivityPayload` / `activityToForm` send and reload normalized string arrays; backend validation unchanged.
+- API contract examples updated for API-016, API-018, API-019.
 
 ## 235 — Summary
 

@@ -18,8 +18,8 @@ Tickets live in `docs/devTickets/phase2/`.
 | **233** | Experience overview AI priority display | Low | Done — polished over raw in overview widget |
 | **234** | Skills & technologies UI foundation | High | Done — `TermChipInput`, chip utils, `SkillTechnologyChipList` |
 | **235** | Experience skills & technologies CRUD | High | Done — create/edit forms + API-009 list fields |
-| **236** | Activity skills & technologies CRUD | High | **Next** — after **234** |
-| **237** | Live skills & technologies chips | Medium | Planned — after **235**, **236**; remove mocks |
+| **236** | Activity skills & technologies CRUD | High | Done — create/edit forms + API-016/018/019 doc sync |
+| **237** | Live skills & technologies chips | Medium | **Next** — after **235**, **236**; remove mocks |
 
 ### Skills & technologies batch (234–237)
 

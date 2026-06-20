@@ -1,13 +1,13 @@
 ---
 phase: 2
-status: planned
+status: implemented
 source: large-feature plan — enterable skills & technologies
 ---
 # Ticket 236 — Activity Skills & Technologies CRUD
 
 ## Status
 
-**Planned**
+**Implemented** — 2026-06-20
 
 ## Phase
 
@@ -68,11 +68,34 @@ A user can tag an activity with relevant technologies and skills when creating i
 
 ## Acceptance criteria
 
-- [ ] User can add/remove technologies and skills when creating activity under experience
-- [ ] User can add/remove on Activity Detail edit + save
-- [ ] Values persist and reload correctly
-- [ ] `08_api_contract.md` activity examples include `skills` and `technologies`
-- [ ] `npm run build` passes
+- [x] User can add/remove technologies and skills when creating activity under experience
+- [x] User can add/remove on Activity Detail edit + save
+- [x] Values persist and reload correctly
+- [x] `08_api_contract.md` activity examples include `skills` and `technologies`
+- [x] `npm run build` passes
+
+## Completion notes
+
+**Completed:** 2026-06-20
+
+### Files changed
+
+**Modified**
+
+- `client/src/features/activities/components/activityFormUtils.js` — form fields + payload
+- `client/src/features/experiences/components/experienceFormUtils.js` — `emptyActivityForm` fields
+- `client/src/features/activities/components/ActivityEditorCard.jsx` — `TermChipInput` fields
+- `client/src/features/experiences/components/CreateActivityPanel.jsx` — `TermChipInput` fields
+- `client/src/features/experiences/ExperienceDetailPage.jsx` — uses `buildActivityPayload` on create
+- `docs/core-scope/08_api_contract.md` — API-016/018/019 examples
+
+### Checks run
+
+- `npm run build` (client) — **passed**
+
+### Follow-up
+
+- **237** — live chip display on cards; remove mock fallback
 
 ## Likely files
 
