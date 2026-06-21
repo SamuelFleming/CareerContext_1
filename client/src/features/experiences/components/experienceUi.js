@@ -119,4 +119,6 @@ export const emptyCreateForm = {
   dateEnd: "",
   isCurrent: false,
   overviewRaw: "",
+  technologies: [],
+  skills: [],
 };

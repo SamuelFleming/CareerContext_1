@@ -16,6 +16,14 @@ Tickets live in `docs/devTickets/phase2/`.
 | **231** | Experience card visual polish + AI scaffold | Medium | Done — index cards only |
 | **232** | Experience Detail page redesign | Medium | Done — header, widgets, modal edit, activity grid |
 | **233** | Experience overview AI priority display | Low | Done — polished over raw in overview widget |
+| **234** | Skills & technologies UI foundation | High | Done — `TermChipInput`, chip utils, `SkillTechnologyChipList` |
+| **235** | Experience skills & technologies CRUD | High | Done — create/edit forms + API-009 list fields |
+| **236** | Activity skills & technologies CRUD | High | Done — create/edit forms + API-016/018/019 doc sync |
+| **237** | Live skills & technologies chips | Medium | Done — live chips on evidence surfaces; mock fallback removed |
+
+### Skills & technologies batch (234–237)
+
+Manual entry and live chip display for Experience and Activity — **complete**. Data model and backend validation **already exist** (**201**, **204**); work is UI + API doc sync + index list fields. AI derivation spec: **238** (Phase 4).
 
 ### Phase 2 backend (complete)
 
@@ -49,3 +57,4 @@ Tickets live in `docs/devTickets/phase2/`.
 | Ticket | Title | Priority | Notes |
 |--------|-------|----------|-------|
 | — | AI summarisation of `rawSummaryMd` | Low | Polished summary fields on CoreContext |
+| **4xx** | AI-derived skills & technologies (spec) | Low | Spec only — see `phase4/238-...`; implement in Phase 4 |

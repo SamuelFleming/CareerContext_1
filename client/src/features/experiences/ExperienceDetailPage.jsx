@@ -25,6 +25,7 @@ import {
   experienceToForm,
   emptyActivityForm,
 } from "./components/experienceFormUtils";
+import { buildActivityPayload } from "../activities/components/activityFormUtils";
 
 const DATE_FILTER_FETCH_LIMIT = 100;
 
@@ -298,10 +299,7 @@ export default function ExperienceDetailPage() {
     setCreateActivityError("");
 
     try {
-      await createActivityForExperience(experienceId, {
-        title: activityForm.title.trim(),
-        rawDescription: activityForm.rawDescription,
-      });
+      await createActivityForExperience(experienceId, buildActivityPayload(activityForm));
 
       setIsCreateActivityOpen(false);
       setActivityForm(emptyActivityForm);

@@ -5,7 +5,9 @@ import Card, {
   CardTitle,
 } from "../../../components/ui/Card";
 import Input from "../../../components/ui/Input";
+import TermChipInput from "../../../components/ui/TermChipInput";
 import MarkdownEditor from "../../../components/editor/MarkdownEditor";
+import { TERM_KIND } from "../../../utils/skillTechnologyChipUtils";
 
 const saveStatusText = {
   idle: null,
@@ -58,6 +60,24 @@ export default function ActivityEditorCard({
           onChange={(event) => onChange("title", event.target.value)}
           disabled={disabled}
           required
+        />
+
+        <TermChipInput
+          label="Technologies"
+          kind={TERM_KIND.TECHNOLOGY}
+          values={form.technologies}
+          onChange={(values) => onChange("technologies", values)}
+          disabled={disabled}
+          helperText="Tools, frameworks, and platforms used in this activity."
+        />
+
+        <TermChipInput
+          label="Skills"
+          kind={TERM_KIND.SKILL}
+          values={form.skills}
+          onChange={(values) => onChange("skills", values)}
+          disabled={disabled}
+          helperText="Capabilities and competencies demonstrated in this activity."
         />
 
         <MarkdownEditor

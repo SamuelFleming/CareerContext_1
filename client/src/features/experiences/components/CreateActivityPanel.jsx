@@ -5,8 +5,10 @@ import Card, {
   CardTitle,
 } from "../../../components/ui/Card";
 import Input from "../../../components/ui/Input";
+import TermChipInput from "../../../components/ui/TermChipInput";
 import MarkdownEditor from "../../../components/editor/MarkdownEditor";
 import Button from "../../../components/ui/Button";
+import { TERM_KIND } from "../../../utils/skillTechnologyChipUtils";
 
 export default function CreateActivityPanel({
   form,
@@ -54,6 +56,24 @@ export default function CreateActivityPanel({
           onChange={(event) => onChange("title", event.target.value)}
           disabled={isSubmitting}
           required
+        />
+
+        <TermChipInput
+          label="Technologies"
+          kind={TERM_KIND.TECHNOLOGY}
+          values={form.technologies}
+          onChange={(values) => onChange("technologies", values)}
+          disabled={isSubmitting}
+          helperText="Optional. Tools and platforms for this activity."
+        />
+
+        <TermChipInput
+          label="Skills"
+          kind={TERM_KIND.SKILL}
+          values={form.skills}
+          onChange={(values) => onChange("skills", values)}
+          disabled={isSubmitting}
+          helperText="Optional. Capabilities demonstrated in this activity."
         />
 
         <MarkdownEditor

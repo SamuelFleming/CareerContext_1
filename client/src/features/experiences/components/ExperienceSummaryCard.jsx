@@ -1,10 +1,11 @@
 import { cn } from "../../../utils/cn";
-import SkillChip from "../../../components/ui/SkillChip";
 import TypeChip from "../../../components/ui/TypeChip";
+import SkillTechnologyChipList from "../../../components/ui/SkillTechnologyChipList";
+import { AI_ONE_LINE_PLACEHOLDER } from "./skillChipVariantsMock";
 import {
-  AI_ONE_LINE_PLACEHOLDER,
-  getScaffoldSkillChips,
-} from "./skillChipVariantsMock";
+  hasSkillTechnologyTerms,
+  toDisplayChips,
+} from "../../../utils/skillTechnologyChipUtils";
 import {
   EXPERIENCE_TYPE_ICONS,
   formatExperienceActivityLine,
@@ -24,7 +25,8 @@ export default function ExperienceSummaryCard({
   const dateRange = formatExperienceDateRange(experience);
   const roleLine = formatExperienceRoleLine(experience);
   const activityLine = formatExperienceActivityLine(experience, activityCount);
-  const scaffoldChips = getScaffoldSkillChips(experience);
+  const chips = toDisplayChips(experience);
+  const hasChips = hasSkillTechnologyTerms(experience);
   const isClickable = typeof onClick === "function";
 
   return (
@@ -79,19 +81,14 @@ export default function ExperienceSummaryCard({
 
           <p className="mt-2 text-sm text-[var(--primary-700)]">{activityLine}</p>
 
-          <div className="mt-4 flex flex-col gap-2">
-            <div className="flex flex-wrap gap-2">
-              {scaffoldChips.map((chip) => (
-                <SkillChip key={chip.label} variant={chip.variant}>
-                  {chip.label}
-                </SkillChip>
-              ))}
+          {hasChips && (
+            <div className="mt-4 flex flex-col gap-2">
+              <SkillTechnologyChipList chips={chips} />
+              <p className="text-xs text-[var(--primary-500)]">
+                AI-assisted ranking and extraction — coming in a later phase.
+              </p>
             </div>
-            <p className="text-xs text-[var(--primary-500)]">
-              Extracted skills &amp; technologies — AI extraction coming in a later
-              phase
-            </p>
-          </div>
+          )}
         </div>
       </div>
     </article>

@@ -5,8 +5,10 @@ import Card, {
   CardTitle,
 } from "../../../components/ui/Card";
 import Input from "../../../components/ui/Input";
+import TermChipInput from "../../../components/ui/TermChipInput";
 import MarkdownEditor from "../../../components/editor/MarkdownEditor";
 import Button from "../../../components/ui/Button";
+import { TERM_KIND } from "../../../utils/skillTechnologyChipUtils";
 import { EXPERIENCE_TYPE_OPTIONS } from "./experienceUi";
 
 const selectClass =
@@ -124,6 +126,24 @@ export default function CreateExperiencePanel({
           />
           This is a current experience
         </label>
+
+        <TermChipInput
+          label="Technologies"
+          kind={TERM_KIND.TECHNOLOGY}
+          values={form.technologies}
+          onChange={(values) => onChange("technologies", values)}
+          disabled={isSubmitting}
+          helperText="Optional. Tools and platforms for this experience."
+        />
+
+        <TermChipInput
+          label="Skills"
+          kind={TERM_KIND.SKILL}
+          values={form.skills}
+          onChange={(values) => onChange("skills", values)}
+          disabled={isSubmitting}
+          helperText="Optional. Capabilities demonstrated in this experience."
+        />
 
         <MarkdownEditor
           label="Overview (optional)"

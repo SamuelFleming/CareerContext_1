@@ -5,7 +5,9 @@ import Card, {
   CardTitle,
 } from "../../../components/ui/Card";
 import Input from "../../../components/ui/Input";
+import TermChipInput from "../../../components/ui/TermChipInput";
 import MarkdownEditor from "../../../components/editor/MarkdownEditor";
+import { TERM_KIND } from "../../../utils/skillTechnologyChipUtils";
 import { EXPERIENCE_TYPE_OPTIONS } from "./experienceUi";
 
 const selectClass =
@@ -97,6 +99,24 @@ function ExperienceEditorFields({
         />
         This is a current experience
       </label>
+
+      <TermChipInput
+        label="Technologies"
+        kind={TERM_KIND.TECHNOLOGY}
+        values={form.technologies}
+        onChange={(values) => onChange("technologies", values)}
+        disabled={disabled}
+        helperText="Tools, frameworks, and platforms. Order reflects importance (first = top)."
+      />
+
+      <TermChipInput
+        label="Skills"
+        kind={TERM_KIND.SKILL}
+        values={form.skills}
+        onChange={(values) => onChange("skills", values)}
+        disabled={disabled}
+        helperText="Capabilities and competencies. Order reflects importance (first = top)."
+      />
 
       <MarkdownEditor
         label="Overview"

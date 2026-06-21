@@ -513,6 +513,8 @@ GET /api/experiences?type=job&search=angular&sort=updatedAt&order=desc&limit=20&
       "dateEnd": null,
       "isCurrent": true,
       "activityCount": 4,
+      "technologies": ["Angular", ".NET", "SQL"],
+      "skills": ["Full-stack development", "Stakeholder communication"],
       "updatedAt": "2026-06-08T00:00:00.000Z"
     }
   ],
@@ -543,7 +545,9 @@ POST /api/experiences
   "dateStart": "2025-01-01",
   "dateEnd": null,
   "isCurrent": true,
-  "overviewRaw": "Working across Angular, .NET and SQL..."
+  "overviewRaw": "Working across Angular, .NET and SQL...",
+  "technologies": ["Angular", ".NET", "SQL"],
+  "skills": ["Full-stack development", "Stakeholder communication"]
 }
 ```
 
@@ -578,7 +582,9 @@ GET /api/experiences/:experienceId
       "organisation": "Blue Card Services",
       "role": "Full Stack Developer",
       "overviewRaw": "Working across Angular, .NET and SQL...",
-      "overviewPolished": "Contributed to public sector systems..."
+      "overviewPolished": "Contributed to public sector systems...",
+      "technologies": ["Angular", ".NET", "SQL"],
+      "skills": ["Full-stack development", "Stakeholder communication"]
     }
   }
 }
@@ -596,7 +602,9 @@ PUT /api/experiences/:experienceId
 {
   "title": "QLD Digital Graduate Developer",
   "overviewRaw": "Updated raw overview...",
-  "overviewPolished": "Updated polished overview..."
+  "overviewPolished": "Updated polished overview...",
+  "technologies": ["Angular", ".NET"],
+  "skills": ["Leadership"]
 }
 ```
 
@@ -669,10 +677,20 @@ GET /api/experiences/:experienceId/activities?search=angular&sort=updatedAt&orde
 
 ```json
 {
-  "data": [],
+  "data": [
+    {
+      "id": "activityId",
+      "experienceId": "experienceId",
+      "title": "OMS Joint Applicant Unlink Screen",
+      "rawDescription": "Built Angular frontend components...",
+      "technologies": ["Angular", ".NET"],
+      "skills": ["Full-stack development"],
+      "updatedAt": "2026-06-08T00:00:00.000Z"
+    }
+  ],
   "meta": {
-    "count": 0,
-    "total": 0,
+    "count": 1,
+    "total": 1,
     "limit": 20,
     "offset": 0,
     "hasMore": false
@@ -691,7 +709,9 @@ POST /api/experiences/:experienceId/activities
 ```json
 {
   "title": "OMS Joint Applicant Unlink Screen",
-  "rawDescription": "Built Angular frontend components and .NET endpoints..."
+  "rawDescription": "Built Angular frontend components and .NET endpoints...",
+  "technologies": ["Angular", ".NET"],
+  "skills": ["Full-stack development"]
 }
 ```
 
@@ -702,7 +722,9 @@ POST /api/experiences/:experienceId/activities
   "message": "Activity created",
   "data": {
     "activity": {
-      "id": "activityId"
+      "id": "activityId",
+      "technologies": ["Angular", ".NET"],
+      "skills": ["Full-stack development"]
     }
   }
 }
@@ -753,7 +775,9 @@ GET /api/activities/:activityId
       "experienceId": "experienceId",
       "title": "OMS Joint Applicant Unlink Screen",
       "rawDescription": "Built Angular frontend components...",
-      "polishedSummary": "Implemented an internal operational workflow..."
+      "polishedSummary": "Implemented an internal operational workflow...",
+      "technologies": ["Angular", ".NET"],
+      "skills": ["Full-stack development"]
     },
     "parentExperience": {
       "id": "experienceId",
@@ -775,7 +799,9 @@ PUT /api/activities/:activityId
 {
   "title": "OMS Joint Applicant Unlink Screen",
   "rawDescription": "Updated raw notes...",
-  "polishedSummary": "Updated polished summary..."
+  "polishedSummary": "Updated polished summary...",
+  "technologies": ["Angular", ".NET", "SQL"],
+  "skills": ["Full-stack development", "Stakeholder communication"]
 }
 ```
 
@@ -785,7 +811,11 @@ PUT /api/activities/:activityId
 {
   "message": "Activity updated",
   "data": {
-    "activity": {}
+    "activity": {
+      "id": "activityId",
+      "technologies": ["Angular", ".NET", "SQL"],
+      "skills": ["Full-stack development", "Stakeholder communication"]
+    }
   }
 }
 ```
