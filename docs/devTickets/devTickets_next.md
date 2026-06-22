@@ -22,6 +22,12 @@ Tickets live in `docs/devTickets/phase2/`.
 | **237** | Live skills & technologies chips | Medium | Done — live chips on evidence surfaces; mock fallback removed |
 | **238** | Evidence modals & activity detail redesign | Medium | Done — modal create/edit; activity detail widgets |
 | **239** | Scrollable markdown preview and card restyle | Medium | Done — bounded markdown preview + neutral/accent detail cards |
+| **240** | Backend JWT expiry responses | High | Planned — contract-aligned 401 codes (`TOKEN_EXPIRED`, etc.) |
+| **241** | Frontend session expiry handling | High | Planned — global 401 intercept, login re-prompt, no "Request failed" UX |
+
+### JWT expiry handling (240–241)
+
+Cross-cutting auth hardening from local dev UAT: expired tokens currently leave protected routes open and surface generic **"Request failed"** errors. Implement **240** (backend codes/envelope) then **241** (frontend intercept + graceful redirect). Verify locally with `JWT_EXPIRES_IN=1m` in `server/.env`.
 
 ### Skills & technologies batch (234–237)
 
