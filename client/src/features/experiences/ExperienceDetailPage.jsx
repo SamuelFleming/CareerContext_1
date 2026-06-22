@@ -26,6 +26,7 @@ import {
   emptyActivityForm,
 } from "./components/experienceFormUtils";
 import { buildActivityPayload } from "../activities/components/activityFormUtils";
+import ActivityFormModal from "../activities/components/ActivityFormModal";
 
 const DATE_FILTER_FETCH_LIMIT = 100;
 
@@ -457,6 +458,17 @@ export default function ExperienceDetailPage() {
         </div>
       </div>
 
+      <ActivityFormModal
+        isOpen={isCreateActivityOpen}
+        mode="create"
+        form={activityForm}
+        onChange={handleActivityFieldChange}
+        onClose={handleCloseCreateActivity}
+        onSubmit={handleCreateActivity}
+        isSubmitting={isCreatingActivity}
+        submitError={createActivityError}
+      />
+
       <ExperienceActivitySection
         activities={activities}
         total={activitiesTotal}
@@ -467,14 +479,7 @@ export default function ExperienceDetailPage() {
         dateFrom={dateFrom}
         dateTo={dateTo}
         isDateFilterActive={isDateFilterActive}
-        isCreateOpen={isCreateActivityOpen}
-        createForm={activityForm}
-        onCreateFieldChange={handleActivityFieldChange}
         onOpenCreate={handleOpenCreateActivity}
-        onCloseCreate={handleCloseCreateActivity}
-        onCreateSubmit={handleCreateActivity}
-        isCreating={isCreatingActivity}
-        createError={createActivityError}
         onSortChange={handleSortChange}
         onDateFromChange={handleDateFromChange}
         onDateToChange={handleDateToChange}

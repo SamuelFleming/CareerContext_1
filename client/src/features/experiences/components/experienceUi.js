@@ -44,6 +44,22 @@ function formatDatePart(value) {
   }).format(new Date(value));
 }
 
+/** Header context line for activity detail — e.g. "Title (JOB) | Jan 2025 – Present". */
+export function formatExperienceContextLine(experience) {
+  if (!experience?.title) {
+    return null;
+  }
+
+  const typeLabel = (formatExperienceType(experience.type) || "Experience").toUpperCase();
+  const dateRange = formatExperienceDateRange(experience);
+
+  if (dateRange) {
+    return `${experience.title} (${typeLabel}) | ${dateRange}`;
+  }
+
+  return `${experience.title} (${typeLabel})`;
+}
+
 export function formatExperienceDateRange({ dateStart, dateEnd, isCurrent }) {
   const start = formatDatePart(dateStart);
   const end = isCurrent ? "Present" : formatDatePart(dateEnd);

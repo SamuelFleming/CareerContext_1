@@ -1,6 +1,5 @@
 import Button from "../../../components/ui/Button";
 import ExperienceActivityListItem from "./ExperienceActivityListItem";
-import CreateActivityPanel from "./CreateActivityPanel";
 
 const SORT_OPTIONS = [
   { value: "updatedAt:desc", label: "Recently updated" },
@@ -24,14 +23,7 @@ export default function ExperienceActivitySection({
   dateFrom = "",
   dateTo = "",
   isDateFilterActive = false,
-  isCreateOpen,
-  createForm,
-  onCreateFieldChange,
   onOpenCreate,
-  onCloseCreate,
-  onCreateSubmit,
-  isCreating = false,
-  createError = "",
   onSortChange,
   onDateFromChange,
   onDateToChange,
@@ -43,7 +35,7 @@ export default function ExperienceActivitySection({
   const showingFrom = total === 0 ? 0 : page * pageSize + 1;
   const showingTo = Math.min(total, (page + 1) * pageSize);
   const sortValue = `${sort}:${order}`;
-  const showToolbarAdd = showFilters && !isCreateOpen;
+  const showToolbarAdd = showFilters;
 
   return (
     <section className="flex flex-col gap-4">
@@ -143,16 +135,7 @@ export default function ExperienceActivitySection({
         </div>
       )}
 
-      {isCreateOpen ? (
-        <CreateActivityPanel
-          form={createForm}
-          onChange={onCreateFieldChange}
-          onSubmit={onCreateSubmit}
-          onCancel={onCloseCreate}
-          isSubmitting={isCreating}
-          submitError={createError}
-        />
-      ) : activities.length > 0 ? (
+      {activities.length > 0 ? (
         <ul className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {activities.map((activity) => (
             <li key={activity.id}>
