@@ -11,6 +11,22 @@
   overflow-y: auto;
 }
 
+.markdown-content__preview {
+  min-height: inherit;
+  padding: var(--spacing-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--neutral-200);
+  background: var(--neutral-000);
+  color: var(--primary-900);
+  text-align: left;
+  overflow-y: auto;
+}
+
+.markdown-content__preview--empty {
+  color: var(--neutral-500);
+  font-style: italic;
+}
+
 .markdown-editor__preview--empty {
   color: var(--neutral-500);
   font-style: italic;

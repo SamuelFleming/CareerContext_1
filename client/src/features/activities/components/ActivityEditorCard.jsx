@@ -4,8 +4,7 @@ import Card, {
   CardHeader,
   CardTitle,
 } from "../../../components/ui/Card";
-import Input from "../../../components/ui/Input";
-import MarkdownEditor from "../../../components/editor/MarkdownEditor";
+import { ActivityEditorFields } from "./ActivityEditorFields";
 
 const saveStatusText = {
   idle: null,
@@ -51,24 +50,7 @@ export default function ActivityEditorCard({
       )}
 
       <CardContent className="flex flex-col gap-4">
-        <Input
-          label="Title"
-          placeholder="OMS Joint Applicant Unlink Screen"
-          value={form.title}
-          onChange={(event) => onChange("title", event.target.value)}
-          disabled={disabled}
-          required
-        />
-
-        <MarkdownEditor
-          label="Raw description"
-          placeholder="What you did, technologies used, outcomes achieved…"
-          helperText="Stored as Markdown in rawDescription. Use Save in the page header to persist."
-          value={form.rawDescription}
-          onChange={(value) => onChange("rawDescription", value)}
-          disabled={disabled}
-          minRows={12}
-        />
+        <ActivityEditorFields form={form} onChange={onChange} disabled={disabled} />
       </CardContent>
     </Card>
   );

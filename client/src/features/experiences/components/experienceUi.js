@@ -44,6 +44,22 @@ function formatDatePart(value) {
   }).format(new Date(value));
 }
 
+/** Header context line for activity detail — e.g. "Title (JOB) | Jan 2025 – Present". */
+export function formatExperienceContextLine(experience) {
+  if (!experience?.title) {
+    return null;
+  }
+
+  const typeLabel = (formatExperienceType(experience.type) || "Experience").toUpperCase();
+  const dateRange = formatExperienceDateRange(experience);
+
+  if (dateRange) {
+    return `${experience.title} (${typeLabel}) | ${dateRange}`;
+  }
+
+  return `${experience.title} (${typeLabel})`;
+}
+
 export function formatExperienceDateRange({ dateStart, dateEnd, isCurrent }) {
   const start = formatDatePart(dateStart);
   const end = isCurrent ? "Present" : formatDatePart(dateEnd);
@@ -73,13 +89,41 @@ export function formatExperienceMeta(experience) {
   return parts.join(" · ");
 }
 
-export function formatExperienceDescription(experience) {
-  if (experience.activityCount > 0) {
-    const count = experience.activityCount;
+export function formatExperienceRoleLine({ role, organisation }) {
+  const trimmedRole = role?.trim();
+  const trimmedOrg = organisation?.trim();
+
+  if (trimmedRole && trimmedOrg) {
+    return `${trimmedRole} at ${trimmedOrg}`;
+  }
+
+  if (trimmedRole) {
+    return trimmedRole;
+  }
+
+  if (trimmedOrg) {
+    return trimmedOrg;
+  }
+
+  return null;
+}
+
+export function formatExperienceActivityLine(experience, activityCountOverride) {
+  const count =
+    typeof activityCountOverride === "number"
+      ? activityCountOverride
+      : experience?.activityCount ?? 0;
+
+  if (count > 0) {
     return `${count} ${count === 1 ? "activity" : "activities"}`;
   }
 
   return "No activities yet";
+}
+
+/** @deprecated Use split formatters on summary card surfaces. */
+export function formatExperienceDescription(experience) {
+  return formatExperienceActivityLine(experience);
 }
 
 export const emptyCreateForm = {
@@ -91,4 +135,6 @@ export const emptyCreateForm = {
   dateEnd: "",
   isCurrent: false,
   overviewRaw: "",
+  technologies: [],
+  skills: [],
 };

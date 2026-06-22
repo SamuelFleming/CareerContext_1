@@ -17,6 +17,13 @@ Use these tickets with:
 - [213 — Experience Detail Vertical Slice](213-experience-detail-vertical-slice.md)
 - [214 — Activity Detail Vertical Slice](214-activity-detail-vertical-slice.md)
 - [215 — Dashboard Evidence Integration](215-dashboard-evidence-integration.md)
+- [231 — Experience Card Visual Polish and AI Scaffold](231-experience-card-visual-polish.md)
+- [232 — Experience Detail Page Redesign](232-experience-detail-page-redesign.md)
+- [233 — Experience Overview AI Priority Display](233-experience-overview-ai-priority-display.md)
+- [234 — Skills & Technologies UI Foundation](234-skills-technologies-ui-foundation.md)
+- [235 — Experience Skills & Technologies CRUD](235-experience-skills-technologies-crud.md)
+- [236 — Activity Skills & Technologies CRUD](236-activity-skills-technologies-crud.md)
+- [237 — Live Skills & Technologies Chips](237-live-skills-technologies-chips.md)
 
 ## Method
 

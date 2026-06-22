@@ -25,7 +25,7 @@ export function listExperiences(params = {}) {
 
 /**
  * POST /api/experiences (API-010)
- * @param {Object} payload - type, title, organisation?, role?, dateStart?, dateEnd?, isCurrent?, overviewRaw?
+ * @param {Object} payload - type, title, organisation?, role?, dateStart?, dateEnd?, isCurrent?, overviewRaw?, technologies?, skills?
  * @returns {Promise<{ message: string, data: { experience: { id: string } } }>}
  */
 export function createExperience(payload) {

@@ -9,6 +9,7 @@ export default function MarkdownPreview({
   placeholder = "Nothing to preview yet.",
   className = "",
   minHeight,
+  maxHeight,
 }) {
   const trimmed = value?.trim() ?? "";
   const isEmpty = !trimmed;
@@ -20,7 +21,10 @@ export default function MarkdownPreview({
         isEmpty && "markdown-editor__preview--empty",
         className
       )}
-      style={minHeight ? { minHeight } : undefined}
+      style={{
+        ...(minHeight ? { minHeight } : {}),
+        ...(maxHeight ? { maxHeight } : {}),
+      }}
       aria-live="polite"
     >
       {isEmpty ? (

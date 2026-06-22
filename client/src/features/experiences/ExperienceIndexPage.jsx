@@ -6,21 +6,9 @@ import {
   listExperiences,
 } from "../../services/experienceService";
 import ExperienceList from "./components/ExperienceList";
-import CreateExperiencePanel from "./components/CreateExperiencePanel";
+import ExperienceCreateModal from "./components/ExperienceCreateModal";
+import { buildExperiencePayload } from "./components/experienceFormUtils";
 import { emptyCreateForm } from "./components/experienceUi";
-
-function buildCreatePayload(form) {
-  return {
-    type: form.type,
-    title: form.title.trim(),
-    organisation: form.organisation.trim(),
-    role: form.role.trim(),
-    dateStart: form.dateStart || null,
-    dateEnd: form.isCurrent ? null : form.dateEnd || null,
-    isCurrent: form.isCurrent,
-    overviewRaw: form.overviewRaw,
-  };
-}
 
 export default function ExperienceIndexPage() {
   const [experiences, setExperiences] = useState([]);
@@ -94,7 +82,7 @@ export default function ExperienceIndexPage() {
     setSubmitError("");
 
     try {
-      await createExperience(buildCreatePayload(createForm));
+      await createExperience(buildExperiencePayload(createForm));
       setIsCreateOpen(false);
       setCreateForm(emptyCreateForm);
       await loadExperiences();
@@ -152,16 +140,15 @@ export default function ExperienceIndexPage() {
         }
       />
 
-      {isCreateOpen && (
-        <CreateExperiencePanel
-          form={createForm}
-          onChange={handleCreateFieldChange}
-          onSubmit={handleCreateSubmit}
-          onCancel={handleCloseCreate}
-          isSubmitting={isSubmitting}
-          submitError={submitError}
-        />
-      )}
+      <ExperienceCreateModal
+        isOpen={isCreateOpen}
+        form={createForm}
+        onChange={handleCreateFieldChange}
+        onClose={handleCloseCreate}
+        onSubmit={handleCreateSubmit}
+        isSubmitting={isSubmitting}
+        submitError={submitError}
+      />
 
       <ExperienceList
         experiences={experiences}

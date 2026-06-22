@@ -42,6 +42,7 @@ export default function MarkdownEditor({
   id,
   className = "",
   toolbarEnabled = true,
+  previewMaxHeight,
 }) {
   const generatedId = useId();
   const editorId = id || generatedId;
@@ -55,6 +56,7 @@ export default function MarkdownEditor({
       : undefined;
 
   const minHeight = `calc(${minRows} * 1.5rem + 1.5rem)`;
+  const effectivePreviewMaxHeight = previewMaxHeight || minHeight;
   const isPreviewMode = previewEnabled && mode === "preview";
   const isEditMode = !isPreviewMode;
 
@@ -173,6 +175,7 @@ export default function MarkdownEditor({
           value={value}
           placeholder={placeholder || "Nothing to preview yet."}
           minHeight={minHeight}
+          maxHeight={effectivePreviewMaxHeight}
         />
       )}
 

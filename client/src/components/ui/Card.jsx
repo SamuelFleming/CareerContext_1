@@ -10,6 +10,10 @@ const variants = {
   evidence:
     "bg-[var(--evidence-warm)] border border-[var(--evidence-border)] " +
     "border-l-4 border-l-[var(--accent-600)] shadow-[var(--shadow-xs)]",
+  accentSoft:
+    "bg-gradient-to-br from-[var(--accent-100)] to-[var(--neutral-000)] " +
+    "border border-[var(--accent-200)] border-l-4 border-l-[var(--accent-500)] " +
+    "shadow-[var(--shadow-xs)]",
   interactive:
     "bg-[var(--neutral-000)] border border-[var(--neutral-200)] shadow-[var(--shadow-sm)] cursor-pointer " +
     "hover:border-[var(--accent-400)] hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)] " +

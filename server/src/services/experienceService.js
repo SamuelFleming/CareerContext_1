@@ -26,6 +26,8 @@ const toListItem = (experience, activityCount = 0) => {
     dateEnd: json.dateEnd,
     isCurrent: json.isCurrent,
     activityCount,
+    technologies: json.technologies,
+    skills: json.skills,
     updatedAt: json.updatedAt,
   };
 };

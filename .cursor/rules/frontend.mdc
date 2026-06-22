@@ -8,21 +8,6 @@ alwaysApply: false
 
 Sources of truth: `docs/core-scope/06_screen_catalogue_and_data_requirements.md`, `docs/core-scope/07_screen_data_matrix.md`, `docs/core-scope/08_api_contract.md`, `docs/design-concept/FigmaOutput_DesignSystem.md`, `docs/devTickets/phase2/`.
 
-## Current Focus : Phase 2 — Evidence Frontend (current)
-
-Backend tickets **200**–**206** are complete. Execute frontend tickets **in order**:
-
-| Ticket | Screen | Route(s) | Primary APIs |
-|--------|--------|----------|--------------|
-| **212** | 6 — Experience Index | `/experiences` | API-009, API-010 |
-| **213** | 7 — Experience Detail | `/experiences/:experienceId` | API-011–016, API-014 workspace |
-| **214** | 8 — Activity Detail | `/activities/:activityId` | API-018–020 |
-| **215** | 4 — Dashboard | `/dashboard` | Extend `GET /api/dashboard` |
-
-**211 complete.** Services: `experienceService.js`, `activityService.js`. Foundation pages replace `ComingSoonPage` on evidence routes.
-
-Copy patterns from **Profile** (form + save status + service calls) and **Dashboard** (cards, evidence panel, loading/error states).
-
 ## Stack
 
 - **React 19**, **Vite**, **React Router** (`createBrowserRouter` in `client/src/app/router.jsx`)
