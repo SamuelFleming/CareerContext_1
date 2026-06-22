@@ -4,7 +4,7 @@ import Card, {
   CardHeader,
   CardTitle,
 } from "../../../components/ui/Card";
-import MarkdownPreview from "../../../components/editor/MarkdownPreview";
+import MarkdownContentPreview from "../../../components/editor/MarkdownContentPreview";
 
 function resolveSummaryDisplay(polishedSummary = "", rawDescription = "") {
   const polished = polishedSummary?.trim() ?? "";
@@ -43,7 +43,7 @@ export default function ActivitySummaryWidget({
   const display = resolveSummaryDisplay(polishedSummary, rawDescription);
 
   return (
-    <Card variant="evidence" className="flex h-full flex-col gap-4">
+    <Card variant="default" className="flex h-full min-h-[24rem] flex-col gap-4">
       <CardHeader className="mb-0">
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
           <CardTitle className="text-lg">AI summary</CardTitle>
@@ -57,9 +57,10 @@ export default function ActivitySummaryWidget({
       </CardHeader>
 
       <CardContent>
-        <MarkdownPreview
+        <MarkdownContentPreview
           value={display.value}
           minHeight="12rem"
+          maxHeight="16rem"
           placeholder="No summary yet. Use Edit to describe what you did in this activity."
         />
       </CardContent>

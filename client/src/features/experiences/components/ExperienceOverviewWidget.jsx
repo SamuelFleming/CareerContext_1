@@ -4,7 +4,7 @@ import Card, {
   CardHeader,
   CardTitle,
 } from "../../../components/ui/Card";
-import MarkdownPreview from "../../../components/editor/MarkdownPreview";
+import MarkdownContentPreview from "../../../components/editor/MarkdownContentPreview";
 
 function resolveOverviewDisplay(overviewPolished = "", overviewRaw = "") {
   const polished = overviewPolished?.trim() ?? "";
@@ -43,7 +43,7 @@ export default function ExperienceOverviewWidget({
   const display = resolveOverviewDisplay(overviewPolished, overviewRaw);
 
   return (
-    <Card variant="evidence" className="flex h-full flex-col gap-4">
+    <Card variant="default" className="flex h-full min-h-[24rem] flex-col gap-4">
       <CardHeader className="mb-0">
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
           <CardTitle className="text-lg">Overview</CardTitle>
@@ -57,9 +57,10 @@ export default function ExperienceOverviewWidget({
       </CardHeader>
 
       <CardContent>
-        <MarkdownPreview
+        <MarkdownContentPreview
           value={display.value}
           minHeight="12rem"
+          maxHeight="16rem"
           placeholder="No overview yet. Use Edit to add notes about this experience."
         />
       </CardContent>

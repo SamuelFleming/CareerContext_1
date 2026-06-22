@@ -15,7 +15,7 @@ export default function ActivitySkillsTechnologiesWidget({ activity }) {
   const rankedItems = toDisplayChips(activity, { limit: 5 });
 
   return (
-    <Card variant="evidence" className="flex h-full flex-col gap-4">
+    <Card variant="accentSoft" className="flex h-full min-h-[24rem] flex-col gap-4">
       <CardHeader className="mb-0">
         <CardTitle className="text-lg">Skills &amp; technologies</CardTitle>
         <CardDescription>
