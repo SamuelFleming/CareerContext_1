@@ -34,6 +34,13 @@ Tracks completed backend and full-stack development tickets.
 | 236 | Activity skills & technologies CRUD | Phase 2 | 2026-06-20 | `TermChipInput` on create/edit; API-016/018/019 doc sync |
 | 237 | Live skills & technologies chips | Phase 2 | 2026-06-20 | Live chips on index/detail/activity surfaces; mock fallback removed |
 | 238 | Evidence modals & activity detail redesign | Phase 2 | 2026-06-20 | Modal create/edit; activity detail header + widget layout |
+| 239 | Scrollable markdown preview and card restyle | Phase 2 | 2026-06-22 | Separate preview components; bounded previews; neutral/accent detail card styling |
+
+## 239 — Summary
+
+- Introduced `MarkdownContentPreview` for read-only markdown display while keeping `MarkdownPreview` for editor toggle preview.
+- Added bounded, scrollable markdown preview behavior for both editor preview mode and default markdown view cards.
+- Restyled detail cards: markdown summary cards now neutral/white, skills cards now accent/purple, and parent experience card remains evidence yellow.
 
 ## 238 — Summary
 

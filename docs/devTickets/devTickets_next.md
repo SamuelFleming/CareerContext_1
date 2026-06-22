@@ -21,6 +21,7 @@ Tickets live in `docs/devTickets/phase2/`.
 | **236** | Activity skills & technologies CRUD | High | Done — create/edit forms + API-016/018/019 doc sync |
 | **237** | Live skills & technologies chips | Medium | Done — live chips on evidence surfaces; mock fallback removed |
 | **238** | Evidence modals & activity detail redesign | Medium | Done — modal create/edit; activity detail widgets |
+| **239** | Scrollable markdown preview and card restyle | Medium | Done — bounded markdown preview + neutral/accent detail cards |
 
 ### Skills & technologies batch (234–237)
 
