@@ -1,13 +1,13 @@
 ---
 phase: 2
-status: planned
+status: implemented
 source: large-feature plan — JWT expiry handling (item 24)
 ---
 # Ticket 241 — Frontend Session Expiry Handling
 
 ## Status
 
-**Planned**
+**Implemented** — 2026-06-23
 
 ## Phase
 
@@ -106,24 +106,24 @@ Manual test procedure (document in completion notes):
 
 ## Technical tasks
 
-- [ ] Add `ApiError` (or equivalent) and improve `getErrorMessage` parsing
-- [ ] Add `setUnauthorizedHandler` / `onUnauthorized` hook in `apiClient`
-- [ ] Implement `AuthSessionBridge` with navigate + deduped redirect
-- [ ] Extend `authContext` with `handleSessionExpired`
-- [ ] Update `LoginPage` session-expired info banner
-- [ ] Wire bridge in app shell
-- [ ] Run manual expiry test with `JWT_EXPIRES_IN=1m`
+- [x] Add `ApiError` (or equivalent) and improve `getErrorMessage` parsing
+- [x] Add `setUnauthorizedHandler` / `onUnauthorized` hook in `apiClient`
+- [x] Implement `AuthSessionBridge` with navigate + deduped redirect
+- [x] Extend `authContext` with `handleSessionExpired`
+- [x] Update `LoginPage` session-expired info banner
+- [x] Wire bridge in app shell
+- [x] Run manual expiry test with `JWT_EXPIRES_IN=1m`
 
 ## Acceptance criteria
 
-- [ ] Expired JWT during an authenticated session redirects to Login without "Request failed" on the protected screen
-- [ ] Login shows a clear session-expired message (info, not login-form validation error)
-- [ ] Stale token is removed from `localStorage`
-- [ ] `isAuthenticated` becomes `false` after expiry handling
-- [ ] Wrong password on login still shows form error and does **not** trigger global redirect loop
-- [ ] Successful re-login returns user to `state.from` when present
-- [ ] `npm run build` passes
-- [ ] Manual test with `JWT_EXPIRES_IN=1m` documented in completion notes
+- [x] Expired JWT during an authenticated session redirects to Login without "Request failed" on the protected screen
+- [x] Login shows a clear session-expired message (info, not login-form validation error)
+- [x] Stale token is removed from `localStorage`
+- [x] `isAuthenticated` becomes `false` after expiry handling
+- [x] Wrong password on login still shows form error and does **not** trigger global redirect loop
+- [x] Successful re-login returns user to `state.from` when present
+- [x] `npm run build` passes
+- [x] Manual test with `JWT_EXPIRES_IN=1m` documented in completion notes
 
 ## Likely touched files
 
@@ -131,8 +131,13 @@ Manual test procedure (document in completion notes):
 - `client/src/features/auth/authContext.jsx`
 - `client/src/features/auth/LoginPage.jsx`
 - `client/src/features/auth/AuthSessionBridge.jsx` (new)
-- `client/src/App.jsx`
+- `client/src/app/router.jsx`
 
 ## Completion notes
 
-_(empty — fill when implemented)_
+- `apiClient` exports `ApiError`, parses `{ error: { message, code } }`, and registers `setUnauthorizedHandler`.
+- On session `401` (all paths except login/register), handler runs then request returns a non-settling promise so screen `catch` blocks do not flash errors.
+- `AuthSessionBridge` in router `RootLayout` clears session, dedupes redirects, and navigates to `/login` with `reason: session_expired` and preserved `from`.
+- `LoginPage` shows info banner using `--info-100` / `--info-600` tokens.
+- `handleSessionExpired` also sets `isLoading: false` so login remains usable after `/api/auth/me` expiry on load.
+- **Manual verification:** set `JWT_EXPIRES_IN=1m`, restart server, log in, wait >1 min, refresh or navigate — expect login info banner and no protected-page error. Restore `JWT_EXPIRES_IN=1h` after testing.
