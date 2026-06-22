@@ -781,7 +781,11 @@ GET /api/activities/:activityId
     },
     "parentExperience": {
       "id": "experienceId",
-      "title": "QLD Digital Graduate Developer"
+      "title": "QLD Digital Graduate Developer",
+      "type": "job",
+      "dateStart": "2025-01-01",
+      "dateEnd": null,
+      "isCurrent": true
     }
   }
 }

@@ -6,13 +6,13 @@ import Card, {
   CardTitle,
 } from "../../../components/ui/Card";
 import Button from "../../../components/ui/Button";
-import MarkdownPreview from "../../../components/editor/MarkdownPreview";
+import MarkdownContentPreview from "../../../components/editor/MarkdownContentPreview";
 
 export default function ExperiencePolishedOverview({ overviewPolished = "" }) {
   const hasPolished = Boolean(overviewPolished?.trim());
 
   return (
-    <Card variant="evidence" className="flex flex-col gap-4">
+    <Card variant="default" className="flex h-full min-h-[24rem] flex-col gap-4">
       <CardHeader className="mb-0 flex-row items-start justify-between gap-4">
         <div className="flex flex-col gap-1">
           <CardTitle>Polished overview</CardTitle>
@@ -29,7 +29,11 @@ export default function ExperiencePolishedOverview({ overviewPolished = "" }) {
 
       <CardContent>
         {hasPolished ? (
-          <MarkdownPreview value={overviewPolished} minHeight="8rem" />
+          <MarkdownContentPreview
+            value={overviewPolished}
+            minHeight="8rem"
+            maxHeight="16rem"
+          />
         ) : (
           <p className="text-sm text-[var(--primary-600)]">
             No polished overview yet. Write your raw overview above; AI polish

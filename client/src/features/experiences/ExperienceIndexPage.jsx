@@ -6,7 +6,7 @@ import {
   listExperiences,
 } from "../../services/experienceService";
 import ExperienceList from "./components/ExperienceList";
-import CreateExperiencePanel from "./components/CreateExperiencePanel";
+import ExperienceCreateModal from "./components/ExperienceCreateModal";
 import { buildExperiencePayload } from "./components/experienceFormUtils";
 import { emptyCreateForm } from "./components/experienceUi";
 
@@ -140,16 +140,15 @@ export default function ExperienceIndexPage() {
         }
       />
 
-      {isCreateOpen && (
-        <CreateExperiencePanel
-          form={createForm}
-          onChange={handleCreateFieldChange}
-          onSubmit={handleCreateSubmit}
-          onCancel={handleCloseCreate}
-          isSubmitting={isSubmitting}
-          submitError={submitError}
-        />
-      )}
+      <ExperienceCreateModal
+        isOpen={isCreateOpen}
+        form={createForm}
+        onChange={handleCreateFieldChange}
+        onClose={handleCloseCreate}
+        onSubmit={handleCreateSubmit}
+        isSubmitting={isSubmitting}
+        submitError={submitError}
+      />
 
       <ExperienceList
         experiences={experiences}

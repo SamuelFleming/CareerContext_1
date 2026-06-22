@@ -1,12 +1,11 @@
-// client/src/components/editor/MarkdownPreview.jsx
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { cn } from "../../utils/cn";
 import "./markdownEditor.css";
 
-export default function MarkdownPreview({
+export default function MarkdownContentPreview({
   value = "",
-  placeholder = "Nothing to preview yet.",
+  placeholder = "Nothing to display yet.",
   className = "",
   minHeight,
   maxHeight,
@@ -17,8 +16,8 @@ export default function MarkdownPreview({
   return (
     <div
       className={cn(
-        "markdown-editor__preview",
-        isEmpty && "markdown-editor__preview--empty",
+        "markdown-content__preview",
+        isEmpty && "markdown-content__preview--empty",
         className
       )}
       style={{

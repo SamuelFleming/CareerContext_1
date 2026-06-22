@@ -10,9 +10,9 @@ import {
   toDisplayChips,
 } from "../../../utils/skillTechnologyChipUtils";
 
-export default function ExperienceSkillsTechnologiesWidget({ experience }) {
-  const hasTerms = hasSkillTechnologyTerms(experience);
-  const rankedItems = toDisplayChips(experience, { limit: 5 });
+export default function ActivitySkillsTechnologiesWidget({ activity }) {
+  const hasTerms = hasSkillTechnologyTerms(activity);
+  const rankedItems = toDisplayChips(activity, { limit: 5 });
 
   return (
     <Card variant="accentSoft" className="flex h-full min-h-[24rem] flex-col gap-4">
@@ -20,8 +20,8 @@ export default function ExperienceSkillsTechnologiesWidget({ experience }) {
         <CardTitle className="text-lg">Skills &amp; technologies</CardTitle>
         <CardDescription>
           {hasTerms
-            ? "Top items by your entered order. AI-assisted ranking arrives in a later phase."
-            : "Add technologies and skills when editing this experience."}
+            ? "Tagged on this activity. Use Edit to update."
+            : "No skills or technologies captured yet. Use Edit to add terms."}
         </CardDescription>
       </CardHeader>
 

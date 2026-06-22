@@ -9,10 +9,18 @@ const ACTIVITY_SORT_FIELDS = ['updatedAt', 'createdAt', 'title'];
 
 const toActivity = (activity) => activity.toJSON();
 
-const toParentExperience = (experience) => ({
-  id: experience._id.toString(),
-  title: experience.title,
-});
+const toParentExperience = (experience) => {
+  const json = experience.toJSON ? experience.toJSON() : experience;
+
+  return {
+    id: json.id || experience._id.toString(),
+    title: json.title || experience.title,
+    type: json.type || experience.type,
+    dateStart: json.dateStart ?? experience.dateStart,
+    dateEnd: json.dateEnd ?? experience.dateEnd,
+    isCurrent: json.isCurrent ?? experience.isCurrent,
+  };
+};
 
 const listActivitiesForExperience = async (experience, query = {}) => {
   const { limit, offset, sortObject, search } = parseListQuery(query, {

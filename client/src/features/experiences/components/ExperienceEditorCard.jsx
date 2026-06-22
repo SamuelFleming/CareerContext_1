@@ -31,29 +31,29 @@ function ExperienceEditorFields({
 }) {
   return (
     <>
-      <div className="flex flex-col gap-1.5">
-        <label
-          htmlFor="detail-experience-type"
-          className="text-sm font-medium text-[var(--primary-800)]"
-        >
-          Type
-        </label>
-        <select
-          id="detail-experience-type"
-          className={selectClass}
-          value={form.type}
-          onChange={(event) => onChange("type", event.target.value)}
-          disabled={disabled}
-        >
-          {EXPERIENCE_TYPE_OPTIONS.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-      </div>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-[10rem_minmax(0,1fr)]">
+        <div className="flex flex-col gap-1.5">
+          <label
+            htmlFor="detail-experience-type"
+            className="text-sm font-medium text-[var(--primary-800)]"
+          >
+            Type
+          </label>
+          <select
+            id="detail-experience-type"
+            className={selectClass}
+            value={form.type}
+            onChange={(event) => onChange("type", event.target.value)}
+            disabled={disabled}
+          >
+            {EXPERIENCE_TYPE_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Input
           label="Title"
           value={form.title}
@@ -61,6 +61,9 @@ function ExperienceEditorFields({
           disabled={disabled}
           required
         />
+      </div>
+
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Input
           label="Organisation"
           value={form.organisation}

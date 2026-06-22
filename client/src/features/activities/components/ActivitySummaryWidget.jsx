@@ -6,16 +6,16 @@ import Card, {
 } from "../../../components/ui/Card";
 import MarkdownContentPreview from "../../../components/editor/MarkdownContentPreview";
 
-function resolveOverviewDisplay(overviewPolished = "", overviewRaw = "") {
-  const polished = overviewPolished?.trim() ?? "";
-  const raw = overviewRaw?.trim() ?? "";
+function resolveSummaryDisplay(polishedSummary = "", rawDescription = "") {
+  const polished = polishedSummary?.trim() ?? "";
+  const raw = rawDescription?.trim() ?? "";
 
   if (polished) {
     return {
       source: "polished",
       value: polished,
-      label: "AI-polished overview",
-      description: "Showing AI-refined summary. Edit updates the raw overview.",
+      label: "AI-polished summary",
+      description: "Showing AI-refined summary. Edit updates the raw description.",
     };
   }
 
@@ -23,8 +23,8 @@ function resolveOverviewDisplay(overviewPolished = "", overviewRaw = "") {
     return {
       source: "raw",
       value: raw,
-      label: "Raw overview",
-      description: "Showing your authored notes. AI polish will appear here when available.",
+      label: "Raw description",
+      description: "Showing your authored notes until AI polish is available.",
     };
   }
 
@@ -32,21 +32,21 @@ function resolveOverviewDisplay(overviewPolished = "", overviewRaw = "") {
     source: "empty",
     value: "",
     label: null,
-    description: "Add an overview via Edit, or generate a polished summary in a later phase.",
+    description: "No description yet. Use Edit to add activity evidence.",
   };
 }
 
-export default function ExperienceOverviewWidget({
-  overviewRaw = "",
-  overviewPolished = "",
+export default function ActivitySummaryWidget({
+  rawDescription = "",
+  polishedSummary = "",
 }) {
-  const display = resolveOverviewDisplay(overviewPolished, overviewRaw);
+  const display = resolveSummaryDisplay(polishedSummary, rawDescription);
 
   return (
     <Card variant="default" className="flex h-full min-h-[24rem] flex-col gap-4">
       <CardHeader className="mb-0">
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-          <CardTitle className="text-lg">Overview</CardTitle>
+          <CardTitle className="text-lg">AI summary</CardTitle>
           {display.label && (
             <span className="rounded-full border border-[var(--neutral-300)] bg-[var(--neutral-100)] px-2.5 py-0.5 text-xs font-medium text-[var(--primary-600)]">
               {display.label}
@@ -61,7 +61,7 @@ export default function ExperienceOverviewWidget({
           value={display.value}
           minHeight="12rem"
           maxHeight="16rem"
-          placeholder="No overview yet. Use Edit to add notes about this experience."
+          placeholder="No summary yet. Use Edit to describe what you did in this activity."
         />
       </CardContent>
     </Card>

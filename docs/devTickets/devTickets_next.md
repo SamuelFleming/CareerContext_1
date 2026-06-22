@@ -20,10 +20,12 @@ Tickets live in `docs/devTickets/phase2/`.
 | **235** | Experience skills & technologies CRUD | High | Done — create/edit forms + API-009 list fields |
 | **236** | Activity skills & technologies CRUD | High | Done — create/edit forms + API-016/018/019 doc sync |
 | **237** | Live skills & technologies chips | Medium | Done — live chips on evidence surfaces; mock fallback removed |
+| **238** | Evidence modals & activity detail redesign | Medium | Done — modal create/edit; activity detail widgets |
+| **239** | Scrollable markdown preview and card restyle | Medium | Done — bounded markdown preview + neutral/accent detail cards |
 
 ### Skills & technologies batch (234–237)
 
-Manual entry and live chip display for Experience and Activity — **complete**. Data model and backend validation **already exist** (**201**, **204**); work is UI + API doc sync + index list fields. AI derivation spec: **238** (Phase 4).
+Manual entry and live chip display for Experience and Activity — **complete**. AI derivation spec backlogged in Phase 4 (`phase4/4xx-ai-derived-skills-technologies-spec.md`).
 
 ### Phase 2 backend (complete)
 
@@ -57,4 +59,4 @@ Manual entry and live chip display for Experience and Activity — **complete**.
 | Ticket | Title | Priority | Notes |
 |--------|-------|----------|-------|
 | — | AI summarisation of `rawSummaryMd` | Low | Polished summary fields on CoreContext |
-| **4xx** | AI-derived skills & technologies (spec) | Low | Spec only — see `phase4/238-...`; implement in Phase 4 |
+| **4xx** | AI-derived skills & technologies (spec) | Low | Spec only — see `phase4/4xx-ai-derived-skills-technologies-spec.md`; implement in Phase 4 |
