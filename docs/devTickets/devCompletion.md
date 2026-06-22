@@ -35,6 +35,7 @@ Tracks completed backend and full-stack development tickets.
 | 237 | Live skills & technologies chips | Phase 2 | 2026-06-20 | Live chips on index/detail/activity surfaces; mock fallback removed |
 | 238 | Evidence modals & activity detail redesign | Phase 2 | 2026-06-20 | Modal create/edit; activity detail header + widget layout |
 | 239 | Scrollable markdown preview and card restyle | Phase 2 | 2026-06-22 | Separate preview components; bounded previews; neutral/accent detail card styling |
+| 240 | Backend JWT expiry responses | Phase 2 | 2026-06-23 | Auth middleware returns `AUTH_REQUIRED` / `TOKEN_EXPIRED` / `TOKEN_INVALID` with contract envelope |
 
 ## 239 — Summary
 

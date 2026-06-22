@@ -32,6 +32,27 @@ All endpoints are authenticated unless explicitly marked public.
 
 Authenticated endpoints use the current user from the JWT/session. The client should not send `userId` for normal user-owned resources.
 
+#### Authentication errors
+
+JWT-protected routes use `authenticateWithJwt`. On failure they return **401** with:
+
+```json
+{
+  "error": {
+    "message": "Human-readable message",
+    "code": "ERROR_CODE"
+  }
+}
+```
+
+| `code` | When | Typical `message` |
+|--------|------|-------------------|
+| `AUTH_REQUIRED` | No `Authorization: Bearer` token | Not authenticated |
+| `TOKEN_EXPIRED` | JWT past `exp` | Session has expired |
+| `TOKEN_INVALID` | Malformed, bad signature, or other verify failure | Invalid or malformed token |
+
+These codes apply to all authenticated endpoints (API-003 onward), not only `/api/auth/me`.
+
 ### Response Envelope
 
 Successful responses should generally use:
@@ -257,7 +278,7 @@ GET /api/auth/me
 
 ### Error Statuses
 
-- 401 not authenticated
+- 401 not authenticated — `AUTH_REQUIRED`, `TOKEN_EXPIRED`, or `TOKEN_INVALID` (see [Authentication errors](#authentication-errors))
 
 ---
 

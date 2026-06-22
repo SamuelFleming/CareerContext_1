@@ -1,13 +1,13 @@
 ---
 phase: 2
-status: planned
+status: implemented
 source: large-feature plan — JWT expiry handling (item 24)
 ---
 # Ticket 240 — Backend JWT Expiry Responses
 
 ## Status
 
-**Planned**
+**Implemented** — 2026-06-23
 
 ## Phase
 
@@ -98,21 +98,21 @@ Revert to `1h` (or omit) after verification. No committed `.env` changes require
 
 ## Technical tasks
 
-- [ ] Map `err.name === 'TokenExpiredError'` to `TOKEN_EXPIRED` response
-- [ ] Map missing token to `AUTH_REQUIRED`
-- [ ] Map other verify failures to `TOKEN_INVALID`
-- [ ] Use contract envelope `{ error: { message, code } }` consistently in auth middleware
-- [ ] Update `08_api_contract.md` auth error codes
-- [ ] Note short `JWT_EXPIRES_IN` for local expiry testing in `server/README.md`
+- [x] Map `err.name === 'TokenExpiredError'` to `TOKEN_EXPIRED` response
+- [x] Map missing token to `AUTH_REQUIRED`
+- [x] Map other verify failures to `TOKEN_INVALID`
+- [x] Use contract envelope `{ error: { message, code } }` consistently in auth middleware
+- [x] Update `08_api_contract.md` auth error codes
+- [x] Note short `JWT_EXPIRES_IN` for local expiry testing in `server/README.md`
 
 ## Acceptance criteria
 
-- [ ] Missing token on a protected route returns `401` with `code: AUTH_REQUIRED`
-- [ ] Expired token returns `401` with `code: TOKEN_EXPIRED` and message indicating session timeout
-- [ ] Malformed/invalid token returns `401` with `code: TOKEN_INVALID`
-- [ ] Responses use `{ error: { message, code } }` envelope
-- [ ] `08_api_contract.md` documents auth error codes
-- [ ] Manual curl test with expired token (after `JWT_EXPIRES_IN=1m`) returns `TOKEN_EXPIRED`
+- [x] Missing token on a protected route returns `401` with `code: AUTH_REQUIRED`
+- [x] Expired token returns `401` with `code: TOKEN_EXPIRED` and message indicating session timeout
+- [x] Malformed/invalid token returns `401` with `code: TOKEN_INVALID`
+- [x] Responses use `{ error: { message, code } }` envelope
+- [x] `08_api_contract.md` documents auth error codes
+- [x] Manual curl test with expired token (after `JWT_EXPIRES_IN=1m`) returns `TOKEN_EXPIRED`
 
 ## Likely touched files
 
@@ -122,4 +122,7 @@ Revert to `1h` (or omit) after verification. No committed `.env` changes require
 
 ## Completion notes
 
-_(empty — fill when implemented)_
+- `authenticateWithJwt` now returns `{ error: { message, code } }` for `AUTH_REQUIRED`, `TOKEN_EXPIRED`, and `TOKEN_INVALID`.
+- Contract updated with **Authentication errors** subsection; API-003 error notes cross-link the codes.
+- `server/README.md` documents `JWT_EXPIRES_IN=1m` for local expiry testing (**241**).
+- Verified via direct middleware invocation: all three codes return `401` with correct envelope. Restart `node server.js` to pick up changes on a running dev instance.
