@@ -1,13 +1,13 @@
 ---
 phase: 2
-status: planned
+status: implemented
 source: large-feature plan — Phase 2 Dashboard Enhancements
 ---
 # Ticket 242 — Dashboard API: Live Interactive CV Payload
 
 ## Status
 
-**Planned**
+**Implemented** — 2026-06-23
 
 ## Phase
 
@@ -123,22 +123,22 @@ Replace flat string array with a documented scaffold shape, e.g.:
 
 ## Technical tasks
 
-- [ ] Add `buildHighlightExperiences(userId)` in `dashboardService.js`
-- [ ] Add `buildTopSkillsAndTechnologies(userId)` aggregation helper
-- [ ] Refactor `coreCompetencies` to scaffold envelope
-- [ ] Cap recent activity at 4; add `recentOpportunities` scaffold
-- [ ] Remove API use of `PHASE1_HIGHLIGHT_EXPERIENCES` for users with real data; return `[]` when empty
-- [ ] Update `08_api_contract.md` API-004
+- [x] Add `buildHighlightExperiences(userId)` in `dashboardService.js`
+- [x] Add `buildTopSkillsAndTechnologies(userId)` aggregation helper
+- [x] Refactor `coreCompetencies` to scaffold envelope
+- [x] Cap recent activity at 4; add `recentOpportunities` scaffold
+- [x] Remove API use of `PHASE1_HIGHLIGHT_EXPERIENCES` for users with real data; return `[]` when empty
+- [x] Update `08_api_contract.md` API-004
 
 ## Acceptance criteria
 
-- [ ] `highlightExperiences` returns up to 3 real experiences with card-slice fields when evidence exists
-- [ ] `highlightExperiences` returns `[]` when user has no experiences (no mock highlights in API)
-- [ ] `topSkillsAndTechnologies` returns up to 5 aggregated terms from persisted skills/technologies
-- [ ] `coreCompetencies` uses scaffold envelope with `status: "scaffold"` and mock items
-- [ ] `recentActivity.items` capped at 4
-- [ ] `recentOpportunities` scaffold present with `status: "not_implemented"`
-- [ ] API-004 contract updated
+- [x] `highlightExperiences` returns up to 3 real experiences with card-slice fields when evidence exists
+- [x] `highlightExperiences` returns `[]` when user has no experiences (no mock highlights in API)
+- [x] `topSkillsAndTechnologies` returns up to 5 aggregated terms from persisted skills/technologies
+- [x] `coreCompetencies` uses scaffold envelope with `status: "scaffold"` and mock items
+- [x] `recentActivity.items` capped at 4
+- [x] `recentOpportunities` scaffold present with `status: "not_implemented"`
+- [x] API-004 contract updated
 
 ## Likely touched files
 
@@ -148,4 +148,9 @@ Replace flat string array with a documented scaffold shape, e.g.:
 
 ## Completion notes
 
-_(empty — fill when implemented)_
+- `buildHighlightExperiences` — up to 3 experiences, card-slice fields, `[]` when none.
+- `buildTopSkillsAndTechnologies` — frequency-ranked top 5 from all experiences + activities.
+- `buildCoreCompetenciesScaffold` — `{ status, source, message, items }` envelope.
+- `buildEvidencePanel` — recent activity cap 4, `recentOpportunities` scaffold, `defaultView: recentActivity`.
+- Removed `PHASE1_HIGHLIGHT_EXPERIENCES` from server mocks constant.
+- **243** / **244** should consume new shapes; client may need updates before dashboard renders correctly.

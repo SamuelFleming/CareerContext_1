@@ -37,6 +37,7 @@ Tracks completed backend and full-stack development tickets.
 | 239 | Scrollable markdown preview and card restyle | Phase 2 | 2026-06-22 | Separate preview components; bounded previews; neutral/accent detail card styling |
 | 240 | Backend JWT expiry responses | Phase 2 | 2026-06-23 | Auth middleware returns `AUTH_REQUIRED` / `TOKEN_EXPIRED` / `TOKEN_INVALID` with contract envelope |
 | 241 | Frontend session expiry handling | Phase 2 | 2026-06-23 | `ApiError`, `AuthSessionBridge`, login session-expired banner; global 401 intercept |
+| 242 | Dashboard API: live Interactive CV payload | Phase 2 | 2026-06-23 | Live highlightExperiences, topSkillsAndTechnologies, competencies scaffold envelope |
 
 ## 239 — Summary
 
