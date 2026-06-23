@@ -25,7 +25,7 @@ Tickets live in `docs/devTickets/phase2/`.
 | **240** | Backend JWT expiry responses | High | Done — contract-aligned 401 codes (`TOKEN_EXPIRED`, etc.) |
 | **241** | Frontend session expiry handling | High | Done — global 401 intercept, login re-prompt, no "Request failed" UX |
 | **242** | Dashboard API: live Interactive CV payload | High | Done — real highlights, top 5 skills/tech, competencies scaffold |
-| **243** | Dashboard Interactive CV UI | High | Planned — landing-style CV, clickable highlights, scaffold hover |
+| **243** | Dashboard Interactive CV UI | High | Done — landing-style CV, clickable highlights, scaffold hover |
 | **244** | Dashboard evidence panel restructure | Medium | Planned — summary always visible; activity vs opportunities toggle |
 
 ### Dashboard enhancements (242–244)

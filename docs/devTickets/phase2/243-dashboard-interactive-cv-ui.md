@@ -1,13 +1,13 @@
 ---
 phase: 2
-status: planned
+status: implemented
 source: large-feature plan — Phase 2 Dashboard Enhancements
 ---
 # Ticket 243 — Dashboard Interactive CV UI
 
 ## Status
 
-**Planned**
+**Implemented** — 2026-06-23
 
 ## Phase
 
@@ -101,21 +101,21 @@ Do **not** copy landing-only content (fake name, opportunity/document mini-cards
 
 ## Technical tasks
 
-- [ ] Update `InteractiveCvCard.jsx` layout and styling
-- [ ] Wire live highlights, top terms, scaffold competencies
-- [ ] Add competency hover popover component (dashboard-local is fine)
-- [ ] Make experience cards navigable
-- [ ] Update `phase1MockData.js` / remove highlight fallback
-- [ ] Update `DashboardPage.jsx` and `dashboardService.js` JSDoc
+- [x] Update `InteractiveCvCard.jsx` layout and styling
+- [x] Wire live highlights, top terms, scaffold competencies
+- [x] Add competency hover popover component (dashboard-local is fine)
+- [x] Make experience cards navigable
+- [x] Update `phase1MockData.js` / remove highlight fallback
+- [x] Update `DashboardPage.jsx` and `dashboardService.js` JSDoc
 
 ## Acceptance criteria
 
-- [ ] Experience highlight cards show API data and navigate to `/experiences/:id` on click
-- [ ] Top 5 skills/technologies reflect persisted evidence (not mocks)
-- [ ] Core competencies appear as obvious scaffold with hover explanation dialog
-- [ ] Interactive CV uses landing-style gradient and nested profile card; dashboard-specific content retained
-- [ ] Empty states shown when no experiences or no skills (no silent mock fallback)
-- [ ] `npm run build` passes
+- [x] Experience highlight cards show API data and navigate to `/experiences/:id` on click
+- [x] Top 5 skills/technologies reflect persisted evidence (not mocks)
+- [x] Core competencies appear as obvious scaffold with hover explanation dialog
+- [x] Interactive CV uses landing-style gradient and nested profile card; dashboard-specific content retained
+- [x] Empty states shown when no experiences or no skills (no silent mock fallback)
+- [x] `npm run build` passes
 
 ## Likely touched files
 
@@ -127,4 +127,8 @@ Do **not** copy landing-only content (fake name, opportunity/document mini-cards
 
 ## Completion notes
 
-_(empty — fill when implemented)_
+- `InteractiveCvCard` — landing gradient shell, nested profile card, live `topSkillsAndTechnologies`, scaffold competencies with “Preview” label, clickable `EvidenceCard` highlights via `navigate(href)`.
+- `CompetencyScaffoldChip` — dashed chips with CSS hover/focus tooltip.
+- Removed `phase1MockData.js` and all client mock fallbacks.
+- Section order: Profile → Skills & technologies → Core competencies (scaffold) → Experiences.
+- **244** remains for evidence panel right-column restructure.
