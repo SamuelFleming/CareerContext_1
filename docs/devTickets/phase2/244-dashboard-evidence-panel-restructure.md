@@ -1,13 +1,13 @@
 ---
 phase: 2
-status: planned
+status: implemented
 source: large-feature plan — Phase 2 Dashboard Enhancements
 ---
 # Ticket 244 — Dashboard Evidence Panel Restructure
 
 ## Status
 
-**Planned**
+**Implemented** — 2026-06-23
 
 ## Phase
 
@@ -104,21 +104,21 @@ RecentFeedsPanel
 
 ## Technical tasks
 
-- [ ] Create `EvidenceSummaryCard.jsx`
-- [ ] Refactor toggle panel to Recent Activity / Recent Opportunities
-- [ ] Add entity-type row styling in recent activity list
-- [ ] Wire scaffold empty state for opportunities
-- [ ] Update `DashboardPage.jsx` layout
-- [ ] Update `dashboardService.js` JSDoc / fallback state
+- [x] Create `EvidenceSummaryCard.jsx`
+- [x] Refactor toggle panel to Recent Activity / Recent Opportunities
+- [x] Add entity-type row styling in recent activity list
+- [x] Wire scaffold empty state for opportunities
+- [x] Update `DashboardPage.jsx` layout
+- [x] Update `dashboardService.js` JSDoc / fallback state
 
 ## Acceptance criteria
 
-- [ ] Evidence Summary always visible below profile prompt; not inside toggle
-- [ ] Toggle switches between Recent Activity and Recent Opportunities only
-- [ ] Recent Activity shows up to 4 items with distinct styling per entity type (not experience-card yellow)
-- [ ] Recent Opportunities tab shows “not implemented” / Phase 3 scaffold message
-- [ ] Profile completeness prompt unchanged
-- [ ] `npm run build` passes
+- [x] Evidence Summary always visible below profile prompt; not inside toggle
+- [x] Toggle switches between Recent Activity and Recent Opportunities only
+- [x] Recent Activity shows up to 4 items with distinct styling per entity type (not experience-card yellow)
+- [x] Recent Opportunities tab shows “not implemented” / Phase 3 scaffold message
+- [x] Profile completeness prompt unchanged
+- [x] `npm run build` passes
 
 ## Likely touched files
 
@@ -129,4 +129,7 @@ RecentFeedsPanel
 
 ## Completion notes
 
-_(empty — fill when implemented)_
+- Split `EvidencePanel` into `EvidenceSummaryCard` (always visible) and `RecentFeedsPanel` (Activity / Opportunities tabs).
+- Recent activity rows: experience = white/neutral, activity = accent tint, journal = neutral-100 reserved.
+- Removed `EvidencePanel.jsx`; dashboard right column is three stacked cards.
+- Dashboard enhancements batch **242**–**244** complete.

@@ -26,11 +26,11 @@ Tickets live in `docs/devTickets/phase2/`.
 | **241** | Frontend session expiry handling | High | Done — global 401 intercept, login re-prompt, no "Request failed" UX |
 | **242** | Dashboard API: live Interactive CV payload | High | Done — real highlights, top 5 skills/tech, competencies scaffold |
 | **243** | Dashboard Interactive CV UI | High | Done — landing-style CV, clickable highlights, scaffold hover |
-| **244** | Dashboard evidence panel restructure | Medium | Planned — summary always visible; activity vs opportunities toggle |
+| **244** | Dashboard evidence panel restructure | Medium | Done — summary always visible; activity vs opportunities toggle |
 
 ### Dashboard enhancements (242–244)
 
-Phase 2 dashboard UX batch: wire Interactive CV to live evidence (**242**–**243**), align CV styling with landing page, scaffold AI core competencies, and restructure right column (**244**). Depends on skills/technologies work (**234**–**237**) and dashboard evidence integration (**215**).
+Phase 2 dashboard UX batch — **complete** (**242** API, **243** Interactive CV UI, **244** evidence panel restructure).
 
 ### JWT expiry handling (240–241)
 
