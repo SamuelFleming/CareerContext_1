@@ -29,7 +29,13 @@ const emptyDashboard = {
     summaryPreview: null,
     summaryUpdatedAt: null,
     reviewSuggested: false,
-    coreCompetencies: [],
+    coreCompetencies: {
+      status: "scaffold",
+      source: "dashboard_mock",
+      message: "",
+      items: [],
+    },
+    topSkillsAndTechnologies: [],
     highlightExperiences: [],
   },
   evidencePanel: {
