@@ -1,13 +1,13 @@
 ---
 phase: 4
 status: planned
-source: large-feature plan — future AI integration (spec only)
+source: large-feature plan — AI-derived skills & technologies (parent spec)
 ---
-# Ticket 238 — AI-Derived Skills & Technologies (Specification)
+# Ticket 4xx — AI-Derived Skills & Technologies (Parent Spec)
 
 ## Status
 
-**Planned** — specification only; **no implementation** in Phase 2
+**Planned** — specification / planning index; **no implementation** until Phase 4 execution
 
 ## Phase
 
@@ -15,86 +15,79 @@ Phase 4 — AI Workflows
 
 ## Depends on
 
-- **234**–**237** — Manual entry and live chip display (Phase 2)
-- Future taxonomy / document-model design (not formalised)
+- Phase 2 **234**–**237** — Manual `skills[]` / `technologies[]` on Experience and Activity
+- Phase 2 **242**–**243** — Dashboard Interactive CV live aggregation + `coreCompetencies` scaffold envelope
+
+## Child implementation tickets
+
+| Ticket | Area | Summary |
+|--------|------|---------|
+| [**401**](401-ai-derived-skills-technologies-backend.md) | Backend | AI extraction, merge policy, profile competency derivation, API contract |
+| [**402**](402-ai-derived-skills-technologies-frontend.md) | Frontend | Review/suggest UI on evidence screens + live dashboard competencies |
+
+Implement **401** before **402**.
 
 ## Objective
 
-Document how AI will **derive, classify, rank, and persist** skills and technologies at Activity, Experience, and (later) Profile levels — without implementing AI in this ticket.
+Define how AI **derives, classifies, ranks, and persists** skills and technologies across the career evidence layer — building on manual entry and the dashboard scaffolds introduced in Phase 2.
 
-## Background
+## Current state (post Phase 2)
 
-Product intent (unofficial): maintain a reusable career context layer where terms can be extracted from evidence text and ranked for reuse in evaluations and documents. Manual entry (**235**–**237**) establishes the field shape; AI will augment—not replace—user-authored terms.
+| Surface | Skills/technologies today | AI readiness |
+|---------|---------------------------|--------------|
+| **Activity** | Manual `skills[]`, `technologies[]` on create/edit | Text source: `rawDescription` |
+| **Experience** | Manual arrays on create/edit; live chips on index/detail | Text source: `overviewRaw` + child activities |
+| **Dashboard `topSkillsAndTechnologies`** | **Live** — frequency-ranked top 5 from all evidence (**242**) | No AI; aggregation only |
+| **Dashboard `coreCompetencies`** | **Scaffold** — `status: "scaffold"`, mock labels (**242**–**243**) | Target for profile-level AI derivation |
+| **Opportunity matching** | Not implemented | Out of scope for **401**/**402** |
 
-## Proposed behaviour (future)
+Manual terms are **authoritative**. AI must suggest or append — not silently replace user-entered tags.
 
-### Extraction sources
+## Proposed behaviour (summary)
 
-| Level | Primary inputs | Output fields |
-|-------|----------------|---------------|
-| Activity | `rawDescription`, optional journal links | `skills[]`, `technologies[]` |
-| Experience | `overviewRaw`, child activities | `skills[]`, `technologies[]` (rollup) |
-| Profile / CoreContext | `rawSummaryMd`, aggregated evidence | TBD — separate ticket |
+### Extraction levels
 
-### Merge policy (draft)
+| Level | Primary inputs | Output |
+|-------|----------------|--------|
+| Activity | `rawDescription` | Suggested `skills[]`, `technologies[]` |
+| Experience | `overviewRaw`, child activity terms | Suggested rollup + reorder |
+| Profile / Dashboard CV | `rawSummaryMd`, aggregated evidence | `interactiveCv.coreCompetencies` → `status: "live"` |
 
-1. **User-entered terms are authoritative** — AI must not silently delete manual tags.
-2. AI may **suggest** new terms (review UI) or **append** with `source: ai` metadata in a later schema extension.
-3. **Ranking**: array order reflects significance; AI reorder proposes ranked lists user can accept.
-4. **Classification**: heuristic or model assigns `technology` vs `skill` bucket before chip variant mapping.
+### Merge policy (MVP Phase 4)
 
-### API sketch (not implemented)
+1. User-entered terms are never deleted by AI without explicit user action.
+2. AI suggestions are returned for **review** before persist (no silent overwrite).
+3. Classification: assign `technology` vs `skill` before chip display.
+4. Ranking: array order = significance; AI may propose reorder user accepts.
+5. Defer structured term objects (`source`, `confidence`) until a taxonomy ticket — Phase 4 may stay on `string[]` with metadata in API response only.
 
-- `POST /api/activities/:activityId/extract-terms` — returns suggested `{ skills, technologies }`
-- `POST /api/experiences/:experienceId/extract-terms` — rollup from overview + activities
-- Persist via existing PUT endpoints after user confirmation, or dedicated accept endpoint
+### API direction (detail in **401**)
 
-### Schema extensions (future — not Phase 2)
+- `POST /api/activities/:activityId/extract-terms` (suggest)
+- `POST /api/experiences/:experienceId/extract-terms` (rollup suggest)
+- Profile competency derivation feeding `GET /api/dashboard` `coreCompetencies` envelope
+- Persist via existing PUT endpoints after user confirmation
 
-Possible evolution beyond `string[]`:
+### UI direction (detail in **402**)
 
-```js
-// Illustrative only — not MVP
-{
-  label: "React",
-  kind: "technology",
-  source: "manual" | "ai",
-  rank: 1,
-  confidence: 0.92
-}
-```
+- “Suggest from description” on Activity and Experience edit surfaces
+- Review/diff panel for proposed vs current chips
+- Dashboard: replace scaffold competencies with live AI-derived chips (remove dashed preview styling)
+- Transparency affordance: AI-suggested vs manual where useful
 
-Defer structured term objects until document-model / taxonomy phase.
+## Out of scope (parent)
 
-### UI affordances (future)
-
-- “Suggest from description” on Activity and Experience forms
-- Diff/review panel: proposed vs current chips
-- Experience detail widget: badge for AI-suggested vs manual (transparency)
-
-## Out of scope (this ticket)
-
-- Any server or client implementation
-- OpenAI / model integration
-- Profile-level skills
-- Opportunity requirement matching
-
-## Acceptance criteria (when implemented in Phase 4)
-
-- [ ] Spec reviewed and linked from Phase 4 queue
-- [ ] Child implementation tickets created before coding
-- [ ] Manual terms preserved per merge policy
-
-## Deliverable for Phase 2 planning
-
-This file satisfies the planning requirement to **provide specs for a future AI task**. Implementation tickets to be created when Phase 4 starts (e.g. **238.1** Activity extraction, **238.2** Experience rollup).
+- Opportunity requirement extraction / matching
+- Shared taxonomy service (unless spun out as separate ticket)
+- Schema migration to rich term objects (optional later)
+- Journal-derived terms (Phase 5)
 
 ## Open questions
 
-1. Should AI overwrite array order or only append?
-2. Is a shared taxonomy service required before extraction?
-3. Do Opportunity `extractedSkills` fields share the same term normalisation?
+1. Should AI reorder existing manual terms or only append?
+2. Shared term normalisation with Opportunity `extractedSkills` (Phase 3)?
+3. Minimum confidence threshold before showing a suggestion?
 
 ## Notes
 
-Phase 2 tickets **234**–**237** use simple `string[]` on Experience and Activity per `05_data_model.md`. No schema migration required for manual entry.
+Phase 2 ticket **237** removed mock chip fallbacks on evidence surfaces. Dashboard **243** keeps competency scaffold visually distinct until **402** ships.
