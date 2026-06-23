@@ -32,7 +32,7 @@ import { apiRequest } from "./apiClient";
  *     defaultView: string,
  *     evidenceSummary: { status, message, counts: { experiences, activities, journalEntries } },
  *     recentActivity: { status, message, items: Array<{ id, entityType, title, updatedAt, href }> },
- *     recentOpportunities?: { status, message, items: [] }
+ *     recentOpportunities: { status: 'not_implemented' | string, message: string, items: Array<{ id?: string, title?: string }> }
  *   },
  *   phasePlaceholders
  * } }>}

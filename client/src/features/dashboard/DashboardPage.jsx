@@ -5,7 +5,8 @@ import Button from "../../components/ui/Button";
 import { getDashboard } from "../../services/dashboardService";
 import InteractiveCvCard from "./components/InteractiveCvCard";
 import ProfileCompletenessPrompt from "./components/ProfileCompletenessPrompt";
-import EvidencePanel from "./components/EvidencePanel";
+import EvidenceSummaryCard from "./components/EvidenceSummaryCard";
+import RecentFeedsPanel from "./components/RecentFeedsPanel";
 
 const emptyDashboard = {
   identity: {
@@ -39,7 +40,7 @@ const emptyDashboard = {
     highlightExperiences: [],
   },
   evidencePanel: {
-    defaultView: "evidenceSummary",
+    defaultView: "recentActivity",
     evidenceSummary: {
       status: "empty",
       message: "No experiences yet. Add evidence from the Experiences workspace.",
@@ -48,6 +49,11 @@ const emptyDashboard = {
     recentActivity: {
       status: "empty",
       message: "Your latest captured evidence will appear here.",
+      items: [],
+    },
+    recentOpportunities: {
+      status: "not_implemented",
+      message: "Opportunity tracking arrives in Phase 3.",
       items: [],
     },
   },
@@ -88,6 +94,10 @@ export default function DashboardPage() {
           recentActivity: {
             ...emptyDashboard.evidencePanel.recentActivity,
             ...data.evidencePanel?.recentActivity,
+          },
+          recentOpportunities: {
+            ...emptyDashboard.evidencePanel.recentOpportunities,
+            ...data.evidencePanel?.recentOpportunities,
           },
         },
       });
@@ -154,7 +164,10 @@ export default function DashboardPage() {
           <ProfileCompletenessPrompt
             profileCompleteness={dashboard.profileCompleteness}
           />
-          <EvidencePanel evidencePanel={dashboard.evidencePanel} />
+          <EvidenceSummaryCard
+            evidenceSummary={dashboard.evidencePanel.evidenceSummary}
+          />
+          <RecentFeedsPanel evidencePanel={dashboard.evidencePanel} />
         </div>
       </div>
     </div>
