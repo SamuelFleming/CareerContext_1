@@ -17,6 +17,7 @@ export default function LoginPage() {
   const [fieldErrors, setFieldErrors] = useState({});
   const [formError, setFormError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const sessionExpired = location.state?.reason === "session_expired";
 
   if (!isLoading && isAuthenticated) {
     return <Navigate to="/dashboard" replace />;
@@ -73,6 +74,15 @@ export default function LoginPage() {
             Access your CareerContext workspace.
           </p>
         </div>
+
+        {sessionExpired && (
+          <div
+            role="status"
+            className="rounded-md border border-[var(--info-100)] bg-[var(--info-100)] px-4 py-3 text-sm text-[var(--info-600)]"
+          >
+            Your session expired. Please sign in again.
+          </div>
+        )}
 
         {formError && (
           <div

@@ -22,6 +22,19 @@ Tickets live in `docs/devTickets/phase2/`.
 | **237** | Live skills & technologies chips | Medium | Done — live chips on evidence surfaces; mock fallback removed |
 | **238** | Evidence modals & activity detail redesign | Medium | Done — modal create/edit; activity detail widgets |
 | **239** | Scrollable markdown preview and card restyle | Medium | Done — bounded markdown preview + neutral/accent detail cards |
+| **240** | Backend JWT expiry responses | High | Done — contract-aligned 401 codes (`TOKEN_EXPIRED`, etc.) |
+| **241** | Frontend session expiry handling | High | Done — global 401 intercept, login re-prompt, no "Request failed" UX |
+| **242** | Dashboard API: live Interactive CV payload | High | Done — real highlights, top 5 skills/tech, competencies scaffold |
+| **243** | Dashboard Interactive CV UI | High | Done — landing-style CV, clickable highlights, scaffold hover |
+| **244** | Dashboard evidence panel restructure | Medium | Done — summary always visible; activity vs opportunities toggle |
+
+### Dashboard enhancements (242–244)
+
+Phase 2 dashboard UX batch — **complete** (**242** API, **243** Interactive CV UI, **244** evidence panel restructure).
+
+### JWT expiry handling (240–241)
+
+Cross-cutting auth hardening — **complete** (**240** backend codes, **241** frontend intercept + login re-prompt). Verify end-to-end locally with `JWT_EXPIRES_IN=1m` in `server/.env` if not already tested.
 
 ### Skills & technologies batch (234–237)
 

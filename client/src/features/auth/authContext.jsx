@@ -66,6 +66,12 @@ export function AuthProvider({ children }) {
     setUser(null);
   }, []);
 
+  const handleSessionExpired = useCallback(() => {
+    clearStoredToken();
+    setUser(null);
+    setIsLoading(false);
+  }, []);
+
   const value = useMemo(
     () => ({
       user,
@@ -74,8 +80,9 @@ export function AuthProvider({ children }) {
       login,
       register,
       logout,
+      handleSessionExpired,
     }),
-    [user, isLoading, login, register, logout]
+    [user, isLoading, login, register, logout, handleSessionExpired]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

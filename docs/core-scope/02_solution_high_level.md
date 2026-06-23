@@ -22,6 +22,7 @@ The database remains the source of truth. AI acts as an assistant layer over the
 ### Included in MVP
 
 - User registration and login
+- JWT token with simple expiry handling
 - User profile basics
 - Core Context editor
 - Core resume upload or paste
@@ -269,12 +270,20 @@ Can manage their own:
 - opportunities
 - AI-generated outputs
 
+## JWT session handling (MVP)
+
+The MVP uses **stateless JWT access tokens** issued at login and registration. 
+- The client stores the token and sends it as a `Bearer` token on authenticated API requests. 
+- When a token is missing, expired, or invalid, the API returns **401** with a machine-readable code (for example `TOKEN_EXPIRED`) so the client can distinguish session timeout from other failures. 
+- The frontend clears the stale session and redirects  to login with a short message —  the user signs in again to continue.
+
 ## Not Included in MVP
 
 - Admin role
 - organisation role
 - shared workspaces
 - public profiles
+- refresh-token or silent re-auth flow
 
 ---
 

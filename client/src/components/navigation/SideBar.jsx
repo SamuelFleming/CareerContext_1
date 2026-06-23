@@ -82,7 +82,7 @@ export default function Sidebar({ mobileOpen = false, onMobileClose }) {
 
   return (
     <>
-      <aside className="hidden flex-col gap-8 bg-[var(--primary-900)] p-6 text-white md:flex">
+      <aside className="hidden h-full flex-col gap-8 overflow-y-auto bg-[var(--primary-900)] p-6 text-white md:flex">
         {panel}
       </aside>
 

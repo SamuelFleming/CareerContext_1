@@ -32,6 +32,27 @@ All endpoints are authenticated unless explicitly marked public.
 
 Authenticated endpoints use the current user from the JWT/session. The client should not send `userId` for normal user-owned resources.
 
+#### Authentication errors
+
+JWT-protected routes use `authenticateWithJwt`. On failure they return **401** with:
+
+```json
+{
+  "error": {
+    "message": "Human-readable message",
+    "code": "ERROR_CODE"
+  }
+}
+```
+
+| `code` | When | Typical `message` |
+|--------|------|-------------------|
+| `AUTH_REQUIRED` | No `Authorization: Bearer` token | Not authenticated |
+| `TOKEN_EXPIRED` | JWT past `exp` | Session has expired |
+| `TOKEN_INVALID` | Malformed, bad signature, or other verify failure | Invalid or malformed token |
+
+These codes apply to all authenticated endpoints (API-003 onward), not only `/api/auth/me`.
+
 ### Response Envelope
 
 Successful responses should generally use:
@@ -257,7 +278,7 @@ GET /api/auth/me
 
 ### Error Statuses
 
-- 401 not authenticated
+- 401 not authenticated — `AUTH_REQUIRED`, `TOKEN_EXPIRED`, or `TOKEN_INVALID` (see [Authentication errors](#authentication-errors))
 
 ---
 
@@ -304,37 +325,65 @@ GET /api/dashboard
       "summaryPreview": "I am currently working in a full-stack .NET public sector role...",
       "summaryUpdatedAt": "2026-06-08T00:00:00.000Z",
       "reviewSuggested": false,
-      "coreCompetencies": ["React", "Node.js", "Leadership", "Express"],
+      "coreCompetencies": {
+        "status": "scaffold",
+        "source": "dashboard_mock",
+        "message": "Profile-level competencies will be AI-derived in a future phase.",
+        "items": [
+          { "label": "React" },
+          { "label": "Node.js" }
+        ]
+      },
+      "topSkillsAndTechnologies": [
+        { "label": "React", "kind": "technology" },
+        { "label": "Node.js", "kind": "technology" },
+        { "label": "Leadership", "kind": "skill" }
+      ],
       "highlightExperiences": [
         {
-          "id": "mock-exp-1",
+          "id": "experienceId",
           "type": "job",
           "title": "Full-Stack Developer Intern",
           "meta": "TechCorp · Jun 2025 – Present",
-          "description": "Led an internal dashboard rebuild used by 40+ staff.",
-          "tags": ["React", "Node.js", "Leadership"]
+          "descriptionPreview": "Led an internal dashboard rebuild used by 40+ staff.",
+          "skills": ["Leadership"],
+          "technologies": ["React", "Node.js"],
+          "href": "/experiences/experienceId"
         }
       ]
     },
     "evidencePanel": {
-      "defaultView": "evidenceSummary",
+      "defaultView": "recentActivity",
       "evidenceSummary": {
-        "status": "placeholder",
-        "message": "Experience evidence comes next.",
+        "status": "ready",
+        "message": null,
         "counts": {
-          "experiences": 0,
-          "activities": 0,
+          "experiences": 2,
+          "activities": 5,
           "journalEntries": 0
         }
       },
       "recentActivity": {
-        "status": "placeholder",
-        "message": "Your latest captured evidence will appear here.",
+        "status": "ready",
+        "message": null,
+        "items": [
+          {
+            "id": "activityId",
+            "entityType": "activity",
+            "title": "Shipped dashboard integration",
+            "updatedAt": "2026-06-20T00:00:00.000Z",
+            "href": "/activities/activityId"
+          }
+        ]
+      },
+      "recentOpportunities": {
+        "status": "not_implemented",
+        "message": "Opportunity tracking arrives in Phase 3.",
         "items": []
       }
     },
     "phasePlaceholders": {
-      "experienceEvidence": "planned",
+      "experienceEvidence": "available",
       "opportunities": "planned",
       "documents": "planned"
     }
@@ -1434,9 +1483,26 @@ Rules (5 equal fields, 20% each):
 
 `score` = `Math.round((completed / total) * 100)`. `showPrompt` is `true` while any field is incomplete.
 
-## Dashboard Phase 1 Mocks
+## Dashboard Interactive CV (API-004)
 
-Until Experience APIs exist, `interactiveCv.coreCompetencies` and `interactiveCv.highlightExperiences` are populated from `server/src/constants/phase1DashboardMocks.js`. The client mirrors these as a UI fallback in `client/src/features/dashboard/phase1MockData.js` when the API returns empty arrays.
+`interactiveCv.highlightExperiences` returns up to **3** recently updated non-archived experiences as card slices (`id`, `type`, `title`, `meta`, `descriptionPreview`, `skills`, `technologies`, `href`). Returns `[]` when the user has no experiences — no server-side mock highlights.
+
+`interactiveCv.topSkillsAndTechnologies` returns up to **5** aggregated terms from all non-archived experiences and activities, ranked by frequency: `{ label, kind: "skill" | "technology" }`.
+
+`interactiveCv.coreCompetencies` uses a scaffold envelope until Phase 4 AI derivation:
+
+| Field | Purpose |
+|-------|---------|
+| `status` | `"scaffold"` (MVP) or `"live"` (future AI) |
+| `source` | e.g. `"dashboard_mock"` when scaffolded |
+| `message` | Human-readable note that data is placeholder |
+| `items` | `{ label }[]` scaffold chips |
+
+The flat `coreCompetencies: string[]` shape is **deprecated**.
+
+`evidencePanel.recentActivity.items` is capped at **4**. `evidencePanel.recentOpportunities` is a Phase 3 scaffold (`status: "not_implemented"`). Default toggle view: `recentActivity`.
+
+Scaffold competency labels live in `server/src/constants/phase1DashboardMocks.js`.
 
 ## Core Resume and Documents
 
