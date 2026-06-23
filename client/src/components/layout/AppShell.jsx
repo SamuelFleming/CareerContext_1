@@ -10,13 +10,13 @@ export default function AppShell({ children }) {
 
   return (
     <JournalDrawerProvider>
-      <div className="grid min-h-screen grid-cols-1 bg-[var(--neutral-050)] md:grid-cols-[260px_1fr]">
+      <div className="grid min-h-screen grid-cols-1 bg-[var(--neutral-050)] md:h-screen md:grid-cols-[260px_1fr] md:overflow-hidden">
         <Sidebar
           mobileOpen={mobileNavOpen}
           onMobileClose={() => setMobileNavOpen(false)}
         />
 
-        <div className="flex min-w-0 flex-col">
+        <div className="flex min-w-0 flex-col md:min-h-0 md:overflow-y-auto">
           <TopNav
             variant="protected"
             onOpenMobileNav={() => setMobileNavOpen(true)}
