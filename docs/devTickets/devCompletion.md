@@ -40,6 +40,7 @@ Tracks completed backend and full-stack development tickets.
 | 242 | Dashboard API: live Interactive CV payload | Phase 2 | 2026-06-23 | Live highlightExperiences, topSkillsAndTechnologies, competencies scaffold envelope |
 | 243 | Dashboard Interactive CV UI | Phase 2 | 2026-06-23 | Landing-style CV card, live chips, competency scaffold tooltips, clickable highlights |
 | 244 | Dashboard evidence panel restructure | Phase 2 | 2026-06-23 | EvidenceSummaryCard + RecentFeedsPanel; entity-type row tints |
+| 245 | Swagger environment setup | Phase 2 | 2026-06-23 | OpenAPI infra at `/api/docs`; implemented-endpoints-only standard; dual source of truth with `08_api_contract.md` |
 
 ## 239 — Summary
 

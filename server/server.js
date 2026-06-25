@@ -5,7 +5,7 @@ const dotenv = require("dotenv");
 const connectDB = require("./src/config/db"); //inject Db connector
 
 const apiRouter = require("./src/routes/index");
-const { connect } = require("mongoose");
+const { mountSwagger } = require("./src/config/swagger");
 const cors = require("cors"); //Cross-origin (allow frontend)
 
 
@@ -20,6 +20,7 @@ app.use(cors());
 
 const port = process.env.PORT || 3006;
 
+mountSwagger(app);
 app.use('/api', apiRouter);
 
 app.get('/', (req, res) =>{
