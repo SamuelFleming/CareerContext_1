@@ -3,7 +3,7 @@
   "info": {
     "title": "CareerContext API",
     "version": "1.0.0",
-    "description": "OpenAPI document for **implemented** CareerContext API endpoints only.\n\nUse Swagger UI to browse and test live routes. Planned or stub endpoints are documented in `docs/core-scope/08_api_contract.md` (API design intent), not here.\n\nSpec files: `server/src/openapi/`."
+    "description": "OpenAPI document for implemented CareerContext API endpoints only.\n\nUse Swagger UI to browse and test live routes. Planned or stub endpoints are documented in docs/core-scope/08_api_contract.md (API design intent), not here.\n\nSpec files: server/src/openapi/."
   },
   "servers": [
     {
@@ -12,30 +12,12 @@
     }
   ],
   "tags": [
-    {
-      "name": "Health",
-      "description": "API root and health check"
-    },
-    {
-      "name": "Auth",
-      "description": "Registration, login, and current user"
-    },
-    {
-      "name": "Dashboard",
-      "description": "Dashboard summary and Interactive CV"
-    },
-    {
-      "name": "Profile",
-      "description": "Profile and core context"
-    },
-    {
-      "name": "Experiences",
-      "description": "Experience evidence CRUD and workspace"
-    },
-    {
-      "name": "Activities",
-      "description": "Activity evidence CRUD"
-    }
+    { "name": "Health", "description": "API root and health check" },
+    { "name": "Auth", "description": "Registration, login, and current user" },
+    { "name": "Dashboard", "description": "Dashboard summary and Interactive CV" },
+    { "name": "Profile", "description": "Profile and core context" },
+    { "name": "Experiences", "description": "Experience evidence CRUD and workspace" },
+    { "name": "Activities", "description": "Activity evidence CRUD" }
   ],
   "paths": {},
   "components": {
@@ -44,7 +26,62 @@
         "type": "http",
         "scheme": "bearer",
         "bearerFormat": "JWT",
-        "description": "JWT from `POST /auth/register` or `POST /auth/login`. Use Authorize in Swagger UI."
+        "description": "JWT from POST /auth/register or POST /auth/login. Use Authorize in Swagger UI."
+      }
+    },
+    "parameters": {
+      "ExperienceIdPathParam": {
+        "name": "experienceId",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "string" },
+        "description": "Experience id"
+      },
+      "ActivityIdPathParam": {
+        "name": "activityId",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "string" },
+        "description": "Activity id"
+      },
+      "LimitQueryParam": {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "minimum": 1, "maximum": 100, "default": 20 }
+      },
+      "OffsetQueryParam": {
+        "name": "offset",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "minimum": 0, "default": 0 }
+      },
+      "SortQueryParam": {
+        "name": "sort",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" }
+      },
+      "OrderQueryParam": {
+        "name": "order",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string", "enum": ["asc", "desc"], "default": "desc" }
+      },
+      "SearchQueryParam": {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" }
+      },
+      "ExperienceTypeQueryParam": {
+        "name": "type",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": ["job", "project", "course", "certification", "personal_project", "other"]
+        }
       }
     },
     "schemas": {
@@ -52,89 +89,299 @@
         "type": "object",
         "required": ["message", "code"],
         "properties": {
-          "message": {
-            "type": "string"
-          },
-          "code": {
-            "type": "string"
-          }
+          "message": { "type": "string" },
+          "code": { "type": "string", "$ref": "#/components/schemas/AuthErrorCode" }
         }
       },
       "ErrorResponse": {
         "type": "object",
         "required": ["error"],
         "properties": {
-          "error": {
-            "$ref": "#/components/schemas/ErrorBody"
-          }
+          "error": { "$ref": "#/components/schemas/ErrorBody" }
+        }
+      },
+      "ErrorMessageResponse": {
+        "type": "object",
+        "required": ["message"],
+        "properties": {
+          "message": { "type": "string" }
         }
       },
       "AuthErrorCode": {
         "type": "string",
         "enum": ["AUTH_REQUIRED", "TOKEN_EXPIRED", "TOKEN_INVALID"]
       },
-      "DataEnvelope": {
+      "UserSummary": {
         "type": "object",
-        "required": ["data"],
+        "required": ["id", "name", "email"],
         "properties": {
-          "data": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "email": { "type": "string", "format": "email" }
+        }
+      },
+      "UserSafe": {
+        "allOf": [
+          { "$ref": "#/components/schemas/UserSummary" },
+          {
             "type": "object",
-            "additionalProperties": true
+            "properties": {
+              "createdAt": { "type": "string", "format": "date-time" },
+              "updatedAt": { "type": "string", "format": "date-time" }
+            }
+          }
+        ]
+      },
+      "AuthResponse": {
+        "type": "object",
+        "required": ["token", "user"],
+        "properties": {
+          "token": { "type": "string" },
+          "user": { "$ref": "#/components/schemas/UserSummary" }
+        }
+      },
+      "AuthMeResponse": {
+        "type": "object",
+        "required": ["user"],
+        "properties": {
+          "user": { "$ref": "#/components/schemas/UserSafe" }
+        }
+      },
+      "RegisterRequest": {
+        "type": "object",
+        "required": ["name", "email", "password"],
+        "properties": {
+          "name": { "type": "string" },
+          "email": { "type": "string", "format": "email" },
+          "password": { "type": "string", "minLength": 6 }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": { "type": "string", "format": "email" },
+          "password": { "type": "string" }
+        }
+      },
+      "CoreContext": {
+        "type": "object",
+        "properties": {
+          "fullName": { "type": "string" },
+          "mobile": { "type": "string" },
+          "location": { "type": "string" },
+          "headline": { "type": "string" },
+          "rawSummaryMd": { "type": "string" },
+          "summaryUpdatedAt": { "type": "string", "format": "date-time", "nullable": true }
+        }
+      },
+      "ProfileCompleteness": {
+        "type": "object",
+        "properties": {
+          "score": { "type": "integer" },
+          "completed": { "type": "integer" },
+          "total": { "type": "integer" },
+          "status": { "type": "string" },
+          "showPrompt": { "type": "boolean" },
+          "checks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "key": { "type": "string" },
+                "label": { "type": "string" },
+                "done": { "type": "boolean" }
+              }
+            }
+          },
+          "missing": { "type": "array", "items": { "type": "string" } },
+          "nextAction": {
+            "type": "object",
+            "nullable": true,
+            "properties": {
+              "label": { "type": "string" },
+              "to": { "type": "string" }
+            }
           }
         }
       },
-      "MessageDataEnvelope": {
+      "ProfileData": {
         "type": "object",
-        "required": ["message", "data"],
         "properties": {
-          "message": {
-            "type": "string"
-          },
-          "data": {
+          "user": {
             "type": "object",
-            "additionalProperties": true
-          }
+            "properties": {
+              "id": { "type": "string" },
+              "email": { "type": "string", "format": "email" }
+            }
+          },
+          "coreContext": { "$ref": "#/components/schemas/CoreContext" },
+          "coreResumeMd": { "type": "string" },
+          "coreResumeUpdatedAt": { "type": "string", "format": "date-time", "nullable": true },
+          "profileCompleteness": { "$ref": "#/components/schemas/ProfileCompleteness" }
+        }
+      },
+      "Identity": {
+        "type": "object",
+        "properties": {
+          "fullName": { "type": "string" },
+          "headline": { "type": "string" },
+          "email": { "type": "string", "format": "email" },
+          "mobile": { "type": "string" },
+          "location": { "type": "string" }
+        }
+      },
+      "DashboardData": {
+        "type": "object",
+        "properties": {
+          "identity": { "$ref": "#/components/schemas/Identity" },
+          "profileCompleteness": { "$ref": "#/components/schemas/ProfileCompleteness" },
+          "interactiveCv": {
+            "type": "object",
+            "properties": {
+              "summaryPreview": { "type": "string", "nullable": true },
+              "summaryUpdatedAt": { "type": "string", "format": "date-time", "nullable": true },
+              "reviewSuggested": { "type": "boolean" },
+              "coreCompetencies": { "type": "object", "additionalProperties": true },
+              "topSkillsAndTechnologies": { "type": "array", "items": { "type": "object", "additionalProperties": true } },
+              "highlightExperiences": { "type": "array", "items": { "type": "object", "additionalProperties": true } }
+            }
+          },
+          "evidencePanel": { "type": "object", "additionalProperties": true },
+          "phasePlaceholders": { "type": "object", "additionalProperties": { "type": "string" } }
+        }
+      },
+      "Experience": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "type": { "type": "string", "enum": ["job", "project", "course", "certification", "personal_project", "other"] },
+          "title": { "type": "string" },
+          "organisation": { "type": "string" },
+          "role": { "type": "string" },
+          "dateStart": { "type": "string", "format": "date-time", "nullable": true },
+          "dateEnd": { "type": "string", "format": "date-time", "nullable": true },
+          "isCurrent": { "type": "boolean" },
+          "overviewRaw": { "type": "string" },
+          "overviewPolished": { "type": "string" },
+          "technologies": { "type": "array", "items": { "type": "string" } },
+          "skills": { "type": "array", "items": { "type": "string" } },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "ExperienceListItem": {
+        "allOf": [
+          { "$ref": "#/components/schemas/Experience" },
+          { "type": "object", "properties": { "activityCount": { "type": "integer" } } }
+        ]
+      },
+      "Activity": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "experienceId": { "type": "string" },
+          "title": { "type": "string" },
+          "rawDescription": { "type": "string" },
+          "polishedSummary": { "type": "string" },
+          "technologies": { "type": "array", "items": { "type": "string" } },
+          "skills": { "type": "array", "items": { "type": "string" } },
+          "outcomes": { "type": "string" },
+          "evidenceStrength": { "type": "string", "enum": ["low", "medium", "high"], "nullable": true },
+          "linkedJournalEntryIds": { "type": "array", "items": { "type": "string" } },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "ExperienceCreateRequest": {
+        "type": "object",
+        "required": ["type", "title"],
+        "properties": {
+          "type": { "type": "string", "enum": ["job", "project", "course", "certification", "personal_project", "other"] },
+          "title": { "type": "string" },
+          "organisation": { "type": "string" },
+          "role": { "type": "string" },
+          "dateStart": { "type": "string", "format": "date-time", "nullable": true },
+          "dateEnd": { "type": "string", "format": "date-time", "nullable": true },
+          "isCurrent": { "type": "boolean" },
+          "overviewRaw": { "type": "string" },
+          "overviewPolished": { "type": "string" },
+          "technologies": { "type": "array", "items": { "type": "string" } },
+          "skills": { "type": "array", "items": { "type": "string" } }
+        }
+      },
+      "ExperienceUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string", "enum": ["job", "project", "course", "certification", "personal_project", "other"] },
+          "title": { "type": "string" },
+          "organisation": { "type": "string" },
+          "role": { "type": "string" },
+          "dateStart": { "type": "string", "format": "date-time", "nullable": true },
+          "dateEnd": { "type": "string", "format": "date-time", "nullable": true },
+          "isCurrent": { "type": "boolean" },
+          "overviewRaw": { "type": "string" },
+          "overviewPolished": { "type": "string" },
+          "technologies": { "type": "array", "items": { "type": "string" } },
+          "skills": { "type": "array", "items": { "type": "string" } }
+        }
+      },
+      "ActivityCreateRequest": {
+        "type": "object",
+        "required": ["title"],
+        "properties": {
+          "title": { "type": "string" },
+          "rawDescription": { "type": "string" },
+          "polishedSummary": { "type": "string" },
+          "technologies": { "type": "array", "items": { "type": "string" } },
+          "skills": { "type": "array", "items": { "type": "string" } },
+          "outcomes": { "type": "string" },
+          "evidenceStrength": { "type": "string", "enum": ["low", "medium", "high"], "nullable": true }
+        }
+      },
+      "ActivityUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string" },
+          "rawDescription": { "type": "string" },
+          "polishedSummary": { "type": "string" },
+          "technologies": { "type": "array", "items": { "type": "string" } },
+          "skills": { "type": "array", "items": { "type": "string" } },
+          "outcomes": { "type": "string" },
+          "evidenceStrength": { "type": "string", "enum": ["low", "medium", "high"], "nullable": true }
         }
       },
       "ListMeta": {
         "type": "object",
         "required": ["count", "total", "limit", "offset", "hasMore"],
         "properties": {
-          "count": {
-            "type": "integer",
-            "minimum": 0
-          },
-          "total": {
-            "type": "integer",
-            "minimum": 0
-          },
-          "limit": {
-            "type": "integer",
-            "minimum": 1
-          },
-          "offset": {
-            "type": "integer",
-            "minimum": 0
-          },
-          "hasMore": {
-            "type": "boolean"
-          }
+          "count": { "type": "integer", "minimum": 0 },
+          "total": { "type": "integer", "minimum": 0 },
+          "limit": { "type": "integer", "minimum": 1 },
+          "offset": { "type": "integer", "minimum": 0 },
+          "hasMore": { "type": "boolean" }
         }
       },
-      "ListEnvelope": {
+      "ActivitiesListEnvelope": {
         "type": "object",
-        "required": ["data", "meta"],
         "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "additionalProperties": true
-            }
-          },
-          "meta": {
-            "$ref": "#/components/schemas/ListMeta"
-          }
+          "data": { "type": "array", "items": { "$ref": "#/components/schemas/Activity" } },
+          "meta": { "$ref": "#/components/schemas/ListMeta" }
+        }
+      },
+      "ExperiencesListEnvelope": {
+        "type": "object",
+        "properties": {
+          "data": { "type": "array", "items": { "$ref": "#/components/schemas/ExperienceListItem" } },
+          "meta": { "$ref": "#/components/schemas/ListMeta" }
+        }
+      },
+      "ExperienceWorkspaceData": {
+        "type": "object",
+        "properties": {
+          "experience": { "$ref": "#/components/schemas/Experience" },
+          "activities": { "type": "array", "items": { "$ref": "#/components/schemas/Activity" } },
+          "activitiesMeta": { "$ref": "#/components/schemas/ListMeta" },
+          "journalEntries": { "type": "array", "items": { "type": "object" } },
+          "journalMeta": { "$ref": "#/components/schemas/ListMeta" }
         }
       }
     },
@@ -143,27 +390,35 @@
         "description": "Missing, expired, or invalid JWT",
         "content": {
           "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/ErrorResponse"
-            },
+            "schema": { "$ref": "#/components/schemas/ErrorResponse" },
             "examples": {
-              "authRequired": {
-                "value": {
-                  "error": {
-                    "message": "Not authenticated",
-                    "code": "AUTH_REQUIRED"
-                  }
-                }
-              },
-              "tokenExpired": {
-                "value": {
-                  "error": {
-                    "message": "Session has expired",
-                    "code": "TOKEN_EXPIRED"
-                  }
-                }
-              }
+              "authRequired": { "value": { "error": { "message": "Not authenticated", "code": "AUTH_REQUIRED" } } },
+              "tokenExpired": { "value": { "error": { "message": "Session has expired", "code": "TOKEN_EXPIRED" } } }
             }
+          }
+        }
+      },
+      "BadRequest": {
+        "description": "Validation or query error",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/ErrorMessageResponse" }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Resource not found",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/ErrorMessageResponse" }
+          }
+        }
+      },
+      "UnsupportedMediaType": {
+        "description": "Unsupported Media Type. Use application/json",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/ErrorMessageResponse" }
           }
         }
       }

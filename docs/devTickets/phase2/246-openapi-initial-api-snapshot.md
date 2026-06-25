@@ -1,13 +1,13 @@
 ---
 phase: 2
-status: planned
+status: implemented
 source: large-feature plan — Configure Swagger Environment for API
 ---
 # Ticket 246 — OpenAPI Initial API Snapshot
 
 ## Status
 
-**Planned**
+**Implemented** — 2026-06-25
 
 ## Phase
 
@@ -125,19 +125,19 @@ When a handler ships (e.g. Phase 3 opportunities), add the matching `paths/<doma
 
 ## Technical tasks
 
-- [ ] Audit live route handlers vs contract registry; note any status mismatches in ticket completion notes
-- [ ] Add path fragments for all **implemented** endpoints with request/response schemas
-- [ ] Cross-check field names against `05_data_model.md` and validators
-- [ ] Test Try it out flow: register → copy token → authorize → GET profile, GET experiences
+- [x] Audit live route handlers vs contract registry; note any status mismatches in ticket completion notes
+- [x] Add path fragments for all **implemented** endpoints with request/response schemas
+- [x] Cross-check field names against `05_data_model.md` and validators
+- [x] Test Try it out flow: register → copy token → authorize → GET profile, GET experiences
 
 ## Acceptance criteria
 
-- [ ] Swagger UI lists implemented operations only: API-001–016, API-018–020 (exclude polish, journal, opportunities, documents)
-- [ ] List endpoints show pagination query parameters and `ListMeta` in responses
-- [ ] JWT bearer Try it out works for at least: `GET /api/profile`, `GET /api/experiences`, `GET /api/dashboard`
-- [ ] Request bodies for create/update experience and activity match validator allowlists
-- [ ] `401` responses document contract error envelope with `code` enum
-- [ ] No stub or 501-only routes appear in OpenAPI
+- [x] Swagger UI lists implemented operations only: API-001–016, API-018–020 (exclude polish, journal, opportunities, documents)
+- [x] List endpoints show pagination query parameters and `ListMeta` in responses
+- [x] JWT bearer Try it out works for at least: `GET /api/profile`, `GET /api/experiences`, `GET /api/dashboard`
+- [x] Request bodies for create/update experience and activity match validator allowlists
+- [x] `401` responses document contract error envelope with `code` enum
+- [x] No stub or 501-only routes appear in OpenAPI
 
 ## Verification
 
@@ -146,6 +146,14 @@ When a handler ships (e.g. Phase 3 opportunities), add the matching `paths/<doma
 3. `POST /api/experiences` with minimal valid body → `201`
 4. Confirm `/api/opportunities` and polish routes are **absent** from `/api/docs/openapi.json`
 5. Compare one experience field set against `Experience` model `toJSON` output manually
+
+## Completion notes
+
+- Implemented OpenAPI path fragments for all live route modules: `auth`, `dashboard`, `profile`, `experiences`, `activities` (plus `health` from 245).
+- Added shared OpenAPI components for request bodies, envelope schemas, list metadata, auth errors, and reusable parameters (`limit`, `offset`, `sort`, `order`, `search`, `type`).
+- Verified merged spec loads via `npm run openapi:validate`.
+- Verified excluded endpoints are absent from spec (`/opportunities`, `/documents`, `/journal`, `/polish`).
+- No contract drift found for implemented endpoints in this ticket scope.
 
 ## Dependencies for downstream
 

@@ -6,6 +6,7 @@
         "summary": "API root",
         "description": "Returns a short message confirming the API is running.",
         "operationId": "getApiRoot",
+        "x-api-id": "API-ROOT",
         "security": [],
         "responses": {
           "200": {
@@ -15,10 +16,7 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "CareerContext API running"
-                    }
+                    "message": { "type": "string", "example": "CareerContext API running" }
                   }
                 }
               }
@@ -33,6 +31,7 @@
         "summary": "Health check",
         "description": "Lightweight health probe for local development.",
         "operationId": "getHealth",
+        "x-api-id": "API-HEALTH",
         "security": [],
         "responses": {
           "200": {
@@ -42,18 +41,9 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "CareerContext API health check"
-                    },
-                    "status": {
-                      "type": "string",
-                      "example": "ok"
-                    },
-                    "service": {
-                      "type": "string",
-                      "example": "careerContext-api"
-                    }
+                    "message": { "type": "string", "example": "CareerContext API health check" },
+                    "status": { "type": "string", "example": "ok" },
+                    "service": { "type": "string", "example": "careerContext-api" }
                   }
                 }
               }

@@ -59,7 +59,7 @@ Manual entry and live chip display for Experience and Activity — **complete**.
 | Ticket | Title | Priority | Status | Depends on |
 |--------|-------|----------|--------|------------|
 | **245** | Swagger environment setup | High | Done | **240** |
-| **246** | OpenAPI initial API snapshot | High | Planned | **245** |
+| **246** | OpenAPI initial API snapshot | High | Done | **245** |
 | **247** | OpenAPI maintenance workflow (Cursor rules & commands) | High | Planned | **245**, **246** |
 
 Execution order: **245 → 246 → 247**
