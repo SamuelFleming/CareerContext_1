@@ -12,8 +12,9 @@ Use for tiny, obvious, low-risk edits.
 4. Do not create dev tickets unless the change affects API behaviour, data model, routing, or multiple features.
 5. Use existing project conventions.
 6. Run a quick relevant check if practical.
-7. Do not run git operations unless the user explicitly requests them.
-8. Report:
+7. If the change affects backend API behavior (e.g. `server/src/routes/**`, request validation middleware, or response envelopes), update the corresponding OpenAPI file in `server/src/openapi/` in the same change.
+8. Do not run git operations unless the user explicitly requests them.
+9. Report:
    - files changed
    - what changed
    - whether any checks were run
@@ -21,3 +22,4 @@ Use for tiny, obvious, low-risk edits.
 ## Escalation
 
 If the change affects multiple files, API contracts, data model, routing, or feature behaviour, stop and recommend switching to **Implement Dev Ticket** or **Audit / Diagnose** mode.
+If a backend API-affecting small change is requested without OpenAPI updates, recommend completing the matching OpenAPI update before finishing.

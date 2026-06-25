@@ -97,6 +97,7 @@ Artifacts for the design concept and UI themes are capture in `docs/design-conce
 ### Development
 - Development artifacts are maintained in the `docs/devTickets/`. This includes evolutionary grouping of tickets in 'phases' (Phases initially scoped in the `docs/core-scope/07_screen_data_matrix.md#mvp-development-phase-suggestions`). 
 - Dev completion registry in maintained in the form of `docs/devTickets/devCompletion.md` and (`docs/devTickets/devTickets_next.md`.
+- Live OpenAPI mirror for implemented endpoints: `server/src/openapi/` served at `/api/docs` in dev; keep it in sync with backend API changes.
 
 ## Common commands
 

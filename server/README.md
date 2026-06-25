@@ -43,6 +43,22 @@ Validate the spec loads without error:
 npm run openapi:validate
 ```
 
+## Maintaining the API spec
+
+Swagger and the API contract intentionally serve different purposes:
+
+- `server/src/openapi/` (`/api/docs`) = **implemented endpoints only**
+- `docs/core-scope/08_api_contract.md` = **design intent** (planned + implemented)
+
+When backend API behavior changes, update OpenAPI in the same ticket:
+
+- Route/module change → matching `server/src/openapi/paths/<domain>.json`
+- Shared request/response schema changes → `server/src/openapi/openapi.base.json`
+
+When API design intent changes (new planned endpoint, registry updates, cross-phase conventions), update `08_api_contract.md`.
+
+Reference workflow conventions: `docs/devTickets/phase2/247-openapi-maintenance-workflow.md`.
+
 ## Dashboard (`GET /api/dashboard`)
 
 Returns `identity`, `profileCompleteness`, `interactiveCv`, `evidencePanel`, and `phasePlaceholders`.
