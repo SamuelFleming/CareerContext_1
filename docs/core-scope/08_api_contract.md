@@ -2,9 +2,24 @@
 
 ## Purpose
 
-This document defines the first implementation API contract for CareerContext.
+This document defines the **API design intent** for CareerContext — the full endpoint registry, request/response conventions, and planned behaviour across all product phases.
 
 It is designed to be used as a backend development checklist and a frontend integration reference.
+
+### Relationship to OpenAPI (Swagger)
+
+CareerContext maintains **two complementary API sources of truth**:
+
+| Source | Location | Represents | Use for |
+|--------|----------|------------|---------|
+| **API contract** (this document) | `docs/core-scope/08_api_contract.md` | **Design intent** — planned and implemented endpoints | Screen-to-endpoint mapping, field naming, future phases, integration planning |
+| **OpenAPI spec** | `server/src/openapi/` → `/api/docs` (dev) | **Current implementation** — live handlers only | Browsing implemented routes, Try-it-out testing, request/response shapes as they exist today |
+
+Both must be maintained when the API evolves:
+
+- **New planned endpoint** → add to this contract first; add to OpenAPI when the handler ships.
+- **Implemented endpoint change** → update OpenAPI in the same change set; update this contract when intent or cross-phase design changes.
+- **Stub or not-routed endpoints** → documented here only; **not** listed in OpenAPI until implemented.
 
 
 Key:
