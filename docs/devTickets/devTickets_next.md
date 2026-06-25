@@ -52,11 +52,27 @@ Manual entry and live chip display for Experience and Activity — **complete**.
 | **205** | Experience workspace endpoint | Done |
 | **206** | List query standard (filter/search/sort/pagination) | Done |
 
+## Cross-cutting — OpenAPI / Swagger (prerequisite for Phase 3+)
+
+**Do this batch before large Phase 3 backend work.** OpenAPI documents implemented endpoints; the API contract documents design intent. Cursor rules (**247**) enforce keeping both current.
+
+| Ticket | Title | Priority | Status | Depends on |
+|--------|-------|----------|--------|------------|
+| **245** | Swagger environment setup | High | Done | **240** |
+| **246** | OpenAPI initial API snapshot | High | Planned | **245** |
+| **247** | OpenAPI maintenance workflow (Cursor rules & commands) | High | Planned | **245**, **246** |
+
+Execution order: **245 → 246 → 247**
+
+Tickets: `docs/devTickets/phase2/245-swagger-environment-setup.md`, `246-openapi-initial-api-snapshot.md`, `247-openapi-maintenance-workflow.md`
+
 ## Phase 3 — Opportunities and Documents
+
+**Blocked on OpenAPI batch 245–247** (recommended — implement Swagger before replacing 501 stubs so new endpoints are documented from day one).
 
 | Ticket | Title | Priority | Notes |
 |--------|-------|----------|-------|
-| **DOC-001** | Document model + CRUD backend | High | Replace 501 stubs |
+| **DOC-001** | Document model + CRUD backend | High | Replace 501 stubs; update `paths/documents.json` per **247** |
 | **DOC-002** | Migrate core resume to `core_resume` Document | Low | Per **008.2** triggers |
 | — | Opportunities Index UI (Screen 10) | Medium | Replace coming-soon page |
 | — | Documents UI (Screen 12) | Medium | Replace coming-soon page |
