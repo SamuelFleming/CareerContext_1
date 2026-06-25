@@ -68,6 +68,7 @@ routes/experienceRoutes.js → controllers/experienceController.js → services/
 - If you change a handler contract (route path/method, validation, response shape, status code, auth), update:
   - matching `server/src/openapi/paths/<domain>.json`
   - shared components in `server/src/openapi/openapi.base.json` when required.
+- Token-cost discipline: prefer targeted reads/edits (`paths/<domain>.json`) over reading the full OpenAPI spec; only open `openapi.base.json` when adding/changing shared schemas, parameters, responses, or security schemes.
 - New planned endpoint: add/update `docs/core-scope/08_api_contract.md` first; add OpenAPI path fragment when the handler ships.
 - New registry ID: define in contract docs, then use as `x-api-id` in OpenAPI when implemented.
 - OpenAPI must mirror live behavior; API contract captures design intent. Keep both in sync when behavior or intent changes.

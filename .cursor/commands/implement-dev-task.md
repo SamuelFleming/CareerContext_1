@@ -28,6 +28,7 @@ The user should provide (one or more of):
 8. If the ticket touches backend HTTP API behavior (`server/` routes/controllers/middleware validation/response envelopes), update `server/src/openapi/` in the same implementation:
    - edit `paths/<domain>.json` for implemented endpoint changes
    - update `openapi.base.json` shared schemas/parameters/responses if required.
+   - prefer targeted reads/edits of affected OpenAPI files; do not read the full OpenAPI spec unless necessary.
 9. After implementation, update the ticket and any required completion registry (`devCompletion.md`, `devTickets_next.md`, contract docs/OpenAPI docs if API changed).
 10. Run relevant checks where practical (include OpenAPI verification when backend API changed, e.g. `npm run openapi:validate`).
 11. Report changed files, verification results, and follow-up items.

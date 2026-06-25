@@ -13,6 +13,7 @@ Use for tiny, obvious, low-risk edits.
 5. Use existing project conventions.
 6. Run a quick relevant check if practical.
 7. If the change affects backend API behavior (e.g. `server/src/routes/**`, request validation middleware, or response envelopes), update the corresponding OpenAPI file in `server/src/openapi/` in the same change.
+   - prefer editing only the affected `paths/<domain>.json`; touch `openapi.base.json` only when shared components actually change.
 8. Do not run git operations unless the user explicitly requests them.
 9. Report:
    - files changed
