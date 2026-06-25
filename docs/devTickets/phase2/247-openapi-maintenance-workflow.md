@@ -1,13 +1,13 @@
 ---
 phase: 2
-status: planned
+status: implemented
 source: large-feature plan — Configure Swagger Environment for API
 ---
 # Ticket 247 — OpenAPI Maintenance Workflow (Cursor Rules & Commands)
 
 ## Status
 
-**Planned**
+**Implemented** — 2026-06-25
 
 ## Phase
 
@@ -134,26 +134,34 @@ Add **Maintaining the API spec** subsection:
 
 ## Technical tasks
 
-- [ ] Update `backend.mdc` with maintenance rules and anti-patterns
-- [ ] Update all four workflow commands listed above
-- [ ] Update `documentation.mdc` contract alignment
-- [ ] Add maintainer notes to `server/README.md`
-- [ ] Optionally add one line to `CLAUDE.md`
+- [x] Update `backend.mdc` with maintenance rules and anti-patterns
+- [x] Update all four workflow commands listed above
+- [x] Update `documentation.mdc` contract alignment
+- [x] Add maintainer notes to `server/README.md`
+- [x] Optionally add one line to `CLAUDE.md`
 
 ## Acceptance criteria
 
-- [ ] `backend.mdc` explicitly requires OpenAPI updates for backend API changes
-- [ ] `implement-dev-task` command includes OpenAPI as part of done checklist
-- [ ] `small-change` escalates or requires OpenAPI sync for route edits
-- [ ] `develop-large-feature` requires OpenAPI files in per-ticket scope
-- [ ] `audit-diagnose` mentions contract vs OpenAPI vs code comparison
-- [ ] `server/README.md` documents how to maintain spec files
-- [ ] No contradictory guidance (e.g. README still saying manual tables are source of truth)
+- [x] `backend.mdc` explicitly requires OpenAPI updates for backend API changes
+- [x] `implement-dev-task` command includes OpenAPI as part of done checklist
+- [x] `small-change` escalates or requires OpenAPI sync for route edits
+- [x] `develop-large-feature` requires OpenAPI files in per-ticket scope
+- [x] `audit-diagnose` mentions contract vs OpenAPI vs code comparison
+- [x] `server/README.md` documents how to maintain spec files
+- [x] No contradictory guidance (e.g. README still saying manual tables are source of truth)
 
 ## Verification
 
 - Read updated rules/commands — confirm an agent implementing a hypothetical new `POST /api/documents` would be instructed to edit `paths/documents.json` and `08_api_contract.md`
 - Grep `.cursor/` for "OpenAPI" — all backend workflow entry points covered
+
+## Completion notes
+
+- Added an explicit OpenAPI maintenance section to `.cursor/rules/backend.mdc`, including implemented-only scope, update triggers, and anti-patterns.
+- Updated workflow commands (`implement-dev-task`, `small-change`, `develop-large-feature`, `audit-diagnose`) to require or check OpenAPI sync when backend API behavior changes.
+- Confirmed `.cursor/rules/documentation.mdc` already reflected the contract-vs-openapi split introduced in 245/246; no additional changes required in this ticket.
+- Added a one-line OpenAPI source-of-truth pointer to `CLAUDE.md`.
+- Added `server/README.md` maintainer guidance for when to update OpenAPI vs API contract.
 
 ## Dependencies for downstream
 
