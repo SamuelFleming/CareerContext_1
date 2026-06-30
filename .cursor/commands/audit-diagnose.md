@@ -13,6 +13,7 @@ Use for bugs, build errors, regressions, architecture drift, unclear behaviour, 
    - likely cause
    - affected files
    - whether docs/tickets/code disagree
+   - whether OpenAPI (`server/src/openapi/`) and API contract (`docs/core-scope/08_api_contract.md`) agree with current implemented behavior
    - smallest safe fix
    - whether this should become a dev ticket
 5. If a fix is small and obvious, ask whether to proceed.

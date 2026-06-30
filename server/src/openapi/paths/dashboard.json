@@ -1,0 +1,31 @@
+{
+  "paths": {
+    "/dashboard": {
+      "get": {
+        "tags": ["Dashboard"],
+        "summary": "Get dashboard",
+        "description": "Returns identity, profile completeness, interactive CV, and evidence panel.",
+        "operationId": "getDashboard",
+        "x-api-id": "API-004",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Dashboard data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "$ref": "#/components/schemas/DashboardData" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    }
+  }
+}

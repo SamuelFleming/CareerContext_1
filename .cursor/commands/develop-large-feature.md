@@ -28,4 +28,5 @@ Use sparingly. This mode is for implementing a broader feature directly, while s
 - Preserve existing behaviour unless explicitly changing it.
 - Do not introduce new frameworks or architectural patterns without approval.
 - Keep docs aligned when API or data model behaviour changes.
+- For backend tickets, include OpenAPI updates in scope (`server/src/openapi/paths/*.json` and shared `openapi.base.json` where needed) and call out affected OpenAPI files in the per-ticket plan.
 - No application code without a matching repo-local ticket.

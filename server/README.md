@@ -1,6 +1,6 @@
 # CareerContext Server
 
-Express API for the CareerContext project. High-level product and API documentation lives in [`../docs/`](../docs/), including the [API contract](../docs/08_api_contract.md).
+Express API for the CareerContext project. Product and API documentation lives in [`../docs/`](../docs/).
 
 ## Running locally
 
@@ -16,6 +16,9 @@ PORT=3006
 MONGO_URI=mongodb://127.0.0.1:27017/careercontext
 JWT_SECRET=your-dev-secret
 JWT_EXPIRES_IN=1h
+
+# Optional — Swagger UI (defaults to on when NODE_ENV is not production)
+SWAGGER_ENABLED=true
 ```
 
 ```bash
@@ -24,66 +27,53 @@ node server.js
 
 Base URL: `http://localhost:3006/api`
 
-## Endpoint implementation log
+## API documentation
 
-Status key: **Implemented** · **Stub (501)** · **Not routed**
+| Source | Purpose |
+|--------|---------|
+| **Swagger UI** — `http://localhost:3006/api/docs` | **Implemented endpoints only** — browse, inspect schemas, Try it out with JWT |
+| **Raw OpenAPI JSON** — `http://localhost:3006/api/docs/openapi.json` | Machine-readable spec (`server/src/openapi/`) |
+| **API contract** — [`docs/core-scope/08_api_contract.md`](../docs/core-scope/08_api_contract.md) | **Full API design intent** — registry, planned endpoints, conventions |
 
-Last updated: Dev tickets **006.3 / 006.4 — Dashboard API and UI**
+Swagger is disabled when `SWAGGER_ENABLED=false` or `NODE_ENV=production`.
 
-| Method | Endpoint | Status | Auth | Notes |
-|--------|----------|--------|------|-------|
-| GET | `/api` | Implemented | No | API root message |
-| GET | `/api/health` | Implemented | No | Health check |
-| POST | `/api/auth/register` | Implemented | No | Creates user + CoreContext, returns JWT |
-| POST | `/api/auth/login` | Implemented | No | Returns JWT |
-| GET | `/api/auth/me` | Implemented | Yes | Current user summary |
-| GET | `/api/dashboard` | Implemented | Yes | Interactive CV, shared `profileCompleteness`, evidence panel placeholders |
-| GET | `/api/profile` | Implemented | Yes | Returns `user`, `coreContext`, resume fields, `profileCompleteness` |
-| PUT | `/api/profile` | Implemented | Yes | Update CoreContext: `fullName`, `mobile`, `location`, `headline` |
-| PUT | `/api/profile/core-context` | Implemented | Yes | Update `rawSummaryMd`, sets `summaryUpdatedAt` |
-| PUT | `/api/profile/core-resume` | Implemented | Yes | Update `coreResumeMd`, sets `coreResumeUpdatedAt` |
-| GET | `/api/experiences` | Stub (501) | No | List experiences |
-| POST | `/api/experiences` | Stub (501) | No | Create experience |
-| GET | `/api/experiences/:experienceId` | Stub (501) | No | Get experience |
-| PUT | `/api/experiences/:experienceId` | Stub (501) | No | Update experience |
-| DELETE | `/api/experiences/:experienceId` | Stub (501) | No | Delete experience |
-| GET | `/api/experiences/:experienceId/workspace` | Stub (501) | No | Experience workspace |
-| GET | `/api/experiences/:experienceId/activities` | Stub (501) | No | List activities |
-| POST | `/api/experiences/:experienceId/activities` | Stub (501) | No | Create activity |
-| POST | `/api/experiences/:experienceId/polish` | Stub (501) | No | AI polish experience |
-| GET | `/api/activities/:activityId` | Stub (501) | No | Get activity |
-| PUT | `/api/activities/:activityId` | Stub (501) | No | Update activity |
-| DELETE | `/api/activities/:activityId` | Stub (501) | No | Delete activity |
-| POST | `/api/activities/:activityId/polish` | Stub (501) | No | AI polish activity |
-| GET | `/api/opportunities` | Stub (501) | No | List opportunities |
-| POST | `/api/opportunities` | Stub (501) | No | Create opportunity |
-| POST | `/api/opportunities/compare` | Stub (501) | No | Compare opportunities |
-| GET | `/api/opportunities/:opportunityId` | Stub (501) | No | Get opportunity |
-| PUT | `/api/opportunities/:opportunityId` | Stub (501) | No | Update opportunity |
-| DELETE | `/api/opportunities/:opportunityId` | Stub (501) | No | Delete opportunity |
-| GET | `/api/opportunities/:opportunityId/workspace` | Stub (501) | No | Opportunity workspace |
-| POST | `/api/opportunities/:opportunityId/extract` | Stub (501) | No | AI extract job summary |
-| POST | `/api/opportunities/:opportunityId/evaluate` | Stub (501) | No | AI evaluate fit |
-| POST | `/api/opportunities/:opportunityId/generate-cover-letter` | Stub (501) | No | Generate cover letter |
-| GET | `/api/documents` | Stub (501) | No | List documents |
-| POST | `/api/documents` | Stub (501) | No | Create document |
-| GET | `/api/documents/:documentId` | Stub (501) | No | Get document |
-| PUT | `/api/documents/:documentId` | Stub (501) | No | Update document |
-| DELETE | `/api/documents/:documentId` | Stub (501) | No | Delete document |
+Validate the spec loads without error:
+
+```bash
+npm run openapi:validate
+```
+
+## Maintaining the API spec
+
+Swagger and the API contract intentionally serve different purposes:
+
+- `server/src/openapi/` (`/api/docs`) = **implemented endpoints only**
+- `docs/core-scope/08_api_contract.md` = **design intent** (planned + implemented)
+
+When backend API behavior changes, update OpenAPI in the same ticket:
+
+- Route/module change → matching `server/src/openapi/paths/<domain>.json`
+- Shared request/response schema changes → `server/src/openapi/openapi.base.json`
+
+When API design intent changes (new planned endpoint, registry updates, cross-phase conventions), update `08_api_contract.md`.
+
+Reference workflow conventions: `docs/devTickets/phase2/247-openapi-maintenance-workflow.md`.
 
 ## Dashboard (`GET /api/dashboard`)
 
 Returns `identity`, `profileCompleteness`, `interactiveCv`, `evidencePanel`, and `phasePlaceholders`.
 
 - **Profile completeness** — calculated by `profileCompletenessService.js` (same rules as `GET /api/profile`).
-- **Phase 1 CV mocks** — `coreCompetencies` and `highlightExperiences` from `src/constants/phase1DashboardMocks.js` until Experience APIs exist.
+- **Interactive CV** — live highlights and skills from evidence data (ticket **242**).
 - **Not included** — core resume preview, quick actions.
 
-## Profile endpoints (007 / 007.2)
+## Profile endpoints
 
 All profile routes require `Authorization: Bearer <token>`. Structured career context lives on the `CoreContext` model (one per user via `userId`). `email` remains on `User`. Resume Markdown remains on `User` until a future Document migration.
 
 ### Manual test flow
+
+Use Swagger UI (`/api/docs`) or curl:
 
 ```bash
 # 1. Register (or login)
@@ -122,6 +112,7 @@ curl -s -X PUT http://localhost:3006/api/profile/core-resume \
 
 | Date | Ticket | Change |
 |------|--------|--------|
-| 2026-06-12 | 006.3/006.4 | Dashboard API + UI; shared profile completeness; Phase 1 CV mocks |
+| 2026-06-23 | 245 | Swagger UI at `/api/docs`; OpenAPI spec in `src/openapi/`; implemented-endpoints-only standard |
+| 2026-06-12 | 006.3/006.4 | Dashboard API + UI; shared profile completeness |
 | 2026-06-12 | 007.2 | Added `CoreContext` model; refactored profile/dashboard to use structured Core Context + `rawSummaryMd` |
 | 2026-06-12 | 007 | Implemented profile endpoints; extended `User` model with headline and context timestamps |

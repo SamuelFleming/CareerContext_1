@@ -1,0 +1,286 @@
+{
+  "paths": {
+    "/experiences": {
+      "get": {
+        "tags": ["Experiences"],
+        "summary": "List experiences",
+        "description": "Lists non-archived experiences for the authenticated user.",
+        "operationId": "listExperiences",
+        "x-api-id": "API-009",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "$ref": "#/components/parameters/LimitQueryParam" },
+          { "$ref": "#/components/parameters/OffsetQueryParam" },
+          { "$ref": "#/components/parameters/SortQueryParam" },
+          { "$ref": "#/components/parameters/OrderQueryParam" },
+          { "$ref": "#/components/parameters/SearchQueryParam" },
+          { "$ref": "#/components/parameters/ExperienceTypeQueryParam" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Experiences list",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/ExperiencesListEnvelope" } }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" }
+        }
+      },
+      "post": {
+        "tags": ["Experiences"],
+        "summary": "Create experience",
+        "description": "Creates an experience owned by the authenticated user.",
+        "operationId": "createExperience",
+        "x-api-id": "API-010",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/ExperienceCreateRequest" } }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Experience created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Experience created" },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "experience": {
+                          "type": "object",
+                          "properties": {
+                            "id": { "type": "string" }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "415": { "$ref": "#/components/responses/UnsupportedMediaType" }
+        }
+      }
+    },
+    "/experiences/{experienceId}": {
+      "get": {
+        "tags": ["Experiences"],
+        "summary": "Get experience",
+        "description": "Returns one experience by id.",
+        "operationId": "getExperienceById",
+        "x-api-id": "API-011",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "$ref": "#/components/parameters/ExperienceIdPathParam" }],
+        "responses": {
+          "200": {
+            "description": "Experience detail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "experience": { "$ref": "#/components/schemas/Experience" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      },
+      "put": {
+        "tags": ["Experiences"],
+        "summary": "Update experience",
+        "description": "Updates one experience by id.",
+        "operationId": "updateExperience",
+        "x-api-id": "API-012",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "$ref": "#/components/parameters/ExperienceIdPathParam" }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/ExperienceUpdateRequest" } }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Experience updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Experience updated" },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "experience": { "$ref": "#/components/schemas/Experience" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "415": { "$ref": "#/components/responses/UnsupportedMediaType" }
+        }
+      },
+      "delete": {
+        "tags": ["Experiences"],
+        "summary": "Archive experience",
+        "description": "Soft-deletes (archives) one experience by id.",
+        "operationId": "archiveExperience",
+        "x-api-id": "API-013",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "$ref": "#/components/parameters/ExperienceIdPathParam" }],
+        "responses": {
+          "200": {
+            "description": "Experience archived",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Experience archived" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    },
+    "/experiences/{experienceId}/workspace": {
+      "get": {
+        "tags": ["Experiences"],
+        "summary": "Get experience workspace",
+        "description": "Returns one experience with paginated activities and journal placeholders.",
+        "operationId": "getExperienceWorkspace",
+        "x-api-id": "API-014",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "$ref": "#/components/parameters/ExperienceIdPathParam" },
+          { "$ref": "#/components/parameters/LimitQueryParam" },
+          { "$ref": "#/components/parameters/OffsetQueryParam" },
+          { "$ref": "#/components/parameters/SortQueryParam" },
+          { "$ref": "#/components/parameters/OrderQueryParam" },
+          { "$ref": "#/components/parameters/SearchQueryParam" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Experience workspace data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "$ref": "#/components/schemas/ExperienceWorkspaceData" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    },
+    "/experiences/{experienceId}/activities": {
+      "get": {
+        "tags": ["Experiences"],
+        "summary": "List activities for experience",
+        "description": "Lists non-archived activities under one experience.",
+        "operationId": "listActivitiesForExperience",
+        "x-api-id": "API-015",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "$ref": "#/components/parameters/ExperienceIdPathParam" },
+          { "$ref": "#/components/parameters/LimitQueryParam" },
+          { "$ref": "#/components/parameters/OffsetQueryParam" },
+          { "$ref": "#/components/parameters/SortQueryParam" },
+          { "$ref": "#/components/parameters/OrderQueryParam" },
+          { "$ref": "#/components/parameters/SearchQueryParam" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Activities list for experience",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/ActivitiesListEnvelope" } }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      },
+      "post": {
+        "tags": ["Experiences"],
+        "summary": "Create activity for experience",
+        "description": "Creates one activity under an experience.",
+        "operationId": "createActivityForExperience",
+        "x-api-id": "API-016",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "$ref": "#/components/parameters/ExperienceIdPathParam" }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/ActivityCreateRequest" } }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Activity created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Activity created" },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "activity": {
+                          "type": "object",
+                          "properties": {
+                            "id": { "type": "string" }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "415": { "$ref": "#/components/responses/UnsupportedMediaType" }
+        }
+      }
+    }
+  }
+}

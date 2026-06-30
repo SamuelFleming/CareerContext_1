@@ -1,0 +1,180 @@
+{
+  "paths": {
+    "/profile": {
+      "get": {
+        "tags": ["Profile"],
+        "summary": "Get profile",
+        "description": "Returns user profile, core context, core resume, and profile completeness.",
+        "operationId": "getProfile",
+        "x-api-id": "API-005",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Profile payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "$ref": "#/components/schemas/ProfileData" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      },
+      "put": {
+        "tags": ["Profile"],
+        "summary": "Update profile fields",
+        "description": "Updates fullName, mobile, location, and/or headline.",
+        "operationId": "updateProfile",
+        "x-api-id": "API-006",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "fullName": { "type": "string" },
+                  "mobile": { "type": "string" },
+                  "location": { "type": "string" },
+                  "headline": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Profile updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Profile updated" },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "coreContext": { "$ref": "#/components/schemas/CoreContext" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "415": { "$ref": "#/components/responses/UnsupportedMediaType" }
+        }
+      }
+    },
+    "/profile/core-context": {
+      "put": {
+        "tags": ["Profile"],
+        "summary": "Update core context summary",
+        "description": "Updates rawSummaryMd and sets summaryUpdatedAt.",
+        "operationId": "updateCoreContext",
+        "x-api-id": "API-007",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["rawSummaryMd"],
+                "properties": {
+                  "rawSummaryMd": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Core context updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Core context updated" },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "rawSummaryMd": { "type": "string" },
+                        "summaryUpdatedAt": { "type": "string", "format": "date-time" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "415": { "$ref": "#/components/responses/UnsupportedMediaType" }
+        }
+      }
+    },
+    "/profile/core-resume": {
+      "put": {
+        "tags": ["Profile"],
+        "summary": "Update core resume",
+        "description": "Updates coreResumeMd and sets coreResumeUpdatedAt.",
+        "operationId": "updateCoreResume",
+        "x-api-id": "API-008",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["coreResumeMd"],
+                "properties": {
+                  "coreResumeMd": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Core resume updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Core resume updated" },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "coreResumeMd": { "type": "string" },
+                        "coreResumeUpdatedAt": { "type": "string", "format": "date-time" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "415": { "$ref": "#/components/responses/UnsupportedMediaType" }
+        }
+      }
+    }
+  }
+}

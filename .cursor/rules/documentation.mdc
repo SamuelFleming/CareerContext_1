@@ -54,6 +54,7 @@ When a ticket is completed: mark acceptance criteria `[x]`, set Status to **Impl
 ## Contract alignment
 
 - Field names must match `05_data_model.md` and `08_api_contract.md` (e.g. `overviewRaw`, not `rawOverviewMd`).
+- **`08_api_contract.md`** = API design intent (planned + implemented). **`server/src/openapi/`** = implemented endpoints only (Swagger at `/api/docs`). Maintain both when the API evolves.
 - List endpoints document pagination per **206** (`limit`, `offset`, `sort`, `order`, `search`, full `meta`).
 - Workspace vs list vs dashboard boundaries must be explicit (no unbounded payloads in dashboard/workspace docs).
 - If implementation diverges from docs, **update the ticket and contract** — do not leave silent drift.

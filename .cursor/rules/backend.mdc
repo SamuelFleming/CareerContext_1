@@ -61,9 +61,24 @@ routes/experienceRoutes.js → controllers/experienceController.js → services/
 - **Workspace** endpoints return one parent + paginated child slice + `*Meta` (see API-014, ticket **206**).
 - Route params: `:experienceId`, `:activityId`, `:journalEntryId`, `:opportunityId`, `:documentId`.
 
+## OpenAPI / Swagger maintenance
+
+- OpenAPI spec lives in `server/src/openapi/`; Swagger UI at `/api/docs` when enabled.
+- OpenAPI documents **implemented endpoints only** — do not add stubs or planned routes.
+- If you change a handler contract (route path/method, validation, response shape, status code, auth), update:
+  - matching `server/src/openapi/paths/<domain>.json`
+  - shared components in `server/src/openapi/openapi.base.json` when required.
+- Token-cost discipline: prefer targeted reads/edits (`paths/<domain>.json`) over reading the full OpenAPI spec; only open `openapi.base.json` when adding/changing shared schemas, parameters, responses, or security schemes.
+- New planned endpoint: add/update `docs/core-scope/08_api_contract.md` first; add OpenAPI path fragment when the handler ships.
+- New registry ID: define in contract docs, then use as `x-api-id` in OpenAPI when implemented.
+- OpenAPI must mirror live behavior; API contract captures design intent. Keep both in sync when behavior or intent changes.
+- After backend API edits, verify with `npm run openapi:validate` (or check `/api/docs/openapi.json`).
+
 ## Do not
 
 - Hard-delete user evidence in MVP without explicit ticket scope.
 - Add endpoints without screen justification in docs/tickets.
 - Skip ownership checks on nested resources (e.g. activities under an experience).
 - Put validation-only logic back into services when middleware already handles it for that route.
+- Ship backend API changes without corresponding OpenAPI updates.
+- Treat `server/README.md` endpoint notes as canonical over OpenAPI + `08_api_contract.md`.

@@ -1,0 +1,116 @@
+{
+  "paths": {
+    "/activities/{activityId}": {
+      "get": {
+        "tags": ["Activities"],
+        "summary": "Get activity",
+        "description": "Returns one activity and its parent experience summary.",
+        "operationId": "getActivityById",
+        "x-api-id": "API-018",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "$ref": "#/components/parameters/ActivityIdPathParam" }],
+        "responses": {
+          "200": {
+            "description": "Activity detail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "activity": { "$ref": "#/components/schemas/Activity" },
+                        "parentExperience": {
+                          "type": "object",
+                          "properties": {
+                            "id": { "type": "string" },
+                            "title": { "type": "string" },
+                            "type": { "type": "string" },
+                            "dateStart": { "type": "string", "format": "date-time", "nullable": true },
+                            "dateEnd": { "type": "string", "format": "date-time", "nullable": true },
+                            "isCurrent": { "type": "boolean" }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      },
+      "put": {
+        "tags": ["Activities"],
+        "summary": "Update activity",
+        "description": "Updates one activity by id.",
+        "operationId": "updateActivity",
+        "x-api-id": "API-019",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "$ref": "#/components/parameters/ActivityIdPathParam" }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/ActivityUpdateRequest" } }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Activity updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Activity updated" },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "activity": { "$ref": "#/components/schemas/Activity" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "415": { "$ref": "#/components/responses/UnsupportedMediaType" }
+        }
+      },
+      "delete": {
+        "tags": ["Activities"],
+        "summary": "Archive activity",
+        "description": "Soft-deletes (archives) one activity by id.",
+        "operationId": "archiveActivity",
+        "x-api-id": "API-020",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "$ref": "#/components/parameters/ActivityIdPathParam" }],
+        "responses": {
+          "200": {
+            "description": "Activity archived",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Activity archived" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    }
+  }
+}
