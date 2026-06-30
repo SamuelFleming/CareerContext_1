@@ -43,6 +43,8 @@ Tracks completed backend and full-stack development tickets.
 | 245 | Swagger environment setup | Phase 2 | 2026-06-23 | OpenAPI infra at `/api/docs`; implemented-endpoints-only standard; dual source of truth with `08_api_contract.md` |
 | 246 | OpenAPI initial API snapshot | Phase 2 | 2026-06-25 | Added implemented-endpoint path fragments (API-001–016, API-018–020); excluded stubs/polish/journal from Swagger |
 | 247 | OpenAPI maintenance workflow (Cursor rules & commands) | Phase 2 | 2026-06-25 | Updated backend rules + workflow commands to require OpenAPI sync for backend API behavior changes |
+| 248 | Experience Index list query (backend) | Phase 2 | 2026-06-30 | API-009 extended filters, duration/activityCount sort, OpenAPI + contract sync |
+| 249 | Experience Index list query (frontend) | Phase 2 | 2026-06-30 | Screen 6 toolbar, debounced search, pagination, filtered empty states |
 
 ## 239 — Summary
 

@@ -27,8 +27,8 @@ Tickets live in `docs/devTickets/phase2/`.
 | **242** | Dashboard API: live Interactive CV payload | High | Done — real highlights, top 5 skills/tech, competencies scaffold |
 | **243** | Dashboard Interactive CV UI | High | Done — landing-style CV, clickable highlights, scaffold hover |
 | **244** | Dashboard evidence panel restructure | Medium | Done — summary always visible; activity vs opportunities toggle |
-| **248** | Experience Index list query (backend) | High | Planned — API-009 date/skill/tech filters, extended search/sort |
-| **249** | Experience Index list query (frontend) | High | Planned — Screen 6 filter/search/sort/pagination UI |
+| **248** | Experience Index list query (backend) | High | Done — API-009 date/skill/tech/duration filters, extended search/sort |
+| **249** | Experience Index list query (frontend) | High | Done — Screen 6 filter/search/sort/pagination UI |
 
 ### Experience Index scale (248–249)
 
