@@ -16,7 +16,20 @@ function toQueryString(params = {}) {
 
 /**
  * GET /api/experiences (API-009)
- * @param {Object} [params] - type, search, sort, order, limit, offset
+ * @param {Object} [params]
+ * @param {string} [params.search] - title, organisation, role, skills, technologies
+ * @param {string} [params.type] - single type or comma-separated list
+ * @param {string} [params.dateFrom] - timeline filter start (YYYY-MM-DD)
+ * @param {string} [params.dateTo] - timeline filter end (YYYY-MM-DD)
+ * @param {boolean} [params.isCurrent]
+ * @param {string} [params.skill] - partial match on skills
+ * @param {string} [params.technology] - partial match on technologies
+ * @param {number} [params.minDuration] - minimum tenure in months
+ * @param {number} [params.maxDuration] - maximum tenure in months
+ * @param {string} [params.sort] - updatedAt, createdAt, title, dateStart, dateEnd, type, duration, activityCount
+ * @param {'asc'|'desc'} [params.order]
+ * @param {number} [params.limit]
+ * @param {number} [params.offset]
  * @returns {Promise<{ data: Array, meta: { count, total, limit, offset, hasMore } }>}
  */
 export function listExperiences(params = {}) {
