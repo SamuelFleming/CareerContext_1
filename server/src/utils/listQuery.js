@@ -35,11 +35,94 @@ const parseOffset = (value) => {
 
 const parseSort = (
   value,
-  { allowedSortFields, defaultSort = 'updatedAt', defaultOrder = 'desc' } = {}
+  { allowedSortFields, defaultSort = 'updatedAt', defaultOrder = 'desc', strict = false } = {}
 ) => {
-  const sortField = value && allowedSortFields.includes(value) ? value : defaultSort;
-  return sortField;
+  if (value === undefined || value === '') {
+    return defaultSort;
+  }
+
+  if (!allowedSortFields.includes(value)) {
+    if (strict) {
+      throw createServiceError(400, `sort must be one of: ${allowedSortFields.join(', ')}`);
+    }
+
+    return defaultSort;
+  }
+
+  return value;
 };
+
+const ISO_DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
+
+const parseDateParam = (name, value) => {
+  if (value === undefined || value === '') {
+    return undefined;
+  }
+
+  if (typeof value !== 'string' || !ISO_DATE_REGEX.test(value)) {
+    throw createServiceError(400, `${name} must be an ISO date (YYYY-MM-DD)`);
+  }
+
+  const parsed = new Date(`${value}T00:00:00.000Z`);
+
+  if (Number.isNaN(parsed.getTime())) {
+    throw createServiceError(400, `${name} must be a valid date`);
+  }
+
+  return parsed;
+};
+
+const endOfUtcDay = (date) =>
+  new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), 23, 59, 59, 999));
+
+const parseCommaSeparated = (value) => {
+  if (value === undefined || value === '') {
+    return [];
+  }
+
+  if (typeof value !== 'string') {
+    return [];
+  }
+
+  return value
+    .split(',')
+    .map((item) => item.trim())
+    .filter(Boolean);
+};
+
+const parseBooleanQuery = (name, value) => {
+  if (value === undefined || value === '') {
+    return undefined;
+  }
+
+  const normalized = String(value).toLowerCase();
+
+  if (normalized === 'true') {
+    return true;
+  }
+
+  if (normalized === 'false') {
+    return false;
+  }
+
+  throw createServiceError(400, `${name} must be true or false`);
+};
+
+const parseOptionalNonNegativeInt = (name, value) => {
+  if (value === undefined || value === '') {
+    return undefined;
+  }
+
+  const parsed = Number.parseInt(value, 10);
+
+  if (Number.isNaN(parsed) || parsed < 0) {
+    throw createServiceError(400, `${name} must be a non-negative integer`);
+  }
+
+  return parsed;
+};
+
+const escapeRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 const parseOrder = (value, { defaultOrder = 'desc' } = {}) => {
   if (value === undefined || value === '') {
@@ -70,7 +153,11 @@ const buildListMeta = ({ count, total, limit, offset }) => ({
 const parseListQuery = (query, options = {}) => {
   const limit = parseLimit(query.limit, options);
   const offset = parseOffset(query.offset);
-  const sort = parseSort(query.sort, options);
+  const sortOptions = {
+    ...options,
+    strict: options.strictSort === true,
+  };
+  const sort = parseSort(query.sort, sortOptions);
   const order = parseOrder(query.order, options);
 
   return {
@@ -88,4 +175,10 @@ module.exports = {
   MAX_LIMIT,
   parseListQuery,
   buildListMeta,
+  parseDateParam,
+  endOfUtcDay,
+  parseCommaSeparated,
+  parseBooleanQuery,
+  parseOptionalNonNegativeInt,
+  escapeRegex,
 };

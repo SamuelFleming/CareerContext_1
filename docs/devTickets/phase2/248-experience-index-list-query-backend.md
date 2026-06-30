@@ -1,13 +1,13 @@
 ---
 phase: 2
-status: planned
+status: implemented
 source: large-feature plan — Experience Index filter/search/sort/pagination
 ---
 # Ticket 248 — Experience Index List Query (Backend)
 
 ## Status
 
-**Planned**
+**Implemented** — 2026-06-30
 
 ## Phase
 
@@ -33,7 +33,7 @@ Phase 2 — Experience Evidence
 
 ## Objective
 
-Extend **API-009** (`GET /api/experiences`) so the Experience Index can scale to large evidence libraries. Ticket **206** shipped pagination, basic search, single `type` filter, and core sort fields; this ticket adds **date**, **skills/technologies**, and **type** query capabilities that deliver direct user value, and documents further query ideas for later work.
+Extend **API-009** (`GET /api/experiences`) so the Experience Index can scale to large evidence libraries. Ticket **206** shipped pagination, basic search, single `type` filter, and core sort fields; this ticket adds **date**, **skills/technologies**, **duration**, **activity count**, and **type** query capabilities that deliver direct user value.
 
 ## Query capabilities — MVP (this ticket)
 
@@ -57,6 +57,8 @@ Extend **API-009** (`GET /api/experiences`) so the Experience Index can scale to
 | **Skill filter** | `skill` | Case-insensitive partial match on any `skills[]` element. Comma-separated → OR (match any listed term) | Target experiences that demonstrate a specific competency for fit evaluation or document generation |
 | **Technology filter** | `technology` | Same semantics as `skill` on `technologies[]` | Find stack-specific evidence (e.g. all `.NET` or `React` experiences) for technical roles |
 | **Additional sort fields** | `sort` | Add `type`, `dateEnd` to allowlist (keep existing: `updatedAt`, `createdAt`, `title`, `dateStart`) | **type** groups the list by evidence category; **dateEnd** supports “most recently finished” ordering alongside timeline start |
+| **Duration sort/filter** | `sort=duration`, `minDuration`, `maxDuration` | Tenure in whole months from `dateStart` to effective end; undated experiences excluded when duration filter active | Highlight long engagements or short contracts |
+| **Activity count sort** | `sort=activityCount` | Sort by non-archived activity count per experience (aggregation) | Find experiences with the richest evidence base when choosing what to expand or cite |
 
 ### Example requests
 
@@ -68,98 +70,53 @@ GET /api/experiences?type=job,project&isCurrent=true&sort=updatedAt&order=desc
 GET /api/experiences?dateFrom=2023-01-01&dateTo=2023-12-31&sort=dateStart&order=asc
 
 GET /api/experiences?skill=stakeholder&technology=react&limit=20&offset=0
+
+GET /api/experiences?minDuration=12&sort=duration&order=desc
+
+GET /api/experiences?sort=activityCount&order=desc&limit=10
 ```
 
 Combined filters use **AND** semantics (all active filters must match). `search` OR-clauses remain internal to the search predicate.
 
-## Future query ideas (document only — not this ticket)
-
-Capture in **249** frontend notes and `08_api_contract.md` “future” subsection; implement in later tickets if prioritised.
+## Future query ideas (document only)
 
 | Idea | Param(s) (suggested) | Business / user value |
 |------|----------------------|------------------------|
-| **Duration sort/filter** | `sort=duration`, `minDuration`, `maxDuration` (months) | Highlight long engagements or short contracts; derived from `dateStart`/`dateEnd`/`isCurrent` |
-| **Activity count sort** | `sort=activityCount` | Find experiences with the richest evidence base when choosing what to expand or cite |
 | **Overview search** | extend `search` to `overviewRaw` | Deep text discovery in narrative summaries (heavier; consider length limits) |
 | **Facet / autocomplete** | `GET /api/experiences/facets` or dashboard term list | Pick from the user’s own vocabulary instead of free-typing skill names |
 | **Archived visibility** | `includeArchived=true` | Audit deleted evidence (low priority for MVP) |
 | **Full-text / Atlas Search** | — | Better relevance at very large scale (**206** explicitly deferred) |
 
-## Scope
+## Completion notes
 
-### `server/src/services/experienceService.js`
+**Completed:** 2026-06-30
 
-- Extend `listExperiences` filter/sort construction per table above.
-- Extract date-overlap and multi-value param parsing into small helpers in `listQuery.js` **only if** it keeps `experienceService` readable (avoid premature abstraction).
+### Implementation summary
 
-### `server/src/utils/listQuery.js`
+- Extended `listQuery.js` with date, boolean, comma-separated, duration, and regex-escape parsers; strict sort validation when `strictSort: true`.
+- `experienceService.listExperiences` builds a shared MongoDB filter; uses aggregation when `sort` is `duration` or `activityCount`, or when `minDuration` / `maxDuration` filters are active.
+- Duration computed via `$dateDiff` in months; activity counts via `$lookup` on non-archived activities.
+- Updated `08_api_contract.md` API-009 and OpenAPI path/parameters.
 
-- Add parsers as needed, e.g. `parseDateParam`, `parseCommaSeparated`, `parseBooleanQuery`.
-- Reuse across future list endpoints where sensible.
+### Files changed
 
-### `docs/core-scope/08_api_contract.md`
+- `server/src/utils/listQuery.js`
+- `server/src/services/experienceService.js`
+- `docs/core-scope/08_api_contract.md`
+- `server/src/openapi/openapi.base.json`
+- `server/src/openapi/paths/experiences.json`
 
-- Expand API-009 query parameter table and examples.
+### Checks run
 
-### `server/src/openapi/`
-
-- Add query parameters to `paths/experiences.json` (API-009 `GET`).
-- Add shared parameter components in `openapi.base.json` if reused.
-
-## Files (expected)
-
-| File | Change |
-|------|--------|
-| `server/src/services/experienceService.js` | Extended filters, search, sort allowlist |
-| `server/src/utils/listQuery.js` | Shared query parsers (if needed) |
-| `docs/core-scope/08_api_contract.md` | API-009 query docs + future ideas |
-| `server/src/openapi/paths/experiences.json` | New query params |
-| `server/src/openapi/openapi.base.json` | Shared param components |
-
-## Technical tasks
-
-- [ ] Extend `search` to include `skills` and `technologies` array matching.
-- [ ] Support comma-separated `type` with validation against `EXPERIENCE_TYPES`.
-- [ ] Implement `dateFrom` / `dateTo` overlap filter with documented null-date exclusion.
-- [ ] Implement `isCurrent` boolean filter.
-- [ ] Implement `skill` and `technology` filters (comma-separated OR).
-- [ ] Add `type` and `dateEnd` to `EXPERIENCE_SORT_FIELDS`.
-- [ ] Return `400` with clear messages for invalid dates, types, or sort fields.
-- [ ] Update `08_api_contract.md` API-009 section.
-- [ ] Update OpenAPI per **247**; run `npm run openapi:validate`.
-
-## Out of scope
-
-- Frontend UI (**249**).
-- Cursor-based pagination.
-- Duration / `activityCount` sort (future).
-- Database index optimisation beyond existing `{ userId, type }` / `{ userId, isArchived }` unless profiling shows need (note in completion if added).
-- Changes to list item shape (`toListItem`) beyond what **235** already exposes.
+- `npm run openapi:validate` — passed
 
 ## Acceptance criteria
 
-- [ ] `GET /api/experiences` supports `dateFrom`, `dateTo`, `isCurrent`, `skill`, `technology`, and comma-separated `type` with correct AND-combined filtering.
-- [ ] `search` matches `title`, `organisation`, `role`, and any skill or technology term.
-- [ ] `sort` accepts `type` and `dateEnd` in addition to existing fields.
-- [ ] Invalid query params return `400` without leaking other users’ data.
-- [ ] Pagination `meta` remains correct when filters reduce `total`.
-- [ ] `08_api_contract.md` and OpenAPI reflect live behaviour.
-- [ ] Future query ideas documented in contract (short “planned extensions” list).
-
-## Verification
-
-1. Seed or use existing user with varied experiences (types, dates, skills, technologies).
-2. Exercise each new param alone and in combination; confirm `meta.total` and result sets.
-3. Confirm date overlap edge cases: open-ended current role, null `dateStart` excluded when date filter active.
-4. `npm run openapi:validate` in `server/`.
-5. Spot-check `/api/docs` for API-009 parameters.
-
-## Agent planning checklist
-
-Before coding, inspect:
-
-- `server/src/services/experienceService.js` — current `listExperiences`
-- `server/src/utils/listQuery.js`
-- `server/src/models/Experience.js` — `EXPERIENCE_TYPES`, date fields
-- `docs/core-scope/08_api_contract.md` — API-009
-- `server/src/openapi/paths/experiences.json`
+- [x] `GET /api/experiences` supports `dateFrom`, `dateTo`, `isCurrent`, `skill`, `technology`, and comma-separated `type` with correct AND-combined filtering.
+- [x] `search` matches `title`, `organisation`, `role`, and any skill or technology term.
+- [x] `sort` accepts `type`, `dateEnd`, `duration`, and `activityCount` in addition to existing fields.
+- [x] `minDuration` and `maxDuration` filter by tenure in whole months.
+- [x] Invalid query params return `400` without leaking other users’ data.
+- [x] Pagination `meta` remains correct when filters reduce `total`.
+- [x] `08_api_contract.md` and OpenAPI reflect live behaviour.
+- [x] Future query ideas documented in contract (short “planned extensions” list).
