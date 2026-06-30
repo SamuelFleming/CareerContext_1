@@ -78,9 +78,74 @@
         "name": "type",
         "in": "query",
         "required": false,
+        "description": "Experience type or comma-separated types (OR), e.g. job,project",
+        "schema": { "type": "string" }
+      },
+      "DateFromQueryParam": {
+        "name": "dateFrom",
+        "in": "query",
+        "required": false,
+        "description": "Timeline filter start (YYYY-MM-DD); overlap semantics",
+        "schema": { "type": "string", "format": "date" }
+      },
+      "DateToQueryParam": {
+        "name": "dateTo",
+        "in": "query",
+        "required": false,
+        "description": "Timeline filter end (YYYY-MM-DD)",
+        "schema": { "type": "string", "format": "date" }
+      },
+      "IsCurrentQueryParam": {
+        "name": "isCurrent",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean" }
+      },
+      "SkillQueryParam": {
+        "name": "skill",
+        "in": "query",
+        "required": false,
+        "description": "Partial match on skills; comma-separated OR",
+        "schema": { "type": "string" }
+      },
+      "TechnologyQueryParam": {
+        "name": "technology",
+        "in": "query",
+        "required": false,
+        "description": "Partial match on technologies; comma-separated OR",
+        "schema": { "type": "string" }
+      },
+      "MinDurationQueryParam": {
+        "name": "minDuration",
+        "in": "query",
+        "required": false,
+        "description": "Minimum tenure in whole months",
+        "schema": { "type": "integer", "minimum": 0 }
+      },
+      "MaxDurationQueryParam": {
+        "name": "maxDuration",
+        "in": "query",
+        "required": false,
+        "description": "Maximum tenure in whole months",
+        "schema": { "type": "integer", "minimum": 0 }
+      },
+      "ExperienceSortQueryParam": {
+        "name": "sort",
+        "in": "query",
+        "required": false,
         "schema": {
           "type": "string",
-          "enum": ["job", "project", "course", "certification", "personal_project", "other"]
+          "enum": [
+            "updatedAt",
+            "createdAt",
+            "title",
+            "dateStart",
+            "dateEnd",
+            "type",
+            "duration",
+            "activityCount"
+          ],
+          "default": "updatedAt"
         }
       }
     },

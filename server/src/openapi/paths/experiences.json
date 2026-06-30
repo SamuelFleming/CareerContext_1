@@ -11,10 +11,17 @@
         "parameters": [
           { "$ref": "#/components/parameters/LimitQueryParam" },
           { "$ref": "#/components/parameters/OffsetQueryParam" },
-          { "$ref": "#/components/parameters/SortQueryParam" },
+          { "$ref": "#/components/parameters/ExperienceSortQueryParam" },
           { "$ref": "#/components/parameters/OrderQueryParam" },
           { "$ref": "#/components/parameters/SearchQueryParam" },
-          { "$ref": "#/components/parameters/ExperienceTypeQueryParam" }
+          { "$ref": "#/components/parameters/ExperienceTypeQueryParam" },
+          { "$ref": "#/components/parameters/DateFromQueryParam" },
+          { "$ref": "#/components/parameters/DateToQueryParam" },
+          { "$ref": "#/components/parameters/IsCurrentQueryParam" },
+          { "$ref": "#/components/parameters/SkillQueryParam" },
+          { "$ref": "#/components/parameters/TechnologyQueryParam" },
+          { "$ref": "#/components/parameters/MinDurationQueryParam" },
+          { "$ref": "#/components/parameters/MaxDurationQueryParam" }
         ],
         "responses": {
           "200": {

@@ -559,8 +559,39 @@ PUT /api/profile/core-resume
 ## API-009 — List Experiences
 
 ```http
-GET /api/experiences?type=job&search=angular&sort=updatedAt&order=desc&limit=20&offset=0
+GET /api/experiences?type=job,project&search=angular&skill=stakeholder&technology=react&dateFrom=2023-01-01&dateTo=2023-12-31&isCurrent=true&minDuration=6&maxDuration=36&sort=duration&order=desc&limit=20&offset=0
 ```
+
+### Query parameters
+
+| Param | Type | Default | Notes |
+|-------|------|---------|-------|
+| `limit` | integer | `20` | Max `100` |
+| `offset` | integer | `0` | Skip for pagination |
+| `sort` | string | `updatedAt` | `updatedAt`, `createdAt`, `title`, `dateStart`, `dateEnd`, `type`, `duration`, `activityCount` |
+| `order` | `asc` \| `desc` | `desc` | Sort direction |
+| `search` | string | — | Case-insensitive match on `title`, `organisation`, `role`, `skills[]`, `technologies[]` |
+| `type` | string | — | One experience type or comma-separated list (OR), e.g. `job,project` |
+| `dateFrom` | ISO date | — | Timeline filter start (`YYYY-MM-DD`); requires `dateStart`; overlap semantics |
+| `dateTo` | ISO date | — | Timeline filter end (`YYYY-MM-DD`); experiences with `dateStart` on or before this date |
+| `isCurrent` | boolean | — | `true` or `false` — filter current vs historical experiences |
+| `skill` | string | — | Partial match on any `skills[]` element; comma-separated terms use OR |
+| `technology` | string | — | Partial match on any `technologies[]` element; comma-separated terms use OR |
+| `minDuration` | integer | — | Minimum tenure in whole months (derived from dates); excludes undated experiences |
+| `maxDuration` | integer | — | Maximum tenure in whole months |
+
+Combined filters use **AND** semantics. `search` and comma-separated `skill` / `technology` / `type` values use **OR** within each parameter.
+
+**Duration** is computed in whole months from `dateStart` to effective end (`dateEnd`, or today when `isCurrent` or `dateEnd` is null). **Timeline overlap:** when `dateFrom` is set, the experience must still be active on or after that date (open-ended roles qualify). When `dateTo` is set, `dateStart` must be on or before that date. Experiences without `dateStart` are excluded when any timeline or duration filter is active.
+
+**Computed sorts:** `sort=duration` and `sort=activityCount` use server-side aggregation (non-archived activity counts).
+
+### Planned extensions (not yet implemented)
+
+- Overview search (`overviewRaw`)
+- Facet / autocomplete for skills and technologies
+- `includeArchived` visibility
+- Full-text / Atlas Search at very large scale
 
 ### Success: 200
 
