@@ -45,7 +45,8 @@ Wire Screen 6 to the full API-009 query surface so users can **filter**, **searc
 | **Current only toggle** | `isCurrent=true` | Show active roles/education when updating “current” resume content |
 | **Skill filter** | `skill` | Find experiences demonstrating a competency |
 | **Technology filter** | `technology` | Find stack-specific evidence |
-| **Sort dropdown** | `sort`, `order` | Recently updated (default), timeline (start/end), title, type |
+| **Sort dropdown** | `sort`, `order` | Recently updated (default), timeline (start/end), title, type, duration, activity count |
+| **Duration filter** | `minDuration`, `maxDuration` | Narrow to short contracts or long engagements (months) |
 | **Pagination** | `limit`, `offset` | Browse large libraries page by page |
 
 Default load (no user filters): `sort=updatedAt`, `order=desc`, `limit=20`, `offset=0` — same as today.
@@ -61,6 +62,10 @@ Default load (no user filters): `sort=updatedAt`, `order=desc`, `limit=20`, `off
 | End date (newest first) | `dateEnd` | `desc` |
 | Title A–Z | `title` | `asc` |
 | Type | `type` | `asc` |
+| Longest tenure | `duration` | `desc` |
+| Shortest tenure | `duration` | `asc` |
+| Most activities | `activityCount` | `desc` |
+| Fewest activities | `activityCount` | `asc` |
 
 ## Scope
 
@@ -118,8 +123,6 @@ Default load (no user filters): `sort=updatedAt`, `order=desc`, `limit=20`, `off
 | Idea | Depends on | User value |
 |------|------------|------------|
 | **URL-synced query state** | — | Bookmarkable filtered views; back/forward navigation |
-| **Duration filter** | Backend duration params | “Show roles longer than 12 months” |
-| **Sort by activity count** | Backend `sort=activityCount` | Surface evidence-rich experiences |
 | **Chip autocomplete for skill/tech** | Facet endpoint or profile term list | Faster, consistent filtering |
 | **Saved filter presets** | Local storage or user prefs | Repeatable workflows per opportunity type |
 
